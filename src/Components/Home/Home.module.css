@@ -1,0 +1,189 @@
+/* ===== RESET & BASE STYLES ===== */
+:root {
+    --color-primary: #7a3e28;
+    --color-primary-dark: #5a2e1c;
+    --color-background: #faf6f0;
+    --color-text-dark: #1c1814;
+    --color-text-medium: #6a5c50;
+    --color-border: #d5c8b8;
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body: 'DM Sans', sans-serif;
+}
+
+.pageWrapper {
+    font-family: var(--font-body);
+    background-color: var(--color-background);
+    color: var(--color-text-dark);
+}
+
+.container {
+    max-width: 1350px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    position: absolute;
+    top: 0; left: 0; width: 100%;
+    z-index: 1000;
+    padding: 25px 0;
+}
+
+.navContainer {
+    max-width: 1350px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+}
+
+.logoText {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #fff;
+}
+
+.navLinks {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.navLink {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.navLink:hover, .active {
+    color: #fff;
+}
+
+.navIcons {
+    display: flex;
+    gap: 15px;
+    color: #fff;
+}
+
+.iconBtn {
+    background: none; border: none; color: inherit; cursor: pointer;
+}
+
+/* ===== HERO ===== */
+.hero {
+    height: 100vh;
+    background: url('https://images.unsplash.com/photo-1602874801006-e26c884f2fc0?w=1600') center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.heroOverlay {
+    position: absolute; inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.heroContent {
+    position: relative; z-index: 2;
+    text-align: center; color: #fff;
+}
+
+.hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 300;
+    margin-bottom: 20px;
+}
+
+.btnPrimary {
+    background: var(--color-primary);
+    color: #fff;
+    padding: 15px 35px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s;
+}
+
+.btnPrimary:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-3px);
+}
+
+/* ===== PRODUCTS ===== */
+.bestSellers { padding: 100px 0; }
+
+.sectionHeader {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 40px;
+}
+
+.sectionHeader h2 {
+    font-family: var(--font-display);
+    font-size: 2.5rem; font-weight: 400;
+}
+
+.productsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+.productCard { cursor: pointer; }
+
+.productImage {
+    aspect-ratio: 3/4; overflow: hidden; position: relative;
+}
+
+.productImage img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: 0.5s;
+}
+
+.productCard:hover img { transform: scale(1.05); }
+
+.badge {
+    position: absolute; top: 15px; left: 15px;
+    background: var(--color-primary); color: #fff;
+    font-size: 10px; padding: 5px 10px; text-transform: uppercase;
+}
+
+.productInfo { padding-top: 15px; text-align: center; }
+
+.productInfo h3 { font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 5px; }
+
+/* ===== CUSTOM SECTION ===== */
+.customSection {
+    display: grid; grid-template-columns: 1fr 1fr;
+    min-height: 500px;
+}
+
+.customContent {
+    background: var(--color-primary); color: #fff;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 60px;
+}
+
+.customContent h2 { font-family: var(--font-display); font-size: 3rem; margin: 20px 0; }
+
+/* ===== FOOTER ===== */
+.footer { background: #1c1814; color: #fff; padding: 80px 0 20px; }
+.footerGrid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 50px; }
+.footerBottom { text-align: center; padding-top: 20px; opacity: 0.5; font-size: 0.8rem; }
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+    .navLinks { display: none; }
+    .productsGrid { grid-template-columns: repeat(2, 1fr); }
+    .customSection { grid-template-columns: 1fr; }
+}
