@@ -5,11 +5,13 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/api": {
-        target: "https://wedd.runasp.net",
+
+      '/api': {
+        target: 'https://wedd.runasp.net',
         changeOrigin: true,
         secure: false,
-      },
-    },
-  },
-});
+      }
+    }
+  }
+})
+

@@ -1,11 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+
+import React, { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import style from "./Home.module.css";
 import api from "../../api";
+import img0 from "../../assets/bubble candles!.jpg"
+import img2 from "../../assets/Immerse yourself in the ambiance of our Aesthetic….jpg"
+import img3 from "../../assets/download.webp"
 export default function Home() {
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [AllCategories, setAllCategories] = useState([]);
+
   // Swiper 1
   const bestPrevRef = useRef(null);
   const bestNextRef = useRef(null);
@@ -24,60 +32,45 @@ export default function Home() {
   const [products, setproducts] = useState([])
   const [pickedData, setpickedData] = useState([])
 
-  // const products = [
-  //   {
-  //     id: 1,
-  //     name: "Amber Oud",
-  //     minPrice: "EGP 180",
-  //     image: "/candels.webp",
-  //     hoverVideo: "/vidcandels.mp4",
-  //     badges: [
-  //       { label: "ONLY 3 LEFT", type: "limited" },
-  //       { label: "BESTSELLER", type: "bestseller" },
-  //     ],
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Velvet Rose",
-  //     minPrice: "EGP 210",
-  //     image: "/candels.webp",
-  //     hoverVideo: "/vidcandels.mp4",
-  //     badges: [{ label: "BESTSELLER", type: "bestseller" }],
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Cedar Noir",
-  //     minPrice: "EGP 195",
-  //     image: "/candels.webp",
-  //     hoverVideo: "/vidcandels.mp4",
-  //     badges: [{ label: "NEW", type: "new" }],
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "White Musk",
-  //     minPrice: "EGP 175",
-  //     image: "/candels.webp",
-  //     hoverVideo: "/vidcandels.mp4",
-  //     badges: [{ label: "ONLY 2 LEFT", type: "limited" }],
-  //   },
-  //   {
-  //     id: 5,
-  //     name: "Sandalwood Dusk",
-  //     minPrice: "EGP 220",
-  //     image: "/candels.webp",
-  //     hoverVideo: "/vidcandels.mp4",
-  //     badges: [{ label: "BESTSELLER", type: "bestseller" }],
-  //   },
-  //   {
-  //     id: 6,
-  //     name: "Citrus Bloom",
-  //     minPrice: "EGP 165",
-  //     image: "/candels.webp",
-  //     hoverVideo: "/vidcandels.mp4",
-  //     badges: [],
-  //   },
-  // ];
+  const heroSlides = [
+    {
+      id: 0,
+      image: img0,
+      title: "A Gift That Feels Like Home",
+      subtitle: "Premium handcrafted candles & chocolates, made with warmth and intention.",
+      btn: "Shop Now"
+    },
+    {
+      id: 1,
+      image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&q=80&w=1440",
+      title: "Curated Gift Kits",
+      subtitle: "Beautiful boxes, thoughtfully assembled for every occasion that matters.",
+      btn: "Explore Kits"
+    },
+    {
+      id: 2,
+      image: "https://images.unsplash.com/photo-1605651202774-7d573fd3f12d?auto=format&fit=crop&q=80&w=1440",
+      title: "Chocolates Worth Gifting",
+      subtitle: "Bring warmth and relaxation to your space with our premium natural wax candles.",
+      btn: "Discover Chocolates"
+    }
+  ];
 
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+  const goToSlide = (index) => setCurrentSlide(index);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 2500);
+    return () => clearInterval(timer);
+  }, [heroSlides.length]);
+
+
+  
+
+  
   async function getBestSeller() {
 
     try {
@@ -109,6 +102,16 @@ export default function Home() {
 
   }
 
+  async function categories() {
+    try{
+      const {data} = await api.get(`/Categories`)
+      console.log(data);
+      setAllCategories(data);
+    }catch(err){
+      console.log(err);
+    }
+  }
+
 
 
 
@@ -119,189 +122,91 @@ export default function Home() {
   }, []);
 
 
+
+  
+  useEffect(() => {
+    categories();
+  }, []);
+
   return (
     <>
-      <nav class="navbar navbar-light fixed-top">
-        <div class="container-fluid navbar-container">
-          <div class="nav-logo">
-            <div class="logo-circle"></div>
-            <span class="logo-text">Wed</span>
-          </div>
-          <div class="navbar-nav-center">
-            <ul class="navbar-nav flex-row">
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  CANDLES
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  CHOCOLATES
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  GIFT KITS
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  GIVEAWAYS
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  CUSTOM CANDLE
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  WORKSHOPS
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  OUR STORY
-                </a>
-              </li>
-            </ul>
-          </div>
 
-          <div class="navbar-icons">
-            <button class="icon-btn">
-              <svg width="21" height="21" viewBox="0 0 21 21" fill="none">
-                <circle
-                  cx="8.5"
-                  cy="8.5"
-                  r="7.1875"
-                  stroke="#72706E"
-                  stroke-width="1.3125"
-                />
-                <path
-                  d="M15.75 15.75L19.25 19.25"
-                  stroke="#72706E"
-                  stroke-width="1.3125"
-                  stroke-linecap="round"
-                />
-              </svg>
-            </button>
-            <a href="#" class="icon-btn">
-              <svg width="21" height="21" viewBox="0 0 21 21" fill="none">
-                <path
-                  d="M10.5 18.375C10.5 18.375 2.625 13.125 2.625 7.875C2.625 6.88044 3.02009 5.92661 3.72335 5.22335C4.42661 4.52009 5.38044 4.125 6.375 4.125C8.01562 4.125 9.1875 4.71875 10.5 6.5625C11.8125 4.71875 12.9844 4.125 14.625 4.125C15.6196 4.125 16.5734 4.52009 17.2766 5.22335C17.9799 5.92661 18.375 6.88044 18.375 7.875C18.375 13.125 10.5 18.375 10.5 18.375Z"
-                  stroke="#72706E"
-                  stroke-width="1.3125"
-                />
-              </svg>
-            </a>
-            <button class="icon-btn position-relative">
-              <svg width="21" height="21" viewBox="0 0 21 21" fill="none">
-                <circle
-                  cx="7.875"
-                  cy="18.375"
-                  r="0.875"
-                  stroke="#72706E"
-                  stroke-width="1.3125"
-                />
-                <circle
-                  cx="17.5"
-                  cy="18.375"
-                  r="0.875"
-                  stroke="#72706E"
-                  stroke-width="1.3125"
-                />
-                <path
-                  d="M1.75 2.625H4.375L6.5625 13.5625C6.65625 14.0625 7.1875 14.4375 7.6875 14.4375H16.625C17.125 14.4375 17.6562 14.0625 17.75 13.5625L19.25 6.5625H5.25"
-                  stroke="#72706E"
-                  stroke-width="1.3125"
-                  stroke-linecap="round"
-                />
-              </svg>
-              <span class="cart-badge">1</span>
-            </button>
-            <button class="icon-btn">
-              <svg width="21" height="21" viewBox="0 0 21 21" fill="none">
-                <circle
-                  cx="10.5"
-                  cy="6.125"
-                  r="3.0625"
-                  stroke="#72706E"
-                  stroke-width="1.3125"
-                />
-                <path
-                  d="M17.5 18.375V16.625C17.5 14.4148 15.7102 12.625 13.5 12.625H7.5C5.28984 12.625 3.5 14.4148 3.5 16.625V18.375"
-                  stroke="#72706E"
-                  stroke-width="1.3125"
-                  stroke-linecap="round"
-                />
-              </svg>
-            </button>
+
+      <section className={style.heroSection}>
+        {heroSlides.map((slide, index) => (
+          <div
+            key={slide.id}
+            className={style.heroImageContainer}
+            style={{
+              opacity: currentSlide === index ? 1 : 0,
+              transition: 'opacity 0.8s ease-in-out',
+              zIndex: currentSlide === index ? 1 : 0
+            }}
+          >
+            <img
+              src={slide.image}
+              alt={slide.title}
+              className={style.heroImage}
+            />
+            <div className={style.heroOverlayGradient}></div>
+            <div className={style.heroOverlayTint}></div>
           </div>
-        </div>
-      </nav>
+        ))}
 
-      <section class="hero-section">
-        <div class="hero-image-container">
-          <img
-            src="../src/imports/ECommerceWebsite/96da4465ba2f9e80702d4bf7b59c9dedf62e1901.png"
-            alt="Hero Image"
-            class="hero-image"
-          />
-          <div class="hero-overlay-gradient"></div>
-          <div class="hero-overlay-tint"></div>
-        </div>
-
-        <div class="hero-content">
-          <h1 class="hero-title">A Gift That Feels Like Home</h1>
-          <p class="hero-subtitle">
-            Premium handcrafted candles & chocolates, made with warmth and
-            intention.
+        <div className={style.heroContent} key={currentSlide}>
+          <h1 className={style.heroTitle}>{heroSlides[currentSlide].title}</h1>
+          <p className={style.heroSubtitle}>
+            {heroSlides[currentSlide].subtitle}
           </p>
-          <a href="#" class="btn btn-primary hero-btn">
-            Shop Now
+          <a href="#" className={`  ${style.heroBtn}`}>
+            {heroSlides[currentSlide].btn}
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path
                 d="M3.33333 8H12.6667"
                 stroke="#FAF6F0"
-                stroke-width="1.33333"
-                stroke-linecap="round"
+                strokeWidth="1.33333"
+                strokeLinecap="round"
               />
               <path
                 d="M8 3.33333L12.6667 8L8 12.6667"
                 stroke="#FAF6F0"
-                stroke-width="1.33333"
-                stroke-linecap="round"
+                strokeWidth="1.33333"
+                strokeLinecap="round"
               />
             </svg>
           </a>
         </div>
 
-        <button class="carousel-btn carousel-prev">
+        <button className={`${style.carouselBtn} ${style.carouselPrev}`} onClick={prevSlide}>
           <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
             <path
               d="M13.75 16.5L8.25 11L13.75 5.5"
               stroke="white"
-              stroke-width="1.83333"
-              stroke-linecap="round"
+              strokeWidth="1.83333"
+              strokeLinecap="round"
             />
           </svg>
         </button>
 
-        <button class="carousel-btn carousel-next">
+        <button className={`${style.carouselBtn} ${style.carouselNext}`} onClick={nextSlide}>
           <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
             <path
               d="M8.25 16.5L13.75 11L8.25 5.5"
               stroke="white"
-              stroke-width="1.83333"
-              stroke-linecap="round"
+              strokeWidth="1.83333"
+              strokeLinecap="round"
             />
           </svg>
         </button>
 
-        <div class="carousel-indicators-custom">
-          <span class="indicator"></span>
-          <span class="indicator active"></span>
-          <span class="indicator"></span>
+        <div className={style.carouselIndicatorsCustom}>
+          {heroSlides.map((slide, index) => (
+            <span
+              key={slide.id}
+              className={`${style.indicator} ${currentSlide === index ? style.active : ''}`}
+              onClick={() => goToSlide(index)}
+            ></span>
+          ))}
         </div>
       </section>
 
@@ -462,39 +367,54 @@ export default function Home() {
         </div>
       </section>
 
-      {/* <!-- Featured Product - Candles --> */}
-      <section class="featured-section candles-section">
-        <div class="container-fluid section-container">
-          <div class="row align-items-center">
-            <div class="col-md-6">
+      {/* <!-- Featured Categories --> */}
+      <section className={style.featuredCategoriesSection}>
+        <div className={`container-fluid ${style.sectionContainer}`}>
+          <div className="row justify-content-center" style={{ gap: '32px' }}>
+            {AllCategories.map((category)=>
+
+              <div key={category.id} className="col-12 col-md-5">
+              <div className={style.categoryCard}>
+                <img
+                  src={category.mediaURL?.startsWith("http") ? category.mediaURL : `https://wedd.runasp.net${category.mediaURL?.startsWith("/") ? "" : "/"}${category.mediaURL}`}
+                  alt={category.name || "Category"}
+                  className={style.categoryImage}
+                />
+                <h3 className={style.categoryTitle}>{category.name}</h3>
+                <a href="#" className={style.categoryBtn}>Shop {category.name}</a>
+              </div>
+            </div>
+            )}
+            
+
+        
+          </div>
+        </div>
+      </section>
+
+      {/* <!-- Curated Section --> */}
+      <section className={style.curatedSection}>
+        <div className="container-fluid p-0">
+          <div className="row g-4 align-items-center">
+            <div className="col-12 col-md-6">
               <img
-                src="../src/imports/ECommerceWebsite/0c8aae329d84f0c8033cbf74ed2ac3cd11568369.png"
-                alt="Candles"
-                class="featured-image"
+                src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=1000"
+                alt="Curated Gift Box"
+                className={style.curatedImage}
               />
             </div>
-            <div class="col-md-6">
-              <div class="featured-content">
-                <h2 class="featured-title">Candles</h2>
-                <p class="featured-description">
-                  Hand-poured soy wax candles with natural, calming scents. Each
-                  one is crafted to bring warmth and serenity to your space.
+            <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
+              <div className={style.curatedContent}>
+                <span className={style.curatedEyebrow}>CURATED FOR EVERY OCCASION</span>
+                <h2 className={style.curatedTitle}>A Gift That Means<br />Something</h2>
+                <p className={style.curatedDescription}>
+                  Every kit is assembled with intention — candles and chocolates that together create a memory worth keeping. For every occasion, big or small.
                 </p>
-                <a href="#" class="btn-featured">
-                  Shop Candles
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path
-                      d="M2.91667 7H11.0833"
-                      stroke="#1C1814"
-                      stroke-width="1.16667"
-                      stroke-linecap="round"
-                    />
-                    <path
-                      d="M7 2.91667L11.0833 7L7 11.0833"
-                      stroke="#1C1814"
-                      stroke-width="1.16667"
-                      stroke-linecap="round"
-                    />
+                <a href="#" className={style.curatedBtn}>
+                  Explore Kits
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ marginLeft: '8px' }}>
+                    <path d="M2.91667 7H11.0833" stroke="currentColor" strokeWidth="1.16667" strokeLinecap="round" />
+                    <path d="M7 2.91667L11.0833 7L7 11.0833" stroke="currentColor" strokeWidth="1.16667" strokeLinecap="round" />
                   </svg>
                 </a>
               </div>
@@ -504,7 +424,7 @@ export default function Home() {
       </section>
 
       {/* <!-- Featured Product - Chocolates --> */}
-      <section class="featured-section chocolates-section">
+      {/* <section class="featured-section chocolates-section">
         <div class="container-fluid section-container">
           <div class="row align-items-center">
             <div class="col-md-6 order-md-2">
@@ -543,10 +463,10 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* <!-- Gift Kits Section --> */}
-      <section class="gift-kits-section">
+      {/* <section class="gift-kits-section">
         <div class="container-fluid section-container">
           <div class="section-header">
             <h2 class="section-title">Gift Kits</h2>
@@ -651,28 +571,8 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* <!-- Custom Candle Making Section --> */}
-      {/* <section class="custom-candle-section">
-        <div class="custom-candle-container">
-          <img
-            src="../src/imports/ECommerceWebsite/51e464284e2bdeb69a77e96250283a1ae8d1938b.png"
-            alt="Custom Candle Making"
-            class="custom-candle-image"
-          />
-          <div class="custom-candle-content">
-            <h2 class="custom-candle-title">Custom Candle Making</h2>
-            <p class="custom-candle-description">
-              Create your own signature scent. Choose your preferred wax,
-              fragrance, and vessel to craft a candle that's uniquely yours.
-            </p>
-            <a href="#" class="btn btn-primary custom-candle-btn">
-              Start Creating
-            </a>
-          </div>
-        </div>
       </section> */}
+
 
       {/* <!-- picked Section --> */}
       <section className={`${style.best_sellers_section}`}>
@@ -858,7 +758,7 @@ export default function Home() {
         <h3>"Born from the desire to gite warmth - in <br /> every form. "</h3>
         <div className={`${style.ourstory_link}`}>
           <a href="#" className={`${style.section_link}`}>Our Story </a>
-          <i class="fa-solid fa-arrow-right"></i>
+          <i className="fa-solid fa-arrow-right"></i>
         </div>
       </section>
 
@@ -873,8 +773,8 @@ export default function Home() {
                 with warmth.
               </p>
               <div className={`${style.footer_social}`}>
-                <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#"><i className="fa-brands fa-instagram"></i></a>
+                <a href="#"><i className="fa-brands fa-x-twitter"></i></a>
               </div>
             </div>
             <div className={`col-md-2`}>
