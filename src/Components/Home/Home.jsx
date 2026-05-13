@@ -1,14 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import style from "./Home.module.css";
-
+import api from "../../api";
 export default function Home() {
-  // const prevRef = useRef(null);
-  // const nextRef = useRef(null);
-
   // Swiper 1
   const bestPrevRef = useRef(null);
   const bestNextRef = useRef(null);
@@ -24,59 +21,103 @@ export default function Home() {
     setOpenSection((prev) => (prev === section ? null : section));
   };
 
-  const products = [
-    {
-      id: 1,
-      name: "Amber Oud",
-      minPrice: "EGP 180",
-      image: "/candels.webp",
-     hoverVideo: "/vidcandels.mp4",
-      badges: [
-        { label: "ONLY 3 LEFT", type: "limited" },
-        { label: "BESTSELLER", type: "bestseller" },
-      ],
-    },
-    {
-      id: 2,
-      name: "Velvet Rose",
-      minPrice: "EGP 210",
-      image: "/candels.webp",
-     hoverVideo: "/vidcandels.mp4",
-      badges: [{ label: "BESTSELLER", type: "bestseller" }],
-    },
-    {
-      id: 3,
-      name: "Cedar Noir",
-      minPrice: "EGP 195",
-      image: "/candels.webp",
-     hoverVideo: "/vidcandels.mp4",
-      badges: [{ label: "NEW", type: "new" }],
-    },
-    {
-      id: 4,
-      name: "White Musk",
-      minPrice: "EGP 175",
-      image: "/candels.webp",
-     hoverVideo: "/vidcandels.mp4",
-      badges: [{ label: "ONLY 2 LEFT", type: "limited" }],
-    },
-    {
-      id: 5,
-      name: "Sandalwood Dusk",
-      minPrice: "EGP 220",
-      image: "/candels.webp",
-     hoverVideo: "/vidcandels.mp4",
-      badges: [{ label: "BESTSELLER", type: "bestseller" }],
-    },
-    {
-      id: 6,
-      name: "Citrus Bloom",
-      minPrice: "EGP 165",
-      image: "/candels.webp",
-     hoverVideo: "/vidcandels.mp4",
-      badges: [],
-    },
-  ];
+  const [products, setproducts] = useState([])
+  const [pickedData, setpickedData] = useState([])
+
+  // const products = [
+  //   {
+  //     id: 1,
+  //     name: "Amber Oud",
+  //     minPrice: "EGP 180",
+  //     image: "/candels.webp",
+  //     hoverVideo: "/vidcandels.mp4",
+  //     badges: [
+  //       { label: "ONLY 3 LEFT", type: "limited" },
+  //       { label: "BESTSELLER", type: "bestseller" },
+  //     ],
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Velvet Rose",
+  //     minPrice: "EGP 210",
+  //     image: "/candels.webp",
+  //     hoverVideo: "/vidcandels.mp4",
+  //     badges: [{ label: "BESTSELLER", type: "bestseller" }],
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Cedar Noir",
+  //     minPrice: "EGP 195",
+  //     image: "/candels.webp",
+  //     hoverVideo: "/vidcandels.mp4",
+  //     badges: [{ label: "NEW", type: "new" }],
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "White Musk",
+  //     minPrice: "EGP 175",
+  //     image: "/candels.webp",
+  //     hoverVideo: "/vidcandels.mp4",
+  //     badges: [{ label: "ONLY 2 LEFT", type: "limited" }],
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "Sandalwood Dusk",
+  //     minPrice: "EGP 220",
+  //     image: "/candels.webp",
+  //     hoverVideo: "/vidcandels.mp4",
+  //     badges: [{ label: "BESTSELLER", type: "bestseller" }],
+  //   },
+  //   {
+  //     id: 6,
+  //     name: "Citrus Bloom",
+  //     minPrice: "EGP 165",
+  //     image: "/candels.webp",
+  //     hoverVideo: "/vidcandels.mp4",
+  //     badges: [],
+  //   },
+  // ];
+
+  async function getBestSeller() {
+
+    try {
+      let { data } = await api.get(`/Items/best-sellers`);
+      console.log(data);
+      setproducts(data)
+
+
+
+    } catch (error) {
+      console.log(error);
+
+    }
+
+  }
+  async function getpicked() {
+
+    try {
+      let { data } = await api.get(`/Items/picked-for-you`);
+      console.log(data);
+      setpickedData(data)
+
+
+
+    } catch (error) {
+      console.log(error);
+
+    }
+
+  }
+
+
+
+
+
+  useEffect(() => {
+    getBestSeller()
+    getpicked()
+  }, []);
+
 
   return (
     <>
@@ -308,99 +349,115 @@ export default function Home() {
               </svg>
             </button>
 
-            <Swiper
-              modules={[Navigation]}
-              loop={true}
-              navigation={{
-                prevEl: bestPrevRef.current,
-                nextEl: bestNextRef.current,
-              }}
-              onSwiper={(swiper) => {
-                setTimeout(() => {
-                  if (swiper.params?.navigation) {
-                    swiper.params.navigation.prevEl = bestPrevRef.current;
-                    swiper.params.navigation.nextEl = bestNextRef.current;
-                    swiper.navigation.destroy();
-                    swiper.navigation.init();
-                    swiper.navigation.update();
-                  }
-                });
-              }}
-              spaceBetween={24}
-              slidesPerView={1.2}
-              breakpoints={{
-                480: { slidesPerView: 1.8 },
-                640: { slidesPerView: 2.2 },
-                900: { slidesPerView: 3.2 },
-                1200: { slidesPerView: 4 },
-              }}
-              className={style.swiper}
-            >
-              {products.map((product) => (
-                <SwiperSlide key={product.id}>
-                  <div className={`${style.product_card}`}>
-                    <div className={style.image_wrapper}>
-                      <a
-                        className={style.product_image_link}
-                        href="#"
+            {products.length > 0 && (
+              <Swiper
+                modules={[Navigation]}
+                loop={products.length > 4}
+                navigation={{
+                  prevEl: bestPrevRef.current,
+                  nextEl: bestNextRef.current,
+                }}
+                onSwiper={(swiper) => {
+                  setTimeout(() => {
+                    if (swiper.params?.navigation) {
+                      swiper.params.navigation.prevEl = bestPrevRef.current;
+                      swiper.params.navigation.nextEl = bestNextRef.current;
+                      swiper.navigation.destroy();
+                      swiper.navigation.init();
+                      swiper.navigation.update();
+                    }
+                  });
+                }}
+                spaceBetween={24}
+                slidesPerView={1.2}
+                breakpoints={{
+                  480: { slidesPerView: 1.8 },
+                  640: { slidesPerView: 2.2 },
+                  900: { slidesPerView: 3.2 },
+                  1200: { slidesPerView: 4 },
+                }}
+                className={style.swiper}
+              >
+                {products?.map((product) => (
+                  <SwiperSlide key={product.id}>
+                    <div className={`${style.product_card}`}>
+                      <div className={style.image_wrapper}>
+                        <a
+                          className={style.product_image_link}
+                          href="#"
 
-                      >
-                        <img
-                          src={product.image}
-                          alt={product.name}
-                          className={style.product_image}
-                        />
-                        {/* <img
+                        >
+                          <img
+                            src={`https://wedd.runasp.net${product.image.url}`}
+
+                            alt={product.name}
+                            className={style.product_image}
+                          />
+                          {/* <img
                           src={product.hoverImage}
                           alt={product.name}
                           className={`${style.product_image} ${style.product_image_hover}`}
                         /> */}
-                        <video
-                          className={`${style.product_image} ${style.product_image_hover}`}
-                          src={product.hoverVideo}
-                          muted
-                          loop
-                          playsInline
-                          onMouseEnter={(e) => e.target.play()}
-                          onMouseLeave={(e) => e.target.pause()}
-                        />
+                          <video
+                            className={`${style.product_image} ${style.product_image_hover}`}
+                            src={`https://wedd.runasp.net${product.secondaryMedia.url}`}
+                            muted
+                            loop
+                            playsInline
+                            onMouseEnter={(e) => e.target.play()}
+                            onMouseLeave={(e) => e.target.pause()}
+                          />
 
-                        {product.badges.length > 0 && (
-                          <div className={style.product_badges}>
-                            {product.badges.map((badge, i) => (
-                              <span
-                                key={i}
-                                className={`${style.badge_base} ${badge.type === "limited"
-                                  ? style.badge_limited
-                                  : badge.type === "new"
-                                    ? style.badge_new
-                                    : style.badge_bestseller
-                                  }`}
-                              >
-                                {badge.label}
-                              </span>
-                            ))}
+                          {product.labels && (
+                            <div className={style.product_badges}>
+
+                              {product.labels.isNew && (
+                                <span className={`${style.badge_base} ${style.badge_new}`}>
+                                  New
+                                </span>
+                              )}
+
+                              {product.labels.isOnSale && product.discountPercentage != null && (
+                                <span className={`${style.badge_base} ${style.badge_limited}`}>
+                                  {product.discountPercentage}% OFF
+                                </span>
+                              )}
+
+
+
+                              {product.labels.isLowStock && product.stockRemaining != null && (
+                                <span className={`${style.badge_base} ${style.badge_bestseller}`}>
+                                  ONLY {product.stockRemaining} LEFT
+                                </span>
+                              )}
+
+                              {product.labels.isOutOfStock && (
+                                <span className={`${style.badge_base} ${style.badge_out}`}>
+                                  Out of Stock
+                                </span>
+                              )}
+
+                            </div>
+                          )}
+                          <div className={style.wish_list}>
+                            <i className="fa-regular fa-heart"></i>
                           </div>
-                        )}
 
-                        <div className={style.wish_list}>
-                          <i className="fa-regular fa-heart"></i>
-                        </div>
+                          <div className={style.option_btn}>
+                            <button>Select option</button>
+                          </div>
+                        </a>
+                      </div>
 
-                        <div className={style.option_btn}>
-                          <button>Select option</button>
-                        </div>
-                      </a>
+                      <div className={`${style.product_info}`}>
+                        <p className={`${style.product_name}`}>{product.name}</p>
+                        <p className={`${style.product_minPrice}`}>{product.minPrice}</p>
+                      </div>
                     </div>
-
-                    <div className={`${style.product_info}`}>
-                      <p className={`${style.product_name}`}>{product.name}</p>
-                      <p className={`${style.product_minPrice}`}>{product.minPrice}</p>
-                    </div>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            )}
           </div>
         </div>
       </section>
@@ -617,7 +674,7 @@ export default function Home() {
         </div>
       </section> */}
 
-      {/* <!-- Best Sellers Section --> */}
+      {/* <!-- picked Section --> */}
       <section className={`${style.best_sellers_section}`}>
         <div className={`container-fluid ${style.section_container}`}>
           <div className={`${style.section_header}`}>
@@ -663,7 +720,7 @@ export default function Home() {
 
             <Swiper
               modules={[Navigation]}
-              loop={true}
+              loop={products.length > 4}
               navigation={{
                 prevEl: pickedPrevRef.current,
                 nextEl: pickedNextRef.current,
@@ -689,7 +746,7 @@ export default function Home() {
               }}
               className={style.swiper}
             >
-              {products.map((product) => (
+              {pickedData?.map((product) => (
                 <SwiperSlide key={product.id}>
                   <div className={`${style.product_card}`}>
                     <div className={style.image_wrapper}>
@@ -699,7 +756,8 @@ export default function Home() {
 
                       >
                         <img
-                          src={product.image}
+                          src={`https://wedd.runasp.net${product.image.url}`}
+
                           alt={product.name}
                           className={style.product_image}
                         />
@@ -710,7 +768,7 @@ export default function Home() {
                         /> */}
                         <video
                           className={`${style.product_image} ${style.product_image_hover}`}
-                          src={product.hoverVideo}
+                          src={`https://wedd.runasp.net${product.secondaryMedia.url}`}
                           muted
                           loop
                           playsInline
@@ -718,21 +776,35 @@ export default function Home() {
                           onMouseLeave={(e) => e.target.pause()}
                         />
 
-                        {product.badges.length > 0 && (
+                        {product.labels && (
                           <div className={style.product_badges}>
-                            {product.badges.map((badge, i) => (
-                              <span
-                                key={i}
-                                className={`${style.badge_base} ${badge.type === "limited"
-                                  ? style.badge_limited
-                                  : badge.type === "new"
-                                    ? style.badge_new
-                                    : style.badge_bestseller
-                                  }`}
-                              >
-                                {badge.label}
+
+                            {product.labels.isNew && (
+                              <span className={`${style.badge_base} ${style.badge_new}`}>
+                                New
                               </span>
-                            ))}
+                            )}
+
+                            {product.labels.isOnSale && product.discountPercentage != null && (
+                              <span className={`${style.badge_base} ${style.badge_limited}`}>
+                                {product.discountPercentage}% OFF
+                              </span>
+                            )}
+
+
+
+                            {product.labels.isLowStock && product.stockRemaining != null && (
+                              <span className={`${style.badge_base} ${style.badge_bestseller}`}>
+                                ONLY {product.stockRemaining} LEFT
+                              </span>
+                            )}
+
+                            {product.labels.isOutOfStock && (
+                              <span className={`${style.badge_base} ${style.badge_out}`}>
+                                Out of Stock
+                              </span>
+                            )}
+
                           </div>
                         )}
 
