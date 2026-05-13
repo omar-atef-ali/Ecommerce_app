@@ -6,10 +6,18 @@ import "swiper/css/navigation";
 import style from "./Home.module.css";
 
 export default function Home() {
-  const prevRef = useRef(null);
-  const nextRef = useRef(null);
+  // const prevRef = useRef(null);
+  // const nextRef = useRef(null);
+
+  // Swiper 1
+  const bestPrevRef = useRef(null);
+  const bestNextRef = useRef(null);
+
+  // Swiper 2
+  const pickedPrevRef = useRef(null);
+  const pickedNextRef = useRef(null);
   const [imageHovered, setImageHovered] = useState(false);
-  
+
   const [openSection, setOpenSection] = useState(null);
 
   const toggleSection = (section) => {
@@ -20,9 +28,9 @@ export default function Home() {
     {
       id: 1,
       name: "Amber Oud",
-      price: "EGP 180",
+      minPrice: "EGP 180",
       image: "/candels.webp",
-      hoverImage: "/candles2.webp",
+     hoverVideo: "/vidcandels.mp4",
       badges: [
         { label: "ONLY 3 LEFT", type: "limited" },
         { label: "BESTSELLER", type: "bestseller" },
@@ -31,41 +39,41 @@ export default function Home() {
     {
       id: 2,
       name: "Velvet Rose",
-      price: "EGP 210",
-       image: "/candels.webp",
-      hoverImage: "/candles2.webp",
+      minPrice: "EGP 210",
+      image: "/candels.webp",
+     hoverVideo: "/vidcandels.mp4",
       badges: [{ label: "BESTSELLER", type: "bestseller" }],
     },
     {
       id: 3,
       name: "Cedar Noir",
-      price: "EGP 195",
-       image: "/candels.webp",
-      hoverImage: "/candles2.webp",
+      minPrice: "EGP 195",
+      image: "/candels.webp",
+     hoverVideo: "/vidcandels.mp4",
       badges: [{ label: "NEW", type: "new" }],
     },
     {
       id: 4,
       name: "White Musk",
-      price: "EGP 175",
+      minPrice: "EGP 175",
       image: "/candels.webp",
-      hoverImage: "/candles2.webp",
+     hoverVideo: "/vidcandels.mp4",
       badges: [{ label: "ONLY 2 LEFT", type: "limited" }],
     },
     {
       id: 5,
       name: "Sandalwood Dusk",
-      price: "EGP 220",
-       image: "/candels.webp",
-      hoverImage: "/candles2.webp",
+      minPrice: "EGP 220",
+      image: "/candels.webp",
+     hoverVideo: "/vidcandels.mp4",
       badges: [{ label: "BESTSELLER", type: "bestseller" }],
     },
     {
       id: 6,
       name: "Citrus Bloom",
-      price: "EGP 165",
-       image: "/candels.webp",
-      hoverImage: "/candles2.webp",
+      minPrice: "EGP 165",
+      image: "/candels.webp",
+     hoverVideo: "/vidcandels.mp4",
       badges: [],
     },
   ];
@@ -270,7 +278,7 @@ export default function Home() {
             onMouseLeave={() => setImageHovered(false)} className={style.swiper_outer}>
             {/* Left Arrow */}
             <button
-              ref={prevRef}
+              ref={bestPrevRef}
               className={`${style.product_arrow} ${style.product_arrow_left} ${imageHovered ? style.arrow_visible : ""}`}
               aria-label="Previous"
             >
@@ -286,7 +294,7 @@ export default function Home() {
 
             {/* Right Arrow */}
             <button
-              ref={nextRef}
+              ref={bestNextRef}
               className={`${style.product_arrow} ${style.product_arrow_right} ${imageHovered ? style.arrow_visible : ""}`}
               aria-label="Next"
             >
@@ -304,14 +312,14 @@ export default function Home() {
               modules={[Navigation]}
               loop={true}
               navigation={{
-                prevEl: prevRef.current,
-                nextEl: nextRef.current,
+                prevEl: bestPrevRef.current,
+                nextEl: bestNextRef.current,
               }}
               onSwiper={(swiper) => {
                 setTimeout(() => {
                   if (swiper.params?.navigation) {
-                    swiper.params.navigation.prevEl = prevRef.current;
-                    swiper.params.navigation.nextEl = nextRef.current;
+                    swiper.params.navigation.prevEl = bestPrevRef.current;
+                    swiper.params.navigation.nextEl = bestNextRef.current;
                     swiper.navigation.destroy();
                     swiper.navigation.init();
                     swiper.navigation.update();
@@ -342,10 +350,19 @@ export default function Home() {
                           alt={product.name}
                           className={style.product_image}
                         />
-                        <img
+                        {/* <img
                           src={product.hoverImage}
                           alt={product.name}
                           className={`${style.product_image} ${style.product_image_hover}`}
+                        /> */}
+                        <video
+                          className={`${style.product_image} ${style.product_image_hover}`}
+                          src={product.hoverVideo}
+                          muted
+                          loop
+                          playsInline
+                          onMouseEnter={(e) => e.target.play()}
+                          onMouseLeave={(e) => e.target.pause()}
                         />
 
                         {product.badges.length > 0 && (
@@ -378,7 +395,7 @@ export default function Home() {
 
                     <div className={`${style.product_info}`}>
                       <p className={`${style.product_name}`}>{product.name}</p>
-                      <p className={`${style.product_price}`}>{product.price}</p>
+                      <p className={`${style.product_minPrice}`}>{product.minPrice}</p>
                     </div>
                   </div>
                 </SwiperSlide>
@@ -519,7 +536,7 @@ export default function Home() {
                   </a>
                   <div class="product-info">
                     <p class="product-name">Deluxe Gift Set</p>
-                    <p class="product-price">EGP 350</p>
+                    <p class="product-minPrice">EGP 350</p>
                   </div>
                 </div>
               </div>
@@ -535,7 +552,7 @@ export default function Home() {
                   </a>
                   <div class="product-info">
                     <p class="product-name">Comfort Kit</p>
-                    <p class="product-price">EGP 280</p>
+                    <p class="product-minPrice">EGP 280</p>
                   </div>
                 </div>
               </div>
@@ -551,7 +568,7 @@ export default function Home() {
                   </a>
                   <div class="product-info">
                     <p class="product-name">Celebration Box</p>
-                    <p class="product-price">EGP 420</p>
+                    <p class="product-minPrice">EGP 420</p>
                   </div>
                 </div>
               </div>
@@ -570,7 +587,7 @@ export default function Home() {
                   </a>
                   <div class="product-info">
                     <p class="product-name">Mini Moments</p>
-                    <p class="product-price">EGP 220</p>
+                    <p class="product-minPrice">EGP 220</p>
                   </div>
                 </div>
               </div>
@@ -614,7 +631,7 @@ export default function Home() {
             onMouseLeave={() => setImageHovered(false)} className={style.swiper_outer}>
             {/* Left Arrow */}
             <button
-              ref={prevRef}
+              ref={pickedPrevRef}
               className={`${style.product_arrow} ${style.product_arrow_left} ${imageHovered ? style.arrow_visible : ""}`}
               aria-label="Previous"
             >
@@ -630,7 +647,7 @@ export default function Home() {
 
             {/* Right Arrow */}
             <button
-              ref={nextRef}
+              ref={pickedNextRef}
               className={`${style.product_arrow} ${style.product_arrow_right} ${imageHovered ? style.arrow_visible : ""}`}
               aria-label="Next"
             >
@@ -648,14 +665,14 @@ export default function Home() {
               modules={[Navigation]}
               loop={true}
               navigation={{
-                prevEl: prevRef.current,
-                nextEl: nextRef.current,
+                prevEl: pickedPrevRef.current,
+                nextEl: pickedNextRef.current,
               }}
               onSwiper={(swiper) => {
                 setTimeout(() => {
                   if (swiper.params?.navigation) {
-                    swiper.params.navigation.prevEl = prevRef.current;
-                    swiper.params.navigation.nextEl = nextRef.current;
+                    swiper.params.navigation.prevEl = pickedPrevRef.current;
+                    swiper.params.navigation.nextEl = pickedNextRef.current;
                     swiper.navigation.destroy();
                     swiper.navigation.init();
                     swiper.navigation.update();
@@ -686,10 +703,19 @@ export default function Home() {
                           alt={product.name}
                           className={style.product_image}
                         />
-                        <img
+                        {/* <img
                           src={product.hoverImage}
                           alt={product.name}
                           className={`${style.product_image} ${style.product_image_hover}`}
+                        /> */}
+                        <video
+                          className={`${style.product_image} ${style.product_image_hover}`}
+                          src={product.hoverVideo}
+                          muted
+                          loop
+                          playsInline
+                          onMouseEnter={(e) => e.target.play()}
+                          onMouseLeave={(e) => e.target.pause()}
                         />
 
                         {product.badges.length > 0 && (
@@ -722,7 +748,7 @@ export default function Home() {
 
                     <div className={`${style.product_info}`}>
                       <p className={`${style.product_name}`}>{product.name}</p>
-                      <p className={`${style.product_price}`}>{product.price}</p>
+                      <p className={`${style.product_minPrice}`}>{product.minPrice}</p>
                     </div>
                   </div>
                 </SwiperSlide>
