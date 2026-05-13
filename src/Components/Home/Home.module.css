@@ -16,10 +16,239 @@
     --font-sans: 'DM Sans', sans-serif;
 }
 
-/* Hero Section */
+/* Global Styles */
+
 .heroSection {
     position: relative;
     height: calc(100vh - 72px);
+    width: 100%;
+    overflow: hidden;
+}
+/* Section Styles */
+.section_container {
+    padding: 50px 64px;
+    max-width: 1350px;
+    margin: 0 auto;
+}
+
+.section_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 48px;
+}
+
+.section_title {
+    font-family: var(--font-serif);
+    font-size: 41.013px;
+    font-weight: 400;
+    line-height: 45.115px;
+    letter-spacing: 0.4101px;
+    color: var(--color-text-dark);
+}
+
+.section_link {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.7px;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    border-bottom: 0.889px solid var(--color-bg-sand);
+    padding-bottom: 3px;
+    transition: color 0.3s ease;
+}
+
+.section_link:hover {
+    color: var(--color-text-dark);
+}
+
+
+
+.image_wrapper {
+    position: relative;
+    overflow: hidden;
+}
+.product_card {
+    margin-bottom: 24px;
+}
+
+.wish_list {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    transform: translateX(60px);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 50%;
+
+    z-index: 1500;
+    transition: transform 0.3s ease-in-out;
+}
+
+
+.wish_list i {
+    cursor: pointer;
+    color: black;
+}
+
+.product_card:hover .wish_list {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+
+.option_btn {
+    position: absolute;
+    right:10px;
+    bottom: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    width: 93%;
+    transform: translateY(80px);
+    transition: 0.2s ease-in;
+    z-index: 1000;
+
+}
+.product_card:hover .option_btn {
+   transform: translateY(0px);
+
+}
+.option_btn button{
+    padding: 10px 25px;
+    border: none;
+    border-radius: 25px;
+    width: 100%;
+    transition: 0.3s ease-in;
+}
+
+.option_btn button:hover {
+    background-color: #1c1814;
+    color: white;
+
+}
+
+.product_image_link {
+    position: relative;
+    display: block;
+    background-color: var(--color-bg-sand);
+    border-radius: 0;
+    overflow: hidden;
+    height: 347px;
+    margin-bottom: 12px;
+}
+
+.product_image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Hover image — sits on top, hidden by default */
+.product_image_hover {
+    opacity: 0;
+    transform: scale(1.06);
+    transition: opacity 0.45s ease, transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 1;
+}
+
+/* On image link hover: fade in hover image with subtle zoom */
+.product_image_link:hover .product_image_hover {
+    opacity: 1;
+    transform: scale(1.08);
+}
+
+/* Primary image: slight zoom on hover too for smoothness */
+.product_image_link:hover .product_image:not(.product_image_hover) {
+    transform: scale(1.04);
+}
+
+.product_badges {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 1000;
+}
+
+.badge_limited,
+.badge_bestseller,
+.badge_new {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.54px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    line-height: 9px;
+}
+
+/* badge_base is a shared class for all badge types rendered via JS */
+.badge_base {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.54px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    line-height: 14px;
+}
+
+.badge_limited {
+    background-color: var(--color-badge-limited);
+    color: var(--color-badge-new);
+}
+
+.badge_bestseller {
+    background-color: var(--color-badge-bestseller);
+    color: #ececea;
+}
+
+.badge_new {
+    background-color: var(--color-badge-new);
+    color: #ececea;
+}
+
+.product_info {
+    padding: 0;
+}
+
+.product_name {
+    font-family: var(--font-serif);
+    font-size: 16.405px;
+    line-height: 24.608px;
+    letter-spacing: 0.1641px;
+    color: var(--color-text-dark);
+    margin-bottom: 4px;
+}
+
+.product_price {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.65px;
+    color: var(--color-text-muted);
+    margin: 0;
+}
+
+/* ─── Swiper Wrapper ─────────────────────────────────────────────────────── */
+
+.swiper_outer {
+    position: relative;
     width: 100%;
     margin-top: 72px;
     overflow: hidden;
@@ -337,7 +566,7 @@
 
 /* Featured Sections */
 .featuredCategoriesSection {
-    padding: 32px 0;
+    padding: 0px 0 50px 0;
 }
 
 .categoryCard {
@@ -702,6 +931,10 @@
     .product-arrow {
         display: none;
     }
+    .section_header{
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 @media (max-width: 576px) {
@@ -743,6 +976,8 @@
 /* Curated Section */
 .curatedSection {
     background-color: var(--color-background);
+
+
 }
 
 .curatedImage {
@@ -818,5 +1053,407 @@
     .curatedDescription {
         font-size: 14px;
         margin-bottom: 24px;
+    }
+}
+.swiper {
+    /* Allow card hover animations (wishlist, option btn) to overflow visually */
+    overflow: visible !important;
+    /* Clip at the section padding edges so cards don't bleed into other sections */
+    clip-path: inset(-200px 0px);
+}
+
+/* Navigation arrows — sit INSIDE the swiper, overlapping the cards */
+.product_arrow {
+    position: absolute;
+    top: 42%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background-color: var(--color-bg-cream);
+    border: 0.889px solid var(--color-bg-sand);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    box-shadow: 0px 2px 8px rgba(28, 24, 20, 0.12);
+
+    /* Hidden by default */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, background-color 0.2s ease;
+}
+
+.product_arrow:hover {
+    background-color: #1c1814;
+}
+
+.product_arrow:hover svg path {
+    stroke: #faf6f0;
+}
+
+/* Revealed on swiper hover */
+.arrow_visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Inside the swiper — small inset from edges */
+.product_arrow_left {
+    left: 12px;
+}
+
+.product_arrow_right {
+    right: 12px;
+}
+
+/* workshops */
+.workShops{
+    margin-bottom: 70px;
+}
+.workShops_info,.workShops_info2{
+    text-align: center;
+}
+.workShops_info p{
+    font-size: 13px;
+    font-weight: lighter;
+    margin-bottom: 5px;
+}
+.workShops_info h3{
+    font-weight:400;
+    margin-bottom: 25px;
+}
+.workShops_info2 p{
+    margin: 15px 0;
+}
+.workShops_image_parent {
+    width: 100%;
+    height: 350px;
+    background-image: url('/candels.webp');
+    background-size: 100%;
+    background-position: top;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s ease;
+}
+
+.workShops_image_parent:hover {
+    background-size: 110%;
+}
+.workShops_buttons{
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 120px;
+}
+.workShops_buttons button {
+    cursor: pointer;
+    
+    padding: 6px 30px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+.workShops_btn1{
+    border: none;
+    background-color: var(--color-primary);
+    color: white;
+    transition: 0.3s ease-in-out;
+}
+.workShops_btn1:hover{
+    background-color:#9c4e35;
+    color: white;
+}
+.workShops_btn2{
+    border: 1px solid var(--color-primary) ;
+    color: var(--color-primary);
+    transition: 0.3s ease-in-out;
+    
+}
+.workShops_btn2:hover{
+    background-color: var(--color-primary);
+    color: white;
+    
+}
+
+.ourstory{
+    text-align: center;
+    margin-bottom: 60px;
+}
+.ourstory h3{
+    font-size: 24px;
+    font-weight: lighter;
+    margin-bottom: 15px;
+}
+.ourstory_link{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+.ourstory_link a{
+    color: black;
+    font-weight: lighter;
+    text-decoration: none;
+}
+.ourstory_link i{
+    font-size: 10px;
+    margin-top: 7px;
+}
+/* Footer */
+.footer {
+    background-color: #1c1814;
+    color: var(--color-text-light);
+    padding: 80px 0 32px;
+}
+
+.footer_container {
+    padding: 0 64px;
+    max-width: 1350px;
+    margin: 0 auto;
+}
+
+.footer_brand {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--color-text-light);
+    margin-bottom: 16px;
+}
+
+.footer_description {
+    font-size: 14px;
+    line-height: 24px;
+    color: rgba(250, 246, 240, 0.7);
+    margin-bottom: 10px;
+}
+
+.footer_heading {
+    font-family: 400;
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(240, 178, 45, 0.632);
+    margin-bottom: 20px;
+}
+
+
+
+.footer_links li {
+    margin-bottom: 12px;
+}
+
+.footer_links a {
+    color: rgba(250, 246, 240, 0.7);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.footer_links a:hover {
+    color: var(--color-text-light);
+}
+
+.footer_text {
+    font-size: 14px;
+    line-height: 22px;
+    color: rgba(250, 246, 240, 0.7);
+    margin-bottom: 16px;
+}
+
+.newsletter_form {
+    display: flex;
+    gap: 8px;
+}
+
+.newsletter_input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid rgba(250, 246, 240, 0.3);
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--color-text-light);
+    font-size: 14px;
+}
+
+.newsletter_input::placeholder {
+    color: rgba(250, 246, 240, 0.5);
+}
+
+.newsletter_btn {
+    padding: 12px 24px;
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.newsletter_btn:hover {
+    background-color: #5e2f1f;
+}
+
+.footer_bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 60px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(250, 246, 240, 0.2);
+}
+
+.footer_copyright {
+    font-size: 13px;
+    color: rgba(250, 246, 240, 0.6);
+    margin: 0;
+    margin-left: 40%;
+}
+
+.footer_social {
+    display: flex;
+    gap: 10px;
+}
+
+.footer_social a {
+    color: rgba(250, 246, 240, 0.7);
+    text-decoration: none;
+    font-size: 17px;
+    transition: color 0.3s ease;
+}
+
+.footer_social a:hover {
+    color: var(--color-text-light);
+}
+
+
+/* ─── Footer Accordion ───────────────────────────────────────────────────── */
+
+.footer_accordion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: default;
+    user-select: none;
+}
+
+.accordion_arrow {
+    display: none; /* hidden on desktop */
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.accordion_arrow_open {
+    transform: rotate(180deg);
+}
+
+/* Desktop: links always visible */
+.footer_links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* no height tricks needed on desktop */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .navbar-container {
+        padding: 0 24px;
+    }
+
+    .navbar-nav-center {
+        display: none;
+    }
+
+    .hero-title {
+        font-size: 48px;
+        line-height: 52px;
+    }
+
+    .hero-subtitle {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .section-container {
+        padding: 48px 24px;
+    }
+
+    .featured-content {
+        padding: 40px 24px;
+    }
+
+    .workshops-container {
+        flex-direction: column;
+    }
+
+    .workshops-image {
+        width: 100%;
+    }
+
+    .workshops-content {
+        padding: 40px 24px;
+    }
+
+    .custom-candle-content {
+        padding: 40px 24px;
+    }
+
+    .footer_container {
+        padding: 0 24px;
+    }
+
+    .product_arrow {
+        width: 34px;
+        height: 34px;
+    }
+
+    /* Footer accordion — mobile only */
+    .footer_accordion {
+        cursor: pointer;
+        padding: 14px 0;
+        border-bottom: 1px solid rgba(250, 246, 240, 0.12);
+    }
+
+    .footer_heading {
+        margin-bottom: 0;
+    }
+
+    .accordion_arrow {
+        display: block; /* show arrow on mobile */
+    }
+
+    /* Links collapsed by default on mobile */
+    .footer_links {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease, padding 0.35s ease;
+        padding-top: 0;
+        margin-bottom: 12px;
+    }
+
+    /* Links expanded when open */
+    .links_open {
+        max-height: 300px;
+        padding-top: 12px;
+    }
+    .workShops_info2 p {
+        font-size: 12px;
+
+    }
+
+    .footer_social {
+        margin-bottom: 15px;
+    }
+
+    .ourstory h3 {
+        font-size: 18px;
+        font-weight: lighter;
+        margin-bottom: 15px;
+    }
+
+    .footer_copyright {
+        margin-left: 25%;
     }
 }

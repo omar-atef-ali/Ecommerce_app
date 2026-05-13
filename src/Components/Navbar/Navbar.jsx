@@ -38,7 +38,7 @@ export default function Navbar() {
 
   return <>
 
-    <nav ref={navRef} className={`${style.navbar} ${isScrolled ? style.scrolled : ''} fixed-top`}>
+    <nav ref={navRef} className={`${style.navbar} ${isScrolled ? style.scrolled : ''} sticky-top`}>
       <div className={`container-fluid ${style.navbarContainer}`}>
 
         {/* Standard Navbar Content */}
