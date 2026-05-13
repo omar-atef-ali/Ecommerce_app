@@ -70,7 +70,7 @@ export default function Home() {
       name: "Amber Oud",
       minPrice: "EGP 180",
       image: "/candels.webp",
-     hoverVideo: "/vidcandels.mp4",
+      hoverVideo: "/vidcandels.mp4",
       badges: [
         { label: "ONLY 3 LEFT", type: "limited" },
         { label: "BESTSELLER", type: "bestseller" },
@@ -81,7 +81,7 @@ export default function Home() {
       name: "Velvet Rose",
       minPrice: "EGP 210",
       image: "/candels.webp",
-     hoverVideo: "/vidcandels.mp4",
+      hoverVideo: "/vidcandels.mp4",
       badges: [{ label: "BESTSELLER", type: "bestseller" }],
     },
     {
@@ -89,7 +89,7 @@ export default function Home() {
       name: "Cedar Noir",
       minPrice: "EGP 195",
       image: "/candels.webp",
-     hoverVideo: "/vidcandels.mp4",
+      hoverVideo: "/vidcandels.mp4",
       badges: [{ label: "NEW", type: "new" }],
     },
     {
@@ -97,7 +97,7 @@ export default function Home() {
       name: "White Musk",
       minPrice: "EGP 175",
       image: "/candels.webp",
-     hoverVideo: "/vidcandels.mp4",
+      hoverVideo: "/vidcandels.mp4",
       badges: [{ label: "ONLY 2 LEFT", type: "limited" }],
     },
     {
@@ -105,7 +105,7 @@ export default function Home() {
       name: "Sandalwood Dusk",
       minPrice: "EGP 220",
       image: "/candels.webp",
-     hoverVideo: "/vidcandels.mp4",
+      hoverVideo: "/vidcandels.mp4",
       badges: [{ label: "BESTSELLER", type: "bestseller" }],
     },
     {
@@ -113,18 +113,18 @@ export default function Home() {
       name: "Citrus Bloom",
       minPrice: "EGP 165",
       image: "/candels.webp",
-     hoverVideo: "/vidcandels.mp4",
+      hoverVideo: "/vidcandels.mp4",
       badges: [],
     },
   ];
 
 
   async function categories() {
-    try{
-      const {data} = await api.get(`/Categories`)
+    try {
+      const { data } = await api.get(`/Categories`)
       console.log(data);
       setAllCategories(data);
-    }catch(err){
+    } catch (err) {
       console.log(err);
     }
   }
@@ -359,23 +359,23 @@ export default function Home() {
       <section className={style.featuredCategoriesSection}>
         <div className={`container-fluid ${style.sectionContainer}`}>
           <div className="row justify-content-center" style={{ gap: '32px' }}>
-            {AllCategories.map((category)=>
+            {AllCategories.map((category) =>
 
               <div key={category.id} className="col-12 col-md-5">
-              <div className={style.categoryCard}>
-                <img
-                  src={category.mediaURL?.startsWith("http") ? category.mediaURL : `https://wedd.runasp.net${category.mediaURL?.startsWith("/") ? "" : "/"}${category.mediaURL}`}
-                  alt={category.name || "Category"}
-                  className={style.categoryImage}
-                />
-                <h3 className={style.categoryTitle}>{category.name}</h3>
-                <a href="#" className={style.categoryBtn}>Shop {category.name}</a>
+                <div className={style.categoryCard}>
+                  <img
+                    src={category.mediaURL?.startsWith("http") ? category.mediaURL : `https://wedd.runasp.net${category.mediaURL?.startsWith("/") ? "" : "/"}${category.mediaURL}`}
+                    alt={category.name || "Category"}
+                    className={style.categoryImage}
+                  />
+                  <h3 className={style.categoryTitle}>{category.name}</h3>
+                  <a href="#" className={style.categoryBtn}>Shop {category.name}</a>
+                </div>
               </div>
-            </div>
             )}
-            
 
-        
+
+
           </div>
         </div>
       </section>
