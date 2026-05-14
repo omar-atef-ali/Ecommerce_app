@@ -1,18 +1,36 @@
-import React, { useState, useEffect, useRef } from "react";
 
+import React, { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import style from "./Home.module.css";
+import api from "../../api";
 import img0 from "../../assets/bubble candles!.jpg"
 import img2 from "../../assets/Immerse yourself in the ambiance of our Aesthetic….jpg"
 import img3 from "../../assets/download.webp"
-import api from "../../api"
 export default function Home() {
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [AllCategories, setAllCategories] = useState([]);
+
+  // Swiper 1
+  const bestPrevRef = useRef(null);
+  const bestNextRef = useRef(null);
+
+  // Swiper 2
+  const pickedPrevRef = useRef(null);
+  const pickedNextRef = useRef(null);
+  const [imageHovered, setImageHovered] = useState(false);
+
+  const [openSection, setOpenSection] = useState(null);
+
+  const toggleSection = (section) => {
+    setOpenSection((prev) => (prev === section ? null : section));
+  };
+
+  const [products, setproducts] = useState([])
+  const [pickedData, setpickedData] = useState([])
 
   const heroSlides = [
     {
@@ -49,75 +67,41 @@ export default function Home() {
     return () => clearInterval(timer);
   }, [heroSlides.length]);
 
-  // Swiper 1
-  const bestPrevRef = useRef(null);
-  const bestNextRef = useRef(null);
 
-  // Swiper 2
-  const pickedPrevRef = useRef(null);
-  const pickedNextRef = useRef(null);
-  const [imageHovered, setImageHovered] = useState(false);
+  
 
-  const [openSection, setOpenSection] = useState(null);
+  
+  async function getBestSeller() {
 
-  const toggleSection = (section) => {
-    setOpenSection((prev) => (prev === section ? null : section));
-  };
+    try {
+      let { data } = await api.get(`/Items/best-sellers`);
+      console.log(data);
+      setproducts(data)
 
-  const products = [
-    {
-      id: 1,
-      name: "Amber Oud",
-      minPrice: "EGP 180",
-      image: "/candels.webp",
-      hoverVideo: "/vidcandels.mp4",
-      badges: [
-        { label: "ONLY 3 LEFT", type: "limited" },
-        { label: "BESTSELLER", type: "bestseller" },
-      ],
-    },
-    {
-      id: 2,
-      name: "Velvet Rose",
-      minPrice: "EGP 210",
-      image: "/candels.webp",
-      hoverVideo: "/vidcandels.mp4",
-      badges: [{ label: "BESTSELLER", type: "bestseller" }],
-    },
-    {
-      id: 3,
-      name: "Cedar Noir",
-      minPrice: "EGP 195",
-      image: "/candels.webp",
-      hoverVideo: "/vidcandels.mp4",
-      badges: [{ label: "NEW", type: "new" }],
-    },
-    {
-      id: 4,
-      name: "White Musk",
-      minPrice: "EGP 175",
-      image: "/candels.webp",
-      hoverVideo: "/vidcandels.mp4",
-      badges: [{ label: "ONLY 2 LEFT", type: "limited" }],
-    },
-    {
-      id: 5,
-      name: "Sandalwood Dusk",
-      minPrice: "EGP 220",
-      image: "/candels.webp",
-      hoverVideo: "/vidcandels.mp4",
-      badges: [{ label: "BESTSELLER", type: "bestseller" }],
-    },
-    {
-      id: 6,
-      name: "Citrus Bloom",
-      minPrice: "EGP 165",
-      image: "/candels.webp",
-      hoverVideo: "/vidcandels.mp4",
-      badges: [],
-    },
-  ];
 
+
+
+    } catch (error) {
+      console.log(error);
+
+    }
+
+  }
+  async function getpicked() {
+
+    try {
+      let { data } = await api.get(`/Items/picked-for-you`);
+      console.log(data);
+      setpickedData(data)
+
+
+
+    } catch (error) {
+      console.log(error);
+
+    }
+
+  }
 
   async function categories() {
     try {
@@ -128,6 +112,19 @@ export default function Home() {
       console.log(err);
     }
   }
+
+
+
+
+
+  useEffect(() => {
+    getBestSeller()
+    getpicked()
+  }, []);
+
+
+
+  
   useEffect(() => {
     categories();
   }, []);
@@ -258,99 +255,115 @@ export default function Home() {
               </svg>
             </button>
 
-            <Swiper
-              modules={[Navigation]}
-              loop={true}
-              navigation={{
-                prevEl: bestPrevRef.current,
-                nextEl: bestNextRef.current,
-              }}
-              onSwiper={(swiper) => {
-                setTimeout(() => {
-                  if (swiper.params?.navigation) {
-                    swiper.params.navigation.prevEl = bestPrevRef.current;
-                    swiper.params.navigation.nextEl = bestNextRef.current;
-                    swiper.navigation.destroy();
-                    swiper.navigation.init();
-                    swiper.navigation.update();
-                  }
-                });
-              }}
-              spaceBetween={24}
-              slidesPerView={1.2}
-              breakpoints={{
-                480: { slidesPerView: 1.8 },
-                640: { slidesPerView: 2.2 },
-                900: { slidesPerView: 3.2 },
-                1200: { slidesPerView: 4 },
-              }}
-              className={style.swiper}
-            >
-              {products.map((product) => (
-                <SwiperSlide key={product.id}>
-                  <div className={`${style.product_card}`}>
-                    <div className={style.image_wrapper}>
-                      <a
-                        className={style.product_image_link}
-                        href="#"
+            {products.length > 0 && (
+              <Swiper
+                modules={[Navigation]}
+                loop={products.length > 4}
+                navigation={{
+                  prevEl: bestPrevRef.current,
+                  nextEl: bestNextRef.current,
+                }}
+                onSwiper={(swiper) => {
+                  setTimeout(() => {
+                    if (swiper.params?.navigation) {
+                      swiper.params.navigation.prevEl = bestPrevRef.current;
+                      swiper.params.navigation.nextEl = bestNextRef.current;
+                      swiper.navigation.destroy();
+                      swiper.navigation.init();
+                      swiper.navigation.update();
+                    }
+                  });
+                }}
+                spaceBetween={24}
+                slidesPerView={1.2}
+                breakpoints={{
+                  480: { slidesPerView: 1.8 },
+                  640: { slidesPerView: 2.2 },
+                  900: { slidesPerView: 3.2 },
+                  1200: { slidesPerView: 4 },
+                }}
+                className={style.swiper}
+              >
+                {products?.map((product) => (
+                  <SwiperSlide key={product.id}>
+                    <div className={`${style.product_card}`}>
+                      <div className={style.image_wrapper}>
+                        <a
+                          className={style.product_image_link}
+                          href="#"
 
-                      >
-                        <img
-                          src={product.image}
-                          alt={product.name}
-                          className={style.product_image}
-                        />
-                        {/* <img
+                        >
+                          <img
+                            src={`https://wedd.runasp.net${product.image.url}`}
+
+                            alt={product.name}
+                            className={style.product_image}
+                          />
+                          {/* <img
                           src={product.hoverImage}
                           alt={product.name}
                           className={`${style.product_image} ${style.product_image_hover}`}
                         /> */}
-                        <video
-                          className={`${style.product_image} ${style.product_image_hover}`}
-                          src={product.hoverVideo}
-                          muted
-                          loop
-                          playsInline
-                          onMouseEnter={(e) => e.target.play()}
-                          onMouseLeave={(e) => e.target.pause()}
-                        />
+                          <video
+                            className={`${style.product_image} ${style.product_image_hover}`}
+                            src={`https://wedd.runasp.net${product.secondaryMedia.url}`}
+                            muted
+                            loop
+                            playsInline
+                            onMouseEnter={(e) => e.target.play()}
+                            onMouseLeave={(e) => e.target.pause()}
+                          />
 
-                        {product.badges.length > 0 && (
-                          <div className={style.product_badges}>
-                            {product.badges.map((badge, i) => (
-                              <span
-                                key={i}
-                                className={`${style.badge_base} ${badge.type === "limited"
-                                  ? style.badge_limited
-                                  : badge.type === "new"
-                                    ? style.badge_new
-                                    : style.badge_bestseller
-                                  }`}
-                              >
-                                {badge.label}
-                              </span>
-                            ))}
+                          {product.labels && (
+                            <div className={style.product_badges}>
+
+                              {product.labels.isNew && (
+                                <span className={`${style.badge_base} ${style.badge_new}`}>
+                                  New
+                                </span>
+                              )}
+
+                              {product.labels.isOnSale && product.discountPercentage != null && (
+                                <span className={`${style.badge_base} ${style.badge_limited}`}>
+                                  {product.discountPercentage}% OFF
+                                </span>
+                              )}
+
+
+
+                              {product.labels.isLowStock && product.stockRemaining != null && (
+                                <span className={`${style.badge_base} ${style.badge_bestseller}`}>
+                                  ONLY {product.stockRemaining} LEFT
+                                </span>
+                              )}
+
+                              {product.labels.isOutOfStock && (
+                                <span className={`${style.badge_base} ${style.badge_out}`}>
+                                  Out of Stock
+                                </span>
+                              )}
+
+                            </div>
+                          )}
+                          <div className={style.wish_list}>
+                            <i className="fa-regular fa-heart"></i>
                           </div>
-                        )}
 
-                        <div className={style.wish_list}>
-                          <i className="fa-regular fa-heart"></i>
-                        </div>
+                          <div className={style.option_btn}>
+                            <button>Select option</button>
+                          </div>
+                        </a>
+                      </div>
 
-                        <div className={style.option_btn}>
-                          <button>Select option</button>
-                        </div>
-                      </a>
+                      <div className={`${style.product_info}`}>
+                        <p className={`${style.product_name}`}>{product.name}</p>
+                        <p className={`${style.product_minPrice}`}>{product.minPrice}</p>
+                      </div>
                     </div>
-
-                    <div className={`${style.product_info}`}>
-                      <p className={`${style.product_name}`}>{product.name}</p>
-                      <p className={`${style.product_minPrice}`}>{product.minPrice}</p>
-                    </div>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            )}
           </div>
         </div>
       </section>
@@ -380,10 +393,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* <!-- Curated Section --> */}
       <section className={style.curatedSection}>
-        <div className="container-fluid p-0">
-          <div className="row g-4 align-items-center">
+        <div className="container-fluid p-0 overflow-hidden">
+          <div className="row m-0 g-4 align-items-center">
             <div className="col-12 col-md-6">
               <img
                 src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=1000"
@@ -411,7 +423,158 @@ export default function Home() {
         </div>
       </section>
 
-      {/* <!-- Best Sellers Section --> */}
+      {/* <!-- Featured Product - Chocolates --> */}
+      {/* <section class="featured-section chocolates-section">
+        <div class="container-fluid section-container">
+          <div class="row align-items-center">
+            <div class="col-md-6 order-md-2">
+              <img
+                src="../src/imports/ECommerceWebsite/9350b5f585fef822166a8797bcbb371ddb4e54f3.png"
+                alt="Chocolates"
+                class="featured-image"
+              />
+            </div>
+            <div class="col-md-6 order-md-1">
+              <div class="featured-content">
+                <h2 class="featured-title">Chocolates</h2>
+                <p class="featured-description">
+                  Premium artisan chocolates made with the finest ingredients. A
+                  delightful treat for yourself or a thoughtful gift for someone
+                  special.
+                </p>
+                <a href="#" class="btn-featured">
+                  Shop Chocolates
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path
+                      d="M2.91667 7H11.0833"
+                      stroke="#1C1814"
+                      stroke-width="1.16667"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M7 2.91667L11.0833 7L7 11.0833"
+                      stroke="#1C1814"
+                      stroke-width="1.16667"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section> */}
+
+      {/* <!-- Gift Kits Section --> */}
+      {/* <section class="gift-kits-section">
+        <div class="container-fluid section-container">
+          <div class="section-header">
+            <h2 class="section-title">Gift Kits</h2>
+            <a href="#" class="section-link">
+              shop more
+            </a>
+          </div>
+
+          <div class="position-relative">
+            <button class="product-arrow product-arrow-left">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path
+                  d="M11.25 13.5L6.75 9L11.25 4.5"
+                  stroke="#1C1814"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </button>
+
+            <button class="product-arrow product-arrow-right">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path
+                  d="M6.75 13.5L11.25 9L6.75 4.5"
+                  stroke="#1C1814"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </button>
+
+            <div class="row products-row">
+              <div class="col-md-3">
+                <div class="product-card">
+                  <a href="#" class="product-image-link">
+                    <img
+                      src="../src/imports/ECommerceWebsite/331822da47669a5ccfa34c3581d7963a362dfd95.png"
+                      alt="Gift Kit 1"
+                      className={`${style.product_image}`}
+                    />
+                    <div class="product-badges">
+                      <span class="badge-bestseller">BESTSELLER</span>
+                    </div>
+                  </a>
+                  <div class="product-info">
+                    <p class="product-name">Deluxe Gift Set</p>
+                    <p class="product-minPrice">EGP 350</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="product-card">
+                  <a href="#" class="product-image-link">
+                    <img
+                      src="../src/imports/ECommerceWebsite/d90a3dc185a9c5adcf90bb11be5e6e9b656cae07.png"
+                      alt="Gift Kit 2"
+                      className={`${style.product_image}`}
+                    />
+                  </a>
+                  <div class="product-info">
+                    <p class="product-name">Comfort Kit</p>
+                    <p class="product-minPrice">EGP 280</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="product-card">
+                  <a href="#" class="product-image-link">
+                    <img
+                      src="../src/imports/ECommerceWebsite/b8c7394e36c2195570bc4e8beb95ab184f34825f.png"
+                      alt="Gift Kit 3"
+                      className={`${style.product_image}`}
+                    />
+                  </a>
+                  <div class="product-info">
+                    <p class="product-name">Celebration Box</p>
+                    <p class="product-minPrice">EGP 420</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="product-card">
+                  <a href="#" class="product-image-link">
+                    <img
+                      src="../src/imports/ECommerceWebsite/50a4dc93eba2cb05d982e25bdba89de1020fe2bb.png"
+                      alt="Gift Kit 4"
+                      className={`${style.product_image}`}
+                    />
+                    <div class="product-badges">
+                      <span class="badge-new">NEW</span>
+                    </div>
+                  </a>
+                  <div class="product-info">
+                    <p class="product-name">Mini Moments</p>
+                    <p class="product-minPrice">EGP 220</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section> */}
+
+
+      {/* <!-- picked Section --> */}
       <section className={`${style.best_sellers_section}`}>
         <div className={`container-fluid ${style.section_container}`}>
           <div className={`${style.section_header}`}>
@@ -457,7 +620,7 @@ export default function Home() {
 
             <Swiper
               modules={[Navigation]}
-              loop={true}
+              loop={products.length > 4}
               navigation={{
                 prevEl: pickedPrevRef.current,
                 nextEl: pickedNextRef.current,
@@ -483,7 +646,7 @@ export default function Home() {
               }}
               className={style.swiper}
             >
-              {products.map((product) => (
+              {pickedData?.map((product) => (
                 <SwiperSlide key={product.id}>
                   <div className={`${style.product_card}`}>
                     <div className={style.image_wrapper}>
@@ -493,7 +656,8 @@ export default function Home() {
 
                       >
                         <img
-                          src={product.image}
+                          src={`https://wedd.runasp.net${product.image.url}`}
+
                           alt={product.name}
                           className={style.product_image}
                         />
@@ -504,7 +668,7 @@ export default function Home() {
                         /> */}
                         <video
                           className={`${style.product_image} ${style.product_image_hover}`}
-                          src={product.hoverVideo}
+                          src={`https://wedd.runasp.net${product.secondaryMedia.url}`}
                           muted
                           loop
                           playsInline
@@ -512,21 +676,35 @@ export default function Home() {
                           onMouseLeave={(e) => e.target.pause()}
                         />
 
-                        {product.badges.length > 0 && (
+                        {product.labels && (
                           <div className={style.product_badges}>
-                            {product.badges.map((badge, i) => (
-                              <span
-                                key={i}
-                                className={`${style.badge_base} ${badge.type === "limited"
-                                  ? style.badge_limited
-                                  : badge.type === "new"
-                                    ? style.badge_new
-                                    : style.badge_bestseller
-                                  }`}
-                              >
-                                {badge.label}
+
+                            {product.labels.isNew && (
+                              <span className={`${style.badge_base} ${style.badge_new}`}>
+                                New
                               </span>
-                            ))}
+                            )}
+
+                            {product.labels.isOnSale && product.discountPercentage != null && (
+                              <span className={`${style.badge_base} ${style.badge_limited}`}>
+                                {product.discountPercentage}% OFF
+                              </span>
+                            )}
+
+
+
+                            {product.labels.isLowStock && product.stockRemaining != null && (
+                              <span className={`${style.badge_base} ${style.badge_bestseller}`}>
+                                ONLY {product.stockRemaining} LEFT
+                              </span>
+                            )}
+
+                            {product.labels.isOutOfStock && (
+                              <span className={`${style.badge_base} ${style.badge_out}`}>
+                                Out of Stock
+                              </span>
+                            )}
+
                           </div>
                         )}
 

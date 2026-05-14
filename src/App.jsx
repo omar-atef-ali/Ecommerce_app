@@ -7,14 +7,17 @@ import {
 } from "react-router-dom";
 import Home from "./Components/Home/Home";
 import Layout from "./Components/Layout/Layout";
+import Login from "./Components/Login/Login";
 
 let routers = createBrowserRouter([
+  { path: "/login", element: <Login /> },
   {
     path: "/",
     element: <Layout />,
     children: [
       { index: true, element: <Navigate to="/home" replace /> },
-      { path: "/home", element: <Home /> }
+      { path: "/home", element: <Home /> },
+      
 
 
     ],
