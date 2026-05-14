@@ -7,14 +7,17 @@ import {
 } from "react-router-dom";
 import Home from "./Components/Home/Home";
 import Layout from "./Components/Layout/Layout";
-
+import Register from "./Components/Register/Register"
+import ProductDetails from "./Components/ProductDetails/ProductDetails";
 let routers = createBrowserRouter([
+  {path:"/register",element:<Register/>},
   {
     path: "/",
     element: <Layout />,
     children: [
       { index: true, element: <Navigate to="/home" replace /> },
-      { path: "/home", element: <Home /> }
+      { path: "/home", element: <Home /> },
+      {path:"/productdetails",element:<ProductDetails />}
 
 
     ],
