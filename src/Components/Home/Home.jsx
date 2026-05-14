@@ -76,6 +76,7 @@ export default function Home() {
 
 
 
+
     } catch (error) {
       console.log(error);
 
@@ -402,10 +403,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* <!-- Curated Section --> */}
       <section className={style.curatedSection}>
-        <div className="container-fluid p-0">
-          <div className="row g-4 align-items-center">
+        <div className="container-fluid p-0 overflow-hidden">
+          <div className="row m-0 g-4 align-items-center">
             <div className="col-12 col-md-6">
               <img
                 src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=1000"

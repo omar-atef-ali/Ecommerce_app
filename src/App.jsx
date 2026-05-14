@@ -8,9 +8,14 @@ import {
 import Home from "./Components/Home/Home";
 import Layout from "./Components/Layout/Layout";
 import Register from "./Components/Register/Register"
+import Login from "./Components/Login/Login";
 import ProductDetails from "./Components/ProductDetails/ProductDetails";
+
+
+
 let routers = createBrowserRouter([
-  {path:"/register",element:<Register/>},
+  { path: "/login", element: <Login /> },
+    {path:"/register",element:<Register/>},
   {
     path: "/",
     element: <Layout />,
@@ -18,7 +23,6 @@ let routers = createBrowserRouter([
       { index: true, element: <Navigate to="/home" replace /> },
       { path: "/home", element: <Home /> },
       {path:"/productdetails",element:<ProductDetails />}
-
 
     ],
   },

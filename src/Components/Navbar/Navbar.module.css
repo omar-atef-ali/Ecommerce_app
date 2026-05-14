@@ -34,7 +34,25 @@
 }
 
 .logoText {
-    font-weight: 600;
+    font-weight: 300;
+}
+
+.logoImageContainer {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: #7a3e28;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 6px 16px rgba(122, 62, 40, 0.15);
+}
+
+.logoImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 /* Navbar Styles */
@@ -66,7 +84,7 @@
 
 .logoText {
     font-family: var(--font-serif);
-    font-size: 23px;
+    font-size: 20px;
     font-weight: 400;
     color: var(--color-text-dark);
     letter-spacing: 0.5px;
@@ -159,10 +177,10 @@
     border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
-.dropdownContainer:hover .dropdownMenu {
+/* .dropdownContainer:hover .dropdownMenu {
     opacity: 1;
     visibility: visible;
-}
+} */
 
 .dropdownItem {
     padding: 14px 24px;
@@ -234,10 +252,99 @@
     padding: 0;
     align-items: center;
     justify-content: center;
+}/* Profile Menu */
+.profileContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
+.profileMenu {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: -10px;
+    background-color: #EAE8E3;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    width: 250px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    cursor: default;
+    animation: profileFadeIn 0.2s ease forwards;
+}
 
+.profileMenuTitle {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: var(--color-text-dark);
+    margin: 0;
+    font-weight: 400;
+}
 
+.profileMenuSubtitle {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--color-text-gray);
+    margin: 0;
+    margin-top: -8px;
+}
+
+.profileMenuActions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.signInBtn {
+    background-color: #2D1A16;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 12px;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.signInBtn:hover {
+    opacity: 0.9;
+}
+
+.createAccountBtn {
+    background-color: transparent;
+    color: var(--color-text-dark);
+    border: 1px solid var(--color-text-dark);
+    border-radius: 20px;
+    padding: 12px;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.createAccountBtn:hover {
+    background-color: #2D1A16;
+    color: white;
+}
+
+@keyframes profileFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 /* Search Overlay in Navbar */
 .searchOverlay {

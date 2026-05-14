@@ -24,6 +24,7 @@
     width: 100%;
     overflow: hidden;
 }
+
 /* Section Styles */
 .section_container {
     padding: 50px 64px;
@@ -69,6 +70,7 @@
     position: relative;
     overflow: hidden;
 }
+
 .product_card {
     margin-bottom: 24px;
 }
@@ -103,7 +105,7 @@
 
 .option_btn {
     position: absolute;
-    right:10px;
+    right: 10px;
     bottom: 10px;
     padding: 10px 20px;
     border: none;
@@ -114,11 +116,13 @@
     z-index: 1000;
 
 }
+
 .product_card:hover .option_btn {
-   transform: translateY(0px);
+    transform: translateY(0px);
 
 }
-.option_btn button{
+
+.option_btn button {
     padding: 10px 25px;
     border: none;
     border-radius: 25px;
@@ -813,7 +817,8 @@
     .product-arrow {
         display: none;
     }
-    .section_header{
+
+    .section_header {
         display: flex;
         flex-direction: column;
     }
@@ -937,6 +942,7 @@
         margin-bottom: 24px;
     }
 }
+
 .swiper {
     /* Allow card hover animations (wishlist, option btn) to overflow visually */
     overflow: visible !important;
@@ -991,24 +997,30 @@
 }
 
 /* workshops */
-.workShops{
+.workShops {
     margin-bottom: 70px;
 }
-.workShops_info,.workShops_info2{
+
+.workShops_info,
+.workShops_info2 {
     text-align: center;
 }
-.workShops_info p{
+
+.workShops_info p {
     font-size: 13px;
     font-weight: lighter;
     margin-bottom: 5px;
 }
-.workShops_info h3{
-    font-weight:400;
+
+.workShops_info h3 {
+    font-weight: 400;
     margin-bottom: 25px;
 }
-.workShops_info2 p{
+
+.workShops_info2 p {
     margin: 15px 0;
 }
+
 .workShops_image_parent {
     width: 100%;
     height: 350px;
@@ -1022,63 +1034,74 @@
 .workShops_image_parent:hover {
     background-size: 110%;
 }
-.workShops_buttons{
+
+.workShops_buttons {
     display: flex;
     gap: 8px;
     justify-content: center;
     text-align: center;
     margin-bottom: 120px;
 }
+
 .workShops_buttons button {
     cursor: pointer;
-    
+
     padding: 6px 30px;
     border-radius: 6px;
     font-size: 14px;
 }
-.workShops_btn1{
+
+.workShops_btn1 {
     border: none;
     background-color: var(--color-primary);
     color: white;
     transition: 0.3s ease-in-out;
 }
-.workShops_btn1:hover{
-    background-color:#9c4e35;
+
+.workShops_btn1:hover {
+    background-color: #9c4e35;
     color: white;
-}
-.workShops_btn2{
-    border: 1px solid var(--color-primary) ;
-    color: var(--color-primary);
-    transition: 0.3s ease-in-out;
-    
-}
-.workShops_btn2:hover{
-    background-color: var(--color-primary);
-    color: white;
-    
 }
 
-.ourstory{
+.workShops_btn2 {
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+    transition: 0.3s ease-in-out;
+
+}
+
+.workShops_btn2:hover {
+    background-color: var(--color-primary);
+    color: white;
+
+}
+
+.ourstory {
     text-align: center;
     margin-bottom: 60px;
 }
-.ourstory h3{
+
+.ourstory h3 {
     font-size: 24px;
     font-weight: lighter;
     margin-bottom: 15px;
 }
-.ourstory_link{
+
+.ourstory_link {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 4px;
 }
-.ourstory_link a{
+
+.ourstory_link a {
     color: black;
     font-weight: lighter;
     text-decoration: none;
 }
-.ourstory_link i{
+
+.ourstory_link i {
     font-size: 10px;
-   
+
 }
+
