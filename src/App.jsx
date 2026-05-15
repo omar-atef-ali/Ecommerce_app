@@ -10,6 +10,8 @@ import Layout from "./Components/Layout/Layout";
 import Register from "./Components/Register/Register"
 import Login from "./Components/Login/Login";
 import ProductDetails from "./Components/ProductDetails/ProductDetails";
+import Shop from "./Components/Shop/Shop";
+import Ourstory from "./Components/OurStory/Ourstory";
 
 
 
@@ -22,7 +24,10 @@ let routers = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to="/home" replace /> },
       { path: "/home", element: <Home /> },
-      {path:"/productdetails",element:<ProductDetails />}
+      {path:"/productdetails/:id",element:<ProductDetails />},
+      {path:"/shop",element:<Shop />},
+      {path:"/ourstory",element:<Ourstory />},
+      
 
     ],
   },

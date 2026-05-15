@@ -23,7 +23,7 @@ export default function Footer() {
                                     }} />
 
                                 </div>
-                                <span className={style.logoText}>Wed</span>
+                                
                             </div>
                             <p className={`${style.footer_description}`}>
                                 Premium candles & chocolates, crafted <br />

@@ -67,12 +67,12 @@ export default function Navbar() {
             <div className={`${style.navbarNavCenter} ${isMobileMenuOpen ? style.mobileActive : ''}`}>
               <ul className={style.navbarNav}>
                 <li className="nav-item">
-                  <a className={`${style.navLink} ${style.active || 'active'}`} href="#">
+                  <a className={`${style.navLink} ${style.active || 'active'}`} href="/">
                     HOME
                   </a>
                 </li>
                 <li className={`${style.dropdownContainer}`}>
-                  <a className={style.navLink} href="#">
+                  <a className={style.navLink} href="/shop">
                     SHOP
                     {/* <svg className={style.dropdownArrow} width="10" height="6" viewBox="0 0 10 6" fill="none" style={{ marginLeft: '4px' }}>
                       <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -105,7 +105,7 @@ export default function Navbar() {
                   </a>
                 </li> */}
                 <li className="nav-item">
-                  <a className={style.navLink} href="#">
+                  <a className={style.navLink} href="/ourstory">
                     OUR STORY
                   </a>
                 </li>
@@ -146,7 +146,7 @@ export default function Navbar() {
                     <p className={style.profileMenuSubtitle}>Sign in to access your account</p>
                     <div className={style.profileMenuActions}>
                       <button onClick={() => navigate("/login")} className={style.signInBtn}>Sign In</button>
-                      <button className={style.createAccountBtn}>Create Account</button>
+                      <button onClick={() => navigate("/register")} className={style.createAccountBtn}>Create Account</button>
                     </div>
                   </div>
                 )}

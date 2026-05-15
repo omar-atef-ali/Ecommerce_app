@@ -1,0 +1,229 @@
+.section_container {
+    padding: 50px 64px;
+    max-width: 1350px;
+    margin: 0 auto;
+}
+
+.section_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 48px;
+}
+
+.section_title {
+    font-family: var(--font-serif);
+    font-size: 41.013px;
+    font-weight: 400;
+    line-height: 45.115px;
+    letter-spacing: 0.4101px;
+    color: var(--color-text-dark);
+}
+
+.section_link {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.7px;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    border-bottom: 0.889px solid var(--color-bg-sand);
+    padding-bottom: 3px;
+    transition: color 0.3s ease;
+}
+
+.section_link:hover {
+    color: var(--color-text-dark);
+}
+
+
+.product_card {
+    margin-bottom: 24px;
+}
+.image_wrapper {
+    position: relative;
+    overflow: hidden;
+}
+.product_image_link {
+    position: relative;
+    display: block;
+    background-color: var(--color-bg-sand);
+    border-radius: 0;
+    overflow: hidden;
+    height: 347px;
+    margin-bottom: 12px;
+}
+.product_image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Hover image — sits on top, hidden by default */
+.product_image_hover {
+    opacity: 0;
+    transform: scale(1.06);
+    transition: opacity 0.45s ease, transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 1;
+}
+
+/* On image link hover: fade in hover image with subtle zoom */
+.product_image_link:hover .product_image_hover {
+    opacity: 1;
+    transform: scale(1.08);
+}
+
+/* Primary image: slight zoom on hover too for smoothness */
+.product_image_link:hover .product_image:not(.product_image_hover) {
+    transform: scale(1.04);
+}
+
+.product_badges {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 1000;
+}
+
+.badge_limited,
+.badge_bestseller,
+.badge_new {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.54px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    line-height: 9px;
+}
+
+/* badge_base is a shared class for all badge types rendered via JS */
+.badge_base {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 18px;         
+    min-width: 64px;      
+    
+    padding: 0 10px;      
+    
+    border-radius: 4px;
+    line-height: 1;
+
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+.badge_limited {
+    background-color: var(--color-badge-limited);
+    color: var(--color-badge-new);
+}
+
+.badge_bestseller {
+    background-color: var(--color-badge-bestseller);
+    color: #ececea;
+}
+
+.badge_new {
+    background-color: var(--color-badge-new);
+    color: #ececea;
+}
+
+.product_info {
+    padding: 0;
+}
+
+.product_name {
+    font-family: var(--font-serif);
+    font-size: 16.405px;
+    line-height: 24.608px;
+    letter-spacing: 0.1641px;
+    color: var(--color-text-dark);
+    margin-bottom: 4px;
+}
+
+.product_price {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.65px;
+    color: var(--color-text-muted);
+    margin: 0;
+}
+
+.wish_list {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    transform: translateX(60px);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 50%;
+    z-index: 100;
+    transition: transform 0.3s ease-in-out;
+}
+
+
+.wish_list i {
+    cursor: pointer;
+    color: black;
+}
+
+.product_card:hover .wish_list {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+
+.option_btn {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    width: 93%;
+    transform: translateY(80px);
+    transition: 0.2s ease-in;
+    z-index: 100;
+
+}
+
+.product_card:hover .option_btn {
+    transform: translateY(0px);
+
+}
+
+.option_btn button {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 25px;
+    width: 100%;
+    transition: 0.3s ease-in;
+}
+
+.option_btn button:hover {
+    background-color: #1c1814;
+    color: white;
+
+}

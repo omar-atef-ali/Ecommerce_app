@@ -9,7 +9,9 @@ import api from "../../api";
 import img0 from "../../assets/bubble candles!.jpg"
 import img2 from "../../assets/Immerse yourself in the ambiance of our Aesthetic….jpg"
 import img3 from "../../assets/download.webp"
+import { useNavigate } from "react-router-dom";
 export default function Home() {
+  const navigate = useNavigate()
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [AllCategories, setAllCategories] = useState([]);
@@ -360,7 +362,15 @@ export default function Home() {
                           </div>
 
                           <div className={style.option_btn}>
-                            <button>Select option</button>
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                navigate(`/productdetails/${product.id}`);
+                              }}
+                            >
+                              Select option
+                            </button>
                           </div>
                         </a>
                       </div>
@@ -737,7 +747,15 @@ export default function Home() {
                         </div>
 
                         <div className={style.option_btn}>
-                          <button>Select option</button>
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              navigate(`/productdetails/${product.id}`);
+                            }}
+                          >
+                            Select option
+                          </button>
                         </div>
                       </a>
                     </div>

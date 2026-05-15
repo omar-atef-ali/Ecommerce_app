@@ -1,0 +1,329 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@100..900&display=swap');
+
+.container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    color: #2A1B14;
+    overflow-x: hidden;
+}
+
+/* Section 1: Hero/Promise */
+.heroSection {
+    background-color: #F9F4EE;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.subTitle {
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 14px;
+    color: #C19A6B;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 8vw, 120px);
+    font-style: italic;
+    font-weight: 400;
+    margin: 0 0 40px 0;
+    line-height: 1.1;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 20px;
+}
+
+.btnPrimary {
+    background-color: #2A1B14;
+    color: #F9F4EE;
+    border: none;
+    padding: 18px 40px;
+    font-size: 14px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.btnPrimary:hover {
+    background-color: #432C21;
+    transform: translateY(-2px);
+}
+
+.btnSecondary {
+    background-color: transparent;
+    color: #2A1B14;
+    border: 1px solid #D9C9B4;
+    padding: 18px 40px;
+    font-size: 14px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.btnSecondary:hover {
+    background-color: #F0E6D9;
+    transform: translateY(-2px);
+}
+
+/* Section 2: Our Story (Image Background) */
+.storySection {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #FFFFFF;
+    background-size: cover;
+    background-position: top;
+    background-attachment: fixed;
+}
+
+.storySection2 {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #FFFFFF;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.storyContent {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.storyTitle {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 6vw, 100px);
+    font-style: italic;
+    margin: 0 0 20px 0;
+}
+
+.storyTitle2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 35px;
+    font-style: italic;
+    margin: 0 0 20px 0;
+}
+
+.storySubTitle {
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 20px 0px;
+}
+
+/* Section 3: How We Began (Two Columns) */
+.beganSection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+    background-color: #F9F4EE;
+}
+
+.imageSide {
+    background-size: cover;
+    background-position: center;
+}
+
+.textSide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10% 15%;
+}
+
+.beganTitle {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 70px);
+    margin: 20px 0 40px 0;
+    line-height: 1.2;
+}
+
+.beganText {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #4A3E38;
+    margin-bottom: 30px;
+}
+
+.navLogo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--color-primary);
+
+}
+
+.logoImageContainer {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #7a3e28;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 6px 16px rgba(122, 62, 40, 0.15);
+
+}
+
+.logoImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.storyContent p {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: #FFFFFF;
+    font-style: italic;
+    font-weight: 600;
+}
+
+/* Section 4: Healing Quote */
+.healingSection {
+    background-color: #F9F4EE;
+    padding: 120px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+}
+
+.healingContent {
+    max-width: 800px;
+    width: 100%;
+}
+
+.quoteWrapper {
+    border-left: 2px solid #C19A6B;
+    padding-left: 30px;
+    margin-bottom: 40px;
+}
+
+.quoteText {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 45px);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.3;
+    color: #2A1B14;
+}
+
+.healingText {
+    font-size: 20px;
+    line-height: 1.6;
+    color: #6B5E55;
+    padding-left: 32px;
+}
+
+/* Section 5: Connection Message */
+.connectionSection {
+    background-color: #F9F4EE;
+    padding: 150px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.connectionTitle {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 75px);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.2;
+    color: #2A1B14;
+    max-width: 1100px;
+    margin-bottom: 60px;
+}
+
+.connectionSubTextWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.connectionSubText {
+    font-size: 22px;
+    color: #8C7E74;
+    font-weight: 400;
+}
+
+@media (max-width: 992px) {
+    .beganSection {
+        grid-template-columns: 1fr;
+    }
+
+    .imageSide {
+        height: 50vh;
+    }
+
+    .textSide {
+        padding: 60px 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .buttonGroup {
+        flex-direction: column;
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .btnPrimary,
+    .btnSecondary {
+        width: 100%;
+    }
+}
