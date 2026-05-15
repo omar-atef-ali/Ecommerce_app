@@ -106,6 +106,29 @@
     align-items: center;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
     padding: 40px 32px;
+    position: relative;
+}
+
+.backButton {
+    position: absolute;
+    top: 32px;
+    left: 32px;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #6a5c50;
+    font-family: "DM Sans", sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s ease;
+}
+
+.backButton:hover {
+    color: #7a3e28;
 }
 
 @media (max-width: 1023px) {
@@ -120,6 +143,11 @@
 
     .welcomeTitle {
         font-size: 36px;
+    }
+
+    .backButton {
+        top: 24px;
+        left: 20px;
     }
 }
 

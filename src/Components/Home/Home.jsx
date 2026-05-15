@@ -9,10 +9,12 @@ import api from "../../api";
 import img0 from "../../assets/bubble candles!.jpg"
 import img2 from "../../assets/Immerse yourself in the ambiance of our Aesthetic….jpg"
 import img3 from "../../assets/download.webp"
+import toast from "react-hot-toast";
 export default function Home() {
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [AllCategories, setAllCategories] = useState([]);
+  const [homeSliders, setHomeSliders] = useState([]);
 
   // Swiper 1
   const bestPrevRef = useRef(null);
@@ -52,26 +54,42 @@ export default function Home() {
     }
   ];
 
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+  const nextSlide = () => {
+    if (homeSliders.length > 0) setCurrentSlide((prev) => (prev + 1) % homeSliders.length);
+  };
+  const prevSlide = () => {
+    if (homeSliders.length > 0) setCurrentSlide((prev) => (prev - 1 + homeSliders.length) % homeSliders.length);
+  };
   const goToSlide = (index) => setCurrentSlide(index);
 
   useEffect(() => {
+    if (homeSliders.length === 0) return;
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 2500);
+      setCurrentSlide((prev) => (prev + 1) % homeSliders.length);
+    }, 3500);
     return () => clearInterval(timer);
-  }, [heroSlides.length]);
+  }, [homeSliders.length]);
 
 
+  async function getSliders() {
 
+    try {
+      let { data } = await api.get(`/HomeSliders`);
+      console.log(data);
+      setHomeSliders(data.filter(slide => slide.isActive))
+    } catch (error) {
+      console.log(error);
+
+    }
+
+  }
 
 
   async function getBestSeller() {
 
     try {
       let { data } = await api.get(`/Items/best-sellers`);
-      console.log(data);
+      // console.log(data);
       setproducts(data)
 
 
@@ -87,7 +105,7 @@ export default function Home() {
 
     try {
       let { data } = await api.get(`/Items/picked-for-you`);
-      console.log(data);
+      // console.log(data);
       setpickedData(data)
 
 
@@ -102,7 +120,7 @@ export default function Home() {
   async function categories() {
     try {
       const { data } = await api.get(`/Categories`)
-      console.log(data);
+      // console.log(data);
       setAllCategories(data);
     } catch (err) {
       console.log(err);
@@ -116,63 +134,62 @@ export default function Home() {
   useEffect(() => {
     getBestSeller()
     getpicked()
+    categories()
+    getSliders()
   }, []);
 
-
-
-
-  useEffect(() => {
-    categories();
-  }, []);
 
   return (
     <>
 
 
       <section className={style.heroSection}>
-        {heroSlides.map((slide, index) => (
-          <div
-            key={slide.id}
-            className={style.heroImageContainer}
-            style={{
-              opacity: currentSlide === index ? 1 : 0,
-              transition: 'opacity 0.8s ease-in-out',
-              zIndex: currentSlide === index ? 1 : 0
-            }}
-          >
-            <img
-              src={slide.image}
-              alt={slide.title}
-              className={style.heroImage}
-            />
-            <div className={style.heroOverlayGradient}></div>
-            <div className={style.heroOverlayTint}></div>
-          </div>
-        ))}
+        {homeSliders.map((slide, index) => (
+          
+          <React.Fragment key={slide.id}>
+            <div
+              className={style.heroImageContainer}
+              style={{
+                opacity: currentSlide === index ? 1 : 0,
+                transition: 'opacity 0.8s ease-in-out',
+                zIndex: currentSlide === index ? 1 : 0
+              }}
+            >
+              <img
+                src={slide.mediaURL?.startsWith("http") ? slide.mediaURL : `https://wedd.runasp.net${slide.mediaURL?.startsWith("/") ? "" : "/"}${slide.mediaURL}`}
+                alt={slide.title}
+                className={style.heroImage}
+              />
+              <div className={style.heroOverlayGradient}></div>
+              <div className={style.heroOverlayTint}></div>
+            </div>
+          
 
-        <div className={style.heroContent} key={currentSlide}>
-          <h1 className={style.heroTitle}>{heroSlides[currentSlide].title}</h1>
-          <p className={style.heroSubtitle}>
-            {heroSlides[currentSlide].subtitle}
-          </p>
-          <a href="#" className={`  ${style.heroBtn}`}>
-            {heroSlides[currentSlide].btn}
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path
-                d="M3.33333 8H12.6667"
-                stroke="#FAF6F0"
-                strokeWidth="1.33333"
-                strokeLinecap="round"
-              />
-              <path
-                d="M8 3.33333L12.6667 8L8 12.6667"
-                stroke="#FAF6F0"
-                strokeWidth="1.33333"
-                strokeLinecap="round"
-              />
-            </svg>
-          </a>
-        </div>
+            <div className={style.heroContent} style={{ opacity: currentSlide === index ? 1 : 0, transition: 'opacity 0.8s ease-in-out', zIndex: currentSlide === index ? 2 : 0 }}>
+              <h1 className={style.heroTitle}>{slide.title}</h1>
+              <p className={style.heroSubtitle}>
+                {slide.subTitle}
+              </p>
+              <a href="#" className={`  ${style.heroBtn}`}>
+                {slide.buttonText || "Shop Now"}
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M3.33333 8H12.6667"
+                    stroke="#FAF6F0"
+                    strokeWidth="1.33333"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M8 3.33333L12.6667 8L8 12.6667"
+                    stroke="#FAF6F0"
+                    strokeWidth="1.33333"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </a>
+            </div>
+          </React.Fragment>
+        ))}
 
         <button className={`${style.carouselBtn} ${style.carouselPrev}`} onClick={prevSlide}>
           <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
@@ -197,7 +214,7 @@ export default function Home() {
         </button>
 
         <div className={style.carouselIndicatorsCustom}>
-          {heroSlides.map((slide, index) => (
+          {homeSliders.map((slide, index) => (
             <span
               key={slide.id}
               className={`${style.indicator} ${currentSlide === index ? style.active : ''}`}

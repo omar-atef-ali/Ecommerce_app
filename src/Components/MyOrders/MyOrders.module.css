@@ -1,0 +1,171 @@
+.ordersContainer {
+  padding-left: 20px;
+  height: 100%;
+}
+
+.pageTitle {
+  font-family: serif;
+  font-size: 28px;
+  font-weight: 500;
+  color: #1C1814;
+  margin-bottom: 24px;
+}
+
+.ordersList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.orderCard {
+  background-color: #F8F5EF;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  
+}
+
+.orderHeader {
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+
+.orderId {
+  font-weight: 500;
+  color: #1C1814;
+  flex: 1;
+}
+
+.orderDate {
+  color: #5C554F;
+  font-size: 15px;
+  flex: 1.5;
+}
+
+.orderStatusContainer {
+  flex: 1.5;
+}
+
+.statusBadge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.statusDelivered {
+  background-color: #e4f0e6;
+  color: #638c6f;
+}
+
+.statusShipped {
+  background-color: #ebeaf5;
+  color: #7b71af;
+}
+
+.statusAwaiting {
+  background-color: #faead3;
+  color: #b58641;
+}
+
+.statusCancelled {
+  background-color: #fce3e3;
+  color: #a84747;
+}
+
+.orderItems {
+  color: #5C554F;
+  font-size: 15px;
+  flex: 1;
+}
+
+.orderTotal {
+  font-weight: 500;
+  color: #1C1814;
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 24px;
+}
+
+.chevron {
+  color: #7E7771;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.chevronUp {
+  transform: rotate(180deg);
+}
+
+.orderDetails {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.4s ease-in-out;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.detailsOpen {
+  max-height: 400px;
+  opacity: 1;
+}
+
+.detailsInner {
+  padding: 0 32px 24px;
+  border-top: 1px solid rgba(184, 150, 121, 0.2);
+  margin-top: -8px;
+  padding-top: 24px;
+}
+
+.detailsTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1C1814;
+  margin-bottom: 16px;
+}
+
+.dummyItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px dashed rgba(184, 150, 121, 0.2);
+  color: #5C554F;
+  font-size: 14px;
+}
+
+.dummyItem:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 991px) {
+  .ordersContainer {
+    padding: 0 16px;
+    margin-top: 32px;
+  }
+  
+  .orderHeader {
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 20px;
+  }
+  
+  .detailsInner {
+    padding: 0 20px 20px;
+  }
+  
+  .orderId, .orderDate, .orderStatusContainer, .orderItems, .orderTotal {
+    flex: 1 1 45%;
+  }
+  
+  .orderTotal {
+    justify-content: flex-start;
+  }
+}
