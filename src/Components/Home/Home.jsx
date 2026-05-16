@@ -357,9 +357,9 @@ export default function Home() {
 
                             </div>
                           )}
-                          <div className={style.wish_list}>
+                          {/* <div className={style.wish_list}>
                             <i className="fa-regular fa-heart"></i>
-                          </div>
+                          </div> */}
 
                           <div className={style.option_btn}>
                             <button
@@ -742,9 +742,9 @@ export default function Home() {
                           </div>
                         )}
 
-                        <div className={style.wish_list}>
+                        {/* <div className={style.wish_list}>
                           <i className="fa-regular fa-heart"></i>
-                        </div>
+                        </div> */}
 
                         <div className={style.option_btn}>
                           <button

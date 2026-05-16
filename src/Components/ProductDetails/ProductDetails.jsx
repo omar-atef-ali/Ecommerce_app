@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from './ProductDetails.module.css';
-
+import { data, useParams } from 'react-router-dom';
+import api from "../../api"
 export default function ProductDetails() {
+  const { id } = useParams()
   const [qty, setQty] = useState(1);
   const [activeSize, setActiveSize] = useState('Small');
   const [activeThumbnail, setActiveThumbnail] = useState(0);
+  const [product, setProduct] = useState([]);
 
-  const images = [
-    'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1602928321679-560bb453f190?auto=format&fit=crop&w=200&q=80',
-    'https://images.unsplash.com/photo-1572013343866-df3000b991b5?auto=format&fit=crop&w=200&q=80',
-    'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=200&q=80'
-  ];
+  console.log(product.scents)
+
+  // const images = [
+  //   'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=800&q=80',
+  //   'https://images.unsplash.com/photo-1602928321679-560bb453f190?auto=format&fit=crop&w=200&q=80',
+  //   'https://images.unsplash.com/photo-1572013343866-df3000b991b5?auto=format&fit=crop&w=200&q=80',
+  //   'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=200&q=80'
+  // ];
 
   const handleQtyChange = (type) => {
     if (type === 'inc') {
@@ -27,18 +32,37 @@ export default function ProductDetails() {
     </svg>
   );
 
+  async function getProduct() {
+    try {
+      const { data } = await api.get(`/Items/${id}`)
+      console.log(data)
+      setProduct(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+    getProduct()
+  }, [id])
+
+  useEffect(() => {
+    if (product.sizes?.length) {
+      setActiveSize(product.sizes[0]);
+    }
+  }, [product]);
+
   return (
     <div className={style.pageWrapper}>
       <div className={style.container}>
         <div className={style.breadcrumb}>
-          <span>Home</span> &gt; <span>Shop</span> &gt; <span>Amber Oud</span>
+          <span>Home</span> &gt; <span>Shop</span> &gt; <span>{product.name}</span>
         </div>
 
         <div className={style.productLayout}>
           {/* IMAGE SECTION */}
           <div className={style.imageSection}>
             <div className={style.mainImageContainer}>
-              <img src={images[activeThumbnail]} alt="Amber Oud" className={style.mainImage} />
+              <img src={`https://wedd.runasp.net${product.media?.[activeThumbnail].url}`} alt="Amber Oud" className={style.mainImage} />
               {/* <button className={style.zoomButton} aria-label="Zoom Image">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="11" cy="11" r="8"></circle>
@@ -50,13 +74,13 @@ export default function ProductDetails() {
             </div>
 
             <div className={style.thumbnailsContainer}>
-              {images.map((img, index) => (
+              {product.media?.map((img, index) => (
                 <div
                   key={index}
                   className={`${style.thumbnailWrapper} ${activeThumbnail === index ? style.active : ''}`}
                   onClick={() => setActiveThumbnail(index)}
                 >
-                  <img src={img} alt={`Thumbnail ${index + 1}`} className={style.thumbnail} />
+                  <img src={`https://wedd.runasp.net${img.url}`} alt={`Thumbnail ${index + 1}`} className={style.thumbnail} />
                 </div>
               ))}
             </div>
@@ -64,64 +88,92 @@ export default function ProductDetails() {
 
           {/* DETAILS SECTION */}
           <div className={style.detailsSection}>
-            <h1 className={style.title}>Amber Oud</h1>
+            <h1 className={style.title}>{product.name}</h1>
+
+            <p>{product.description}</p>
+
+            {product.discountPercentage && (
+              <p>{`Discount Percentage : ${product.discountPercentage}`}</p>
+            )}
 
 
             <div className={style.rating}>
-              <div className={style.stars}>
-                <StarIcon /><StarIcon /><StarIcon /><StarIcon /><StarIcon />
-              </div>
-              <span className={style.ratingText}>4.8 (47 reviews)</span>
+              {product.averageRating > 0 ?
+                <div className={style.stars}>
+                  <StarIcon /><StarIcon /><StarIcon /><StarIcon /><StarIcon />
+                </div> : ""}
+              <span className={style.ratingText}>{product.averageRating ? product.averageRating : ""} {product.reviewCount ? `( ${product.reviewCount} reviews )` : ""} </span>
             </div>
 
             <div className={style.notesSection}>
-              <div className={style.noteRow}>
-                <span className={style.noteLabel}>TOP NOTES</span>
-                <div className={style.noteTags}>
-                  <span className={style.noteTag}>Bergamot</span>
-                  <span className={style.noteTag}>Pink Pepper</span>
-                </div>
-              </div>
-              <div className={style.noteRow}>
-                <span className={style.noteLabel}>HEART NOTES</span>
-                <div className={style.noteTags}>
-                  <span className={style.noteTag}>Rose</span>
-                  <span className={style.noteTag}>Oud</span>
-                </div>
-              </div>
-              <div className={style.noteRow}>
-                <span className={style.noteLabel}>BASE NOTES</span>
-                <div className={style.noteTags}>
-                  <span className={style.noteTag}>Amber</span>
-                  <span className={style.noteTag}>Musk</span>
-                  <span className={style.noteTag}>Sandalwood</span>
-                </div>
-              </div>
+              {["Top", "Heart", "Base"].map((position) => {
+                const filteredScents = product.scents?.filter((scent) => scent.position === position
+                );
+
+                if (!filteredScents?.length) return null;
+
+                return (
+                  <div className={style.noteRow} key={position}>
+                    <span className={style.noteLabel}>
+                      {position.toUpperCase()} NOTES
+                    </span>
+
+                    <div className={style.noteTags}>
+                      {filteredScents.map((scent) => (
+                        <span className={style.noteTag} key={scent.id}>
+                          {scent.name}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
+            {product.flavor ? <p>{`Flavor : ${product.flavor}`}</p> : ""}
 
             <div className={style.sizeSection}>
               <span className={style.sectionLabel}>SIZE</span>
+
               <div className={style.sizeOptions}>
-                {['Small', 'Medium', 'Large'].map((size) => (
+                {product.sizes?.map((item) => (
                   <button
-                    key={size}
-                    className={`${style.sizeOption} ${activeSize === size ? style.active : ''}`}
-                    onClick={() => setActiveSize(size)}
+                    key={item.id}
+                    className={`${style.sizeOption} ${activeSize?.id === item.id ? style.active : ""
+                      }`}
+                    onClick={() => setActiveSize(item)}
                   >
-                    {size}
+                    {item.size}
                   </button>
                 ))}
               </div>
-              <div className={style.burnTime}>Burns for ~25 hours · EGP 180</div>
+
+              {activeSize?.lastForInHours &&(
+                <div className={style.burnTime}>
+                  Burns for ~{activeSize?.lastForInHours} hours · EGP{" "}
+                  {activeSize?.price}
+                </div>
+              )}
             </div>
 
-            <div className={style.price}>EGP 180</div>
+
+
+            {activeSize?.price && (
+              <div className={style.price}>
+                EGP {activeSize?.price}
+              </div>
+            )}
+
+             {activeSize?.price && (
+              <div className={style.stock}>
+                Stock : {activeSize?.stockQuantity}
+              </div>
+            )}
 
             <div className={style.actionsSection}>
               <div className={style.qtySection}>
                 <span className={style.qtyLabel}>QTY</span>
                 <div className={style.qtyControl}>
-                  <button className={style.qtyBtn} onClick={() => handleQtyChange('dec')}>−</button>
+                  <button className={style.qtyBtn} onClick={() => handleQtyChange('dec')} disabled={qty === 1}>−</button>
                   <span className={style.qtyValue}>{qty}</span>
                   <button className={style.qtyBtn} onClick={() => handleQtyChange('inc')}>+</button>
                 </div>

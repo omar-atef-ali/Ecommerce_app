@@ -9,7 +9,7 @@ export default function Shop() {
     async function getBestSeller() {
 
         try {
-            let { data } = await api.get(`/Items/best-sellers`);
+            let { data } = await api.get(`/Items`);
             console.log(data);
             setproducts(data)
 
@@ -103,9 +103,9 @@ export default function Shop() {
 
                                                 </div>
                                             )}
-                                            <div className={style.wish_list}>
+                                            {/* <div className={style.wish_list}>
                                                 <i className="fa-regular fa-heart"></i>
-                                            </div>
+                                            </div> */}
 
                                             <div className={style.option_btn}>
                                                 <button

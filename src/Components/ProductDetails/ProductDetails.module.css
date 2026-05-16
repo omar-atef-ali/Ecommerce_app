@@ -250,6 +250,9 @@
   gap: 20px;
   margin-top: auto;
 }
+.stock{
+  margin-bottom: 4px;
+}
 
 .qtySection {
   display: flex;
@@ -287,6 +290,11 @@
   justify-content: center;
   width: 24px;
   height: 24px;
+}
+
+.qtyBtn:disabled {
+  color: #ccc;
+  cursor: not-allowed;
 }
 
 .qtyValue {
