@@ -10,12 +10,15 @@ import * as yup from "yup";
 import logo from '../../assets/02574a11-e65b-4322-9afc-0a8af45029da.jpg';
 
 
+import { CartContext } from '../../Context/CartContext';
+
 export default function Login() {
   let navigate = useNavigate();
   let location = useLocation();
 
   let [loading, setLoading] = useState(false);
   // let { setUserToken } = useContext(userContext);
+  let { getCart } = useContext(CartContext);
 
   let [showPassword, setShowPassword] = useState(false);
 
@@ -28,7 +31,27 @@ export default function Login() {
         withCredentials: true,
       });
       localStorage.setItem("token", data.token);
-      setUserToken(data.token);
+      // setUserToken(data.token);
+
+      try {
+        let localCart = localStorage.getItem('local cart') ? JSON.parse(localStorage.getItem('local cart')) : [];
+        if (localCart.length > 0) {
+            for (let item of localCart) {
+                await api.post(`/Cart`, {
+                    itemId: item.itemId,
+                    itemSizeId: item.itemSizeId,
+                    quantity: item.quantity
+                }, {
+                    headers: { Authorization: `Bearer ${data.token}` } 
+                });
+            }
+            localStorage.removeItem('local cart');
+        }
+      } catch (err) {
+        console.error("Error syncing local cart:", err);
+      }
+
+      await getCart(); 
 
       const searchParams = new URLSearchParams(location.search);
       const redirectParam = searchParams.get('redirect');

@@ -22,6 +22,8 @@ export default function Shop() {
         }
 
     }
+
+   
     useEffect(() => {
         getBestSeller()
     }, []);

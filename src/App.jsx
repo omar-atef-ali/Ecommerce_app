@@ -12,7 +12,7 @@ import Login from "./Components/Login/Login";
 import ProductDetails from "./Components/ProductDetails/ProductDetails";
 import Shop from "./Components/Shop/Shop";
 import Ourstory from "./Components/OurStory/Ourstory";
-
+import { Toaster } from "react-hot-toast";
 
 
 let routers = createBrowserRouter([
@@ -39,6 +39,7 @@ function App() {
 
   return (
     <>
+      <Toaster />
       <RouterProvider router={routers} />
     </>
   );

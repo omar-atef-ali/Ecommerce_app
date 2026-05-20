@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import style from './ProductDetails.module.css';
 import { data, useParams } from 'react-router-dom';
 import api from "../../api"
+import { CartContext } from '../../Context/CartContext';
+import toast from 'react-hot-toast';
+
 export default function ProductDetails() {
   const { id } = useParams()
   const [qty, setQty] = useState(1);
   const [activeSize, setActiveSize] = useState('Small');
   const [activeThumbnail, setActiveThumbnail] = useState(0);
   const [product, setProduct] = useState([]);
+  const { setIsCartOpen, getCart } = useContext(CartContext);
+  const userToken = localStorage.getItem('userToken');
 
   console.log(product.scents)
 
@@ -39,6 +44,59 @@ export default function ProductDetails() {
       setProduct(data)
     } catch (error) {
       console.log(error)
+    }
+  }
+  async function addToCart(id, Sizeid, qty) {
+    const token = localStorage.getItem('token') || localStorage.getItem('userToken');
+
+    if (token) {
+      try {
+        let response = await api.post(`/Cart`, {
+          itemId: id,
+          itemSizeId: Sizeid,
+          quantity: qty
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        console.log(response)
+        toast.success("Added to cart successfully");
+        getCart();
+        setIsCartOpen(true);
+
+      }
+      catch (error) {
+        console.log(error)
+        toast.error(
+          error.response?.data?.errors?.[1] ||
+          "Something went wrong while adding to cart.",
+          {
+            position: "top-center",
+            duration: 4000,
+          }
+        );
+      }
+    } else {
+      let localCart = localStorage.getItem('local cart') ? JSON.parse(localStorage.getItem('local cart')) : [];
+      const existingItemIndex = localCart.findIndex(item => item.itemId === id && item.itemSizeId === Sizeid);
+
+      if (existingItemIndex !== -1) {
+        localCart[existingItemIndex].quantity += qty;
+      } else {
+        localCart.push({
+          itemId: id,
+          itemSizeId: Sizeid,
+          quantity: qty,
+          product: product,
+          size: activeSize
+        });
+      }
+
+      localStorage.setItem('local cart', JSON.stringify(localCart));
+      toast.success("Added to cart successfully");
+      getCart();
+      setIsCartOpen(true);
     }
   }
   useEffect(() => {
@@ -147,7 +205,7 @@ export default function ProductDetails() {
                 ))}
               </div>
 
-              {activeSize?.lastForInHours &&(
+              {activeSize?.lastForInHours && (
                 <div className={style.burnTime}>
                   Burns for ~{activeSize?.lastForInHours} hours · EGP{" "}
                   {activeSize?.price}
@@ -163,7 +221,7 @@ export default function ProductDetails() {
               </div>
             )}
 
-             {activeSize?.price && (
+            {activeSize?.price && (
               <div className={style.stock}>
                 Stock : {activeSize?.stockQuantity}
               </div>
@@ -178,7 +236,7 @@ export default function ProductDetails() {
                   <button className={style.qtyBtn} onClick={() => handleQtyChange('inc')}>+</button>
                 </div>
               </div>
-              <button className={style.addToCartBtn}>Add to Cart</button>
+              <button className={style.addToCartBtn} onClick={() => addToCart(product.id, activeSize.id, qty)}>Add to Cart</button>
 
             </div>
           </div>
