@@ -30,11 +30,8 @@ export default function Login() {
       localStorage.setItem("token", data.token);
       setUserToken(data.token);
 
-      const searchParams = new URLSearchParams(location.search);
-      const redirectParam = searchParams.get('redirect');
-      const redirectPath = redirectParam || location.state?.from || "/home";
-      navigate(redirectPath);
-
+      navigate("/home");
+      
       setLoading(false);
     } catch (error) {
       setLoading(false);

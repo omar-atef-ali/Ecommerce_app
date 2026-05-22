@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import style from "./Footer.module.css"
-
+import logo from '../../assets/02574a11-e65b-4322-9afc-0a8af45029da.jpg';
 export default function Footer() {
     const [openSection, setOpenSection] = useState(null);
-    
-      const toggleSection = (section) => {
+
+    const toggleSection = (section) => {
         setOpenSection((prev) => (prev === section ? null : section));
-      };
+    };
 
     return (
         <>
@@ -15,7 +15,16 @@ export default function Footer() {
                 <div className={`container-fluid ${style.footer_container}`}>
                     <div className={`row`}>
                         <div className={`col-md-4`}>
-                            <h3 className={`${style.footer_brand}`}>Wed</h3>
+                            <div className={style.navLogo}>
+                                <div className={`${style.logoImageContainer}`}>
+                                    <img src={logo} alt="Wed Logo" className={`${style.logoImage}`} onError={(e) => {
+                                        e.target.style.display = 'none';
+                                        e.target.nextSibling.style.display = 'flex';
+                                    }} />
+
+                                </div>
+                                
+                            </div>
                             <p className={`${style.footer_description}`}>
                                 Premium candles & chocolates, crafted <br />
                                 with warmth.

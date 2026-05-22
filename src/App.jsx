@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import "./App.css";
+import { Toaster } from "react-hot-toast";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -7,14 +8,19 @@ import {
 } from "react-router-dom";
 import Home from "./Components/Home/Home";
 import Layout from "./Components/Layout/Layout";
+import Register from "./Components/Register/Register"
 import Login from "./Components/Login/Login";
 import ProfileLayout from "./Components/ProfileLayout/ProfileLayout";
 import Profile from "./Components/Profile/Profile";
 import MyOrders from "./Components/MyOrders/MyOrders";
 import Cart from "./Components/Cart/Cart";
+import ProductDetails from "./Components/ProductDetails/ProductDetails";
+import Shop from "./Components/Shop/Shop";
+import Ourstory from "./Components/OurStory/Ourstory";
 
 let routers = createBrowserRouter([
   { path: "/login", element: <Login /> },
+    {path:"/register",element:<Register/>},
   {
     path: "/",
     element: <Layout />,
@@ -31,7 +37,12 @@ let routers = createBrowserRouter([
           // Add other nested profile routes here later
         ]
       },
-    ]
+      {path:"/productdetails/:id",element:<ProductDetails />},
+      {path:"/shop",element:<Shop />},
+      {path:"/ourstory",element:<Ourstory />},
+      
+
+    ],
   },
 
 
@@ -41,6 +52,7 @@ function App() {
 
   return (
     <>
+      <Toaster />
       <RouterProvider router={routers} />
     </>
   );
