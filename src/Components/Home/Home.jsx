@@ -7,8 +7,6 @@ import "swiper/css/navigation";
 import style from "./Home.module.css";
 import api from "../../api";
 import img0 from "../../assets/bubble candles!.jpg"
-import img2 from "../../assets/Immerse yourself in the ambiance of our Aesthetic….jpg"
-import img3 from "../../assets/download.webp"
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 export default function Home() {
@@ -31,6 +29,7 @@ export default function Home() {
 
   const [products, setproducts] = useState([])
   const [pickedData, setpickedData] = useState([])
+  const [isLoading, setIsLoading] = useState(true);
 
   const heroSlides = [
     {
@@ -134,12 +133,30 @@ export default function Home() {
 
 
   useEffect(() => {
-    getBestSeller()
-    getpicked()
-    categories()
-    getSliders()
+    async function loadData() {
+      try {
+        await Promise.all([
+          getBestSeller(),
+          getpicked(),
+          categories(),
+          getSliders()
+        ]);
+      } catch (error) {
+        console.error("Error loading home data", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadData();
   }, []);
 
+  if (isLoading) {
+    return (
+      <div className={style.loadingOverlay}>
+        <div className={style.spinner}></div>
+      </div>
+    );
+  }
 
   return (
     <>

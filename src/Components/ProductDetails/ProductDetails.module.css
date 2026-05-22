@@ -250,7 +250,8 @@
   gap: 20px;
   margin-top: auto;
 }
-.stock{
+
+.stock {
   margin-bottom: 4px;
 }
 
@@ -338,5 +339,33 @@
 
   .qtySection {
     justify-content: space-between;
+  }
+}
+
+.loadingOverlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #f5efe8;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(184, 150, 121, 0.2);
+  border-top-color: #B89679;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }

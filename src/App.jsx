@@ -18,6 +18,7 @@ import ProductDetails from "./Components/ProductDetails/ProductDetails";
 import Shop from "./Components/Shop/Shop";
 import Ourstory from "./Components/OurStory/Ourstory";
 
+
 let routers = createBrowserRouter([
   { path: "/login", element: <Login /> },
     {path:"/register",element:<Register/>},

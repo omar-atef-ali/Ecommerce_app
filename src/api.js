@@ -33,7 +33,7 @@ api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
     if (token) config.headers.Authorization = `Bearer ${token}`;
-    // console.log(`📤 [REQUEST] ${config.method?.toUpperCase()} ${config.url}`);
+    console.log(`📤 [REQUEST] ${config.method?.toUpperCase()} ${config.url}`);
     return config;
   },
   (error) => Promise.reject(error)
@@ -42,7 +42,7 @@ api.interceptors.request.use(
 // Response Interceptor
 api.interceptors.response.use(
   (response) => {
-    // console.log(`✅ [RESPONSE] ${response.status} ${response.config.url}`);
+    console.log(`✅ [RESPONSE] ${response.status} ${response.config.url}`);
     return response;
   },
 
@@ -51,7 +51,7 @@ api.interceptors.response.use(
     const url = originalRequest?.url || "";
     const status = error.response?.status;
 
-    // console.log(`❌ [ERROR] ${status} ${url}`);
+    console.log(`❌ [ERROR] ${status} ${url}`);
 
     if (!error.response) {
       console.warn("🌐 [NETWORK ERROR] No response from server");
@@ -60,7 +60,7 @@ api.interceptors.response.use(
 
     // ✅ لو الـ URL في القائمة السوداء → ارفض على طول
     if (shouldSkipRefresh(url)) {
-      // console.log(`⛔ [SKIP REFRESH] ${url} is in the skip list`);
+      console.log(`⛔ [SKIP REFRESH] ${url} is in the skip list`);
       return Promise.reject(error);
     }
 
@@ -75,7 +75,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       if (isRefreshing) {
-        // console.log("⏳ [REFRESH] Already refreshing → adding to queue");
+        console.log("⏳ [REFRESH] Already refreshing → adding to queue");
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         }).then((newToken) => {
@@ -85,7 +85,7 @@ api.interceptors.response.use(
       }
 
       isRefreshing = true;
-      // console.log("🔄 [REFRESH] Starting token refresh...");
+      console.log("🔄 [REFRESH] Starting token refresh...");
 
       return new Promise(async (resolve, reject) => {
         try {
@@ -107,7 +107,7 @@ api.interceptors.response.use(
             `Bearer ${newAccessToken}`;
 
           processQueue(null, newAccessToken);
-          // console.log(`📬 [QUEUE] Processed ${failedQueue.length} queued requests`);
+          console.log(`📬 [QUEUE] Processed ${failedQueue.length} queued requests`);
 
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           resolve(api(originalRequest));
@@ -119,7 +119,7 @@ api.interceptors.response.use(
           if (!refreshStatus || [400, 401, 403].includes(refreshStatus)) {
             console.warn("🚪 [LOGOUT] Clearing storage and redirecting...");
             localStorage.clear();
-            window.location.replace("/login");
+            // window.location.replace("/login");
           }
 
           reject(refreshError);

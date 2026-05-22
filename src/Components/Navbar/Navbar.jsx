@@ -1,10 +1,14 @@
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useContext } from 'react'
 import style from "./Navbar.module.css"
 import { useNavigate, NavLink } from 'react-router-dom';
 import logo from '../../assets/02574a11-e65b-4322-9afc-0a8af45029da.jpg';
+import { CartContext } from '../../Context/CartContext';
+import { userContext } from '../../Context/UserContext';
 
 export default function Navbar() {
+  const { setIsCartOpen, cartvalue } = useContext(CartContext);
+  const { userToken } = useContext(userContext);
 
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -127,16 +131,19 @@ export default function Navbar() {
                   <path d="M10.5 18.375C10.5 18.375 2.625 13.125 2.625 7.875C2.625 6.88044 3.02009 5.92661 3.72335 5.22335C4.42661 4.52009 5.38044 4.125 6.375 4.125C8.01562 4.125 9.1875 4.71875 10.5 6.5625C11.8125 4.71875 12.9844 4.125 14.625 4.125C15.6196 4.125 16.5734 4.52009 17.2766 5.22335C17.9799 5.92661 18.375 6.88044 18.375 7.875C18.375 13.125 10.5 18.375 10.5 18.375Z" stroke="#72706E" strokeWidth="1.3125" />
                 </svg>
               </a> */}
-              <button onClick={() => navigate("/cart")} className={`${style.iconBtn} position-relative`}>
+
+              <button className={`${style.iconBtn} position-relative`} onClick={() => setIsCartOpen(true)}>
                 <svg width="21" height="21" viewBox="0 0 21 21" fill="none">
                   <circle cx="7.875" cy="18.375" r="0.875" stroke="#72706E" strokeWidth="1.3125" />
                   <circle cx="17.5" cy="18.375" r="0.875" stroke="#72706E" strokeWidth="1.3125" />
                   <path d="M1.75 2.625H4.375L6.5625 13.5625C6.65625 14.0625 7.1875 14.4375 7.6875 14.4375H16.625C17.125 14.4375 17.6562 14.0625 17.75 13.5625L19.25 6.5625H5.25" stroke="#72706E" strokeWidth="1.3125" strokeLinecap="round" />
                 </svg>
-                <span className={style.cartBadge}>1</span>
+                {cartvalue && cartvalue.length > 0 && (
+                  <span className={style.cartBadge}>{cartvalue.length}</span>
+                )}
               </button>
               <div className={style.profileContainer} ref={profileRef}>
-                <button className={style.iconBtn} onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}>
+                <button className={style.iconBtn} onClick={() =>{userToken ? navigate("/profile") : setIsProfileMenuOpen(!isProfileMenuOpen)} }>
                   <svg width="21" height="21" viewBox="0 0 21 21" fill="none">
                     <circle cx="10.5" cy="6.125" r="3.0625" stroke="#72706E" strokeWidth="1.3125" />
                     <path d="M17.5 18.375V16.625C17.5 14.4148 15.7102 12.625 13.5 12.625H7.5C5.28984 12.625 3.5 14.4148 3.5 16.625V18.375" stroke="#72706E" strokeWidth="1.3125" strokeLinecap="round" />

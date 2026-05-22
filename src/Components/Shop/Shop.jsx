@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 export default function Shop() {
     const [products, setproducts] = useState([])
     const [activeFilter, setActiveFilter] = useState('all')
+    const [isLoading, setIsLoading] = useState(true)
     const navigate = useNavigate()
     async function getBestSeller() {
 
@@ -19,10 +20,13 @@ export default function Shop() {
 
         } catch (error) {
             console.log(error);
-
+        } finally {
+            setIsLoading(false);
         }
 
     }
+
+   
     useEffect(() => {
         getBestSeller()
     }, []);
@@ -30,6 +34,14 @@ export default function Shop() {
     const filteredProducts = activeFilter === 'all'
         ? products
         : products.filter(product => product.type === activeFilter);
+
+    if (isLoading) {
+        return (
+            <div className={style.loadingOverlay}>
+                <div className={style.spinner}></div>
+            </div>
+        );
+    }
 
     return (
         <>

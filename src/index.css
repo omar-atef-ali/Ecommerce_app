@@ -1,0 +1,20 @@
+:root {
+  --primary-color: #733C29;
+  --bg-color: #FDFBF7;
+  --text-color: #1C1814;
+  --text-secondary: #72706E;
+  --border-color: #E5E0D9;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+}
