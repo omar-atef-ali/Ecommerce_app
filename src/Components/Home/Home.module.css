@@ -27,7 +27,7 @@
 
 /* Section Styles */
 .section_container {
-    padding: 50px 64px;
+    padding: 50px 0px;
     max-width: 1350px;
     margin: 0 auto;
 }
@@ -1024,15 +1024,15 @@
 .workShops_image_parent {
     width: 100%;
     height: 350px;
-    background-image: url('/candels.webp');
+    background-image: url('/staticphoto.jfif');
     background-size: 100%;
-    background-position: top;
+    background-position: center -1060px;
     background-repeat: no-repeat;
     transition: background-size 0.4s ease;
 }
 
 .workShops_image_parent:hover {
-    background-size: 110%;
+    background-size: 102%;
 }
 
 .workShops_buttons {
@@ -1046,33 +1046,34 @@
 .workShops_buttons button {
     cursor: pointer;
 
-    padding: 6px 30px;
-    border-radius: 6px;
+    padding: 11px 28px;
+    border-radius: 8px;
     font-size: 14px;
 }
 
 .workShops_btn1 {
     border: none;
-    background-color: var(--color-primary);
-    color: white;
+    background-color:#49081A;
+    color: #EDE2D8;
     transition: 0.3s ease-in-out;
 }
 
 .workShops_btn1:hover {
-    background-color: #9c4e35;
+    background-color: #6a0d28;
     color: white;
 }
 
 .workShops_btn2 {
-    border: 1px solid var(--color-primary);
+    border: 1px solid #49081A;
     color: var(--color-primary);
     transition: 0.3s ease-in-out;
+    background-color: rgba(255, 255, 255, 0);
 
 }
 
 .workShops_btn2:hover {
-    background-color: var(--color-primary);
-    color: white;
+    background-color: #49081A;
+     color: #EDE2D8;
 
 }
 
@@ -1082,9 +1083,12 @@
 }
 
 .ourstory h3 {
-    font-size: 24px;
-    font-weight: lighter;
+    font-size: 29px;
+    font-weight:normal;
+    font-style: italic;
     margin-bottom: 15px;
+    color: #49081A;
+    letter-spacing: 0.3px;
 }
 
 .ourstory_link {
@@ -1095,13 +1099,24 @@
 }
 
 .ourstory_link a {
-    color: black;
+    color: #906C70;
     font-weight: lighter;
     text-decoration: none;
 }
 
 .ourstory_link i {
     font-size: 10px;
+      color: #906C70;
 
 }
+
+.ourstory_link a:hover {
+    color: #77585c;
+}
+
+.ourstory_link i:hover {
+   color: #77585c;
+
+}
+
 

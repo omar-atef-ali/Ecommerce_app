@@ -45,10 +45,10 @@
 }
 
 .btnPrimary {
-    background-color: #2A1B14;
-    color: #F9F4EE;
+    background-color: #49081A;
+    color: #EDE2D8;
     border: none;
-    padding: 18px 40px;
+    padding: 16px 40px;
     font-size: 14px;
     letter-spacing: 2px;
     cursor: pointer;
@@ -58,7 +58,7 @@
 }
 
 .btnPrimary:hover {
-    background-color: #432C21;
+    background-color: #6a0d28;;
     transform: translateY(-2px);
 }
 

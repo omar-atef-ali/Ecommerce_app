@@ -3,7 +3,7 @@ import styles from './Ourstory.module.css';
 
 // Import assets
 import barImage from '../../assets/ourstory_bar.png';
-import cafeImage from '/cafe.jpg';
+import cafeImage from '/cafe.jfif';
 import logoImage from '../../assets/ourstory_logo.png';
 
 import logo from '../../assets/02574a11-e65b-4322-9afc-0a8af45029da.jpg';

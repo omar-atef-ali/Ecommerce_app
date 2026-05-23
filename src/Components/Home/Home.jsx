@@ -272,8 +272,9 @@ export default function Home() {
                     }
                   });
                 }}
-                spaceBetween={24}
+                spaceBetween={20}
                 slidesPerView={1.2}
+                speed={1100}
                 breakpoints={{
                   480: { slidesPerView: 1.8 },
                   640: { slidesPerView: 2.2 },
@@ -656,8 +657,9 @@ export default function Home() {
                   }
                 });
               }}
-              spaceBetween={24}
+              spaceBetween={20}
               slidesPerView={1.2}
+              speed={1100}
               breakpoints={{
                 480: { slidesPerView: 1.8 },
                 640: { slidesPerView: 2.2 },
@@ -782,7 +784,7 @@ export default function Home() {
         <div className={`container`}>
           <div
             className={style.workShops_image_parent}
-            style={{ backgroundImage: "url('/candels.webp')" }}
+            style={{ backgroundImage: "url('/staticphoto.jfif')" }}
           ></div>
         </div>
 

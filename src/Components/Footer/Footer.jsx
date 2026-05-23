@@ -21,10 +21,13 @@ export default function Footer() {
                                         e.target.style.display = 'none';
                                         e.target.nextSibling.style.display = 'flex';
                                     }} />
+                                  
 
                                 </div>
+                               
                                 
                             </div>
+                               <p className={`${style.logoText}`}>WED</p>
                             <p className={`${style.footer_description}`}>
                                 Premium candles & chocolates, crafted <br />
                                 with warmth.

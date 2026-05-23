@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import api from "../../api";
 import { Link, useNavigate } from "react-router-dom";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // import { useContext } from "react";
 import toast from "react-hot-toast";
 // import { userContext } from "../../context/userContext";
@@ -88,6 +88,12 @@ export default function Register() {
       .email("Invalid email address.")
       .min(5, "Email must be at least 5 characters long"),
 
+    phoneNumber: yup
+      .string()
+      .nullable()
+      .matches(/^01[0-2,5]\d{8}$/, "not valid number")
+      .notRequired(),
+
     password: yup
       .string()
       .required("")
@@ -103,15 +109,17 @@ export default function Register() {
       .string()
       .required("")
       .oneOf([yup.ref("password"), null], "Passwords must match"),
-    })
+  })
 
   let formik = useFormik({
     initialValues: {
       firstName: "",
       lastName: "",
       email: "",
+      phoneNumber: "",
       password: "",
       confirmPassword: "",
+
     },
     onSubmit: handleRegisterSubmit,
     validationSchema: validationRegister,
@@ -171,7 +179,7 @@ export default function Register() {
                   Join the Wed family
                 </p>
               </div>
-          
+
               <form onSubmit={formik.handleSubmit}>
                 <div className={`${style.form_row}`}>
                   <div className={`${style.form_field}`}>
@@ -315,6 +323,53 @@ export default function Register() {
                         style={{ fontSize: "0.8rem" }}
                       >
                         {formik.errors.email}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className={`${style.form_field} ${style.full_width}`}>
+                  <label htmlFor="phoneNumber" className={`${style.form_label}`}>
+                    PhoneNumber
+                  </label>
+                  <div className={`${style.input_wrapper}`}>
+                    <svg
+                      className={`${style.input_icon}`}
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        marginTop: "4px",
+                      }}
+                    >
+                      <path
+                        d="M7.1 2.2L5.6 3.7C5.2 4.1 5.1 4.7 5.3 5.2C6.1 7.1 7.4 8.9 9 10.5C10.6 12.1 12.4 13.4 14.3 14.2C14.8 14.4 15.4 14.3 15.8 13.9L17.3 12.4C17.9 11.8 17.9 10.9 17.3 10.3L15.2 8.2C14.7 7.7 13.9 7.7 13.4 8.2L12.5 9.1C11.4 8.5 10.5 7.6 9.9 6.5L10.8 5.6C11.3 5.1 11.3 4.3 10.8 3.8L8.7 1.7C8.1 1.1 7.2 1.1 6.6 1.7Z"
+                        stroke="#717182"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    <input
+                      id="phoneNumber"
+                      name="phoneNumber"
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      value={formik.values.phoneNumber}
+                      className={`${style.form_input}`}
+                      type="text"
+                      placeholder="Enter your phone number"
+                    />
+                  </div>
+
+                  <div className={`${style.error_placeholder}`}>
+                    {formik.touched.phoneNumber && formik.errors.phoneNumber && (
+                      <div
+                        className="text-danger mt-1"
+                        style={{ fontSize: "0.8rem" }}
+                      >
+                        {formik.errors.phoneNumber}
                       </div>
                     )}
                   </div>
@@ -489,7 +544,7 @@ export default function Register() {
                           className="text-danger mt-1"
                           style={{ fontSize: "0.8rem" }}
                         >
-                          
+
                           {formik.errors.confirmPassword}
                         </div>
                       )}
@@ -500,7 +555,7 @@ export default function Register() {
                 <button
                   type="submit"
                   className={`${style.signup_button}`}
-                disabled={!(formik.isValid && formik.dirty) || isLoading}
+                  disabled={!(formik.isValid && formik.dirty) || isLoading}
                 >
                   {isLoading ? (
                     <span
@@ -510,7 +565,7 @@ export default function Register() {
                   ) : (
                     "Create Account"
                   )}
-                  
+
                 </button>
                 <div className={`${style.divider}`}>
                   {/* <div className={`${style.divider_line}`}></div>
