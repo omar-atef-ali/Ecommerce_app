@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
 import style from "./Navbar.module.css"
 import { useNavigate, NavLink } from 'react-router-dom';
-import logo from '../../assets/02574a11-e65b-4322-9afc-0a8af45029da.jpg';
+import logo from '../../assets/28fda194-ac8f-4c3c-8eb4-f1a9ba2e7d16.jpg';
 import { CartContext } from '../../Context/CartContext';
 import { userContext } from '../../Context/UserContext';
 

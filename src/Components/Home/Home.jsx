@@ -9,6 +9,9 @@ import api from "../../api";
 import img0 from "../../assets/bubble candles!.jpg"
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import curatedimg from "../../assets/photo-1592903297149-37fb25202dfa.jpg"
+
+
 export default function Home() {
   const navigate = useNavigate()
 
@@ -25,35 +28,33 @@ export default function Home() {
   const pickedNextRef = useRef(null);
   const [imageHovered, setImageHovered] = useState(false);
 
+  // Scroll Animation for Categories
+  const categoriesRef = useRef(null);
+  const [categoriesVisible, setCategoriesVisible] = useState(false);
+
+  useEffect(() => {
+    if (!categoriesRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setCategoriesVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0, rootMargin: '50px' }
+    );
+
+    observer.observe(categoriesRef.current);
+    return () => observer.disconnect();
+  }, [AllCategories]);
+
 
 
   const [products, setproducts] = useState([])
   const [pickedData, setpickedData] = useState([])
   const [isLoading, setIsLoading] = useState(true);
 
-  const heroSlides = [
-    {
-      id: 0,
-      image: img0,
-      title: "A Gift That Feels Like Home",
-      subtitle: "Premium handcrafted candles & chocolates, made with warmth and intention.",
-      btn: "Shop Now"
-    },
-    {
-      id: 1,
-      image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&q=80&w=1440",
-      title: "Curated Gift Kits",
-      subtitle: "Beautiful boxes, thoughtfully assembled for every occasion that matters.",
-      btn: "Explore Kits"
-    },
-    {
-      id: 2,
-      image: "https://images.unsplash.com/photo-1605651202774-7d573fd3f12d?auto=format&fit=crop&q=80&w=1440",
-      title: "Chocolates Worth Gifting",
-      subtitle: "Bring warmth and relaxation to your space with our premium natural wax candles.",
-      btn: "Discover Chocolates"
-    }
-  ];
 
   const nextSlide = () => {
     if (homeSliders.length > 0) setCurrentSlide((prev) => (prev + 1) % homeSliders.length);
@@ -67,7 +68,7 @@ export default function Home() {
     if (homeSliders.length === 0) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % homeSliders.length);
-    }, 3500);
+    }, 5500);
     return () => clearInterval(timer);
   }, [homeSliders.length]);
 
@@ -164,7 +165,7 @@ export default function Home() {
 
       <section className={style.heroSection}>
         {homeSliders.map((slide, index) => (
-          
+
           <React.Fragment key={slide.id}>
             <div
               className={style.heroImageContainer}
@@ -182,9 +183,9 @@ export default function Home() {
               <div className={style.heroOverlayGradient}></div>
               <div className={style.heroOverlayTint}></div>
             </div>
-          
 
-            <div className={style.heroContent} style={{ opacity: currentSlide === index ? 1 : 0, transition: 'opacity 0.8s ease-in-out', zIndex: currentSlide === index ? 2 : 0 }}>
+
+            <div className={`${style.heroContent} ${currentSlide === index ? style.activeSlide : ''}`} style={{ opacity: currentSlide === index ? 1 : 0, transition: 'opacity 0.8s ease-in-out', zIndex: currentSlide === index ? 2 : 0 }}>
               <h1 className={style.heroTitle}>{slide.title}</h1>
               <p className={style.heroSubtitle}>
                 {slide.subTitle}
@@ -423,18 +424,24 @@ export default function Home() {
       </section>
 
       {/* <!-- Featured Categories --> */}
-      <section className={style.featuredCategoriesSection}>
+      <section ref={categoriesRef} className={style.featuredCategoriesSection}>
         <div className={`container-fluid ${style.sectionContainer}`}>
           <div className="row justify-content-center" style={{ gap: '32px' }}>
-            {AllCategories.map((category) =>
+            {AllCategories.map((category, index) =>
 
-              <div key={category.id} className="col-12 col-md-5">
+              <div
+                key={category.id}
+                className={`col-12 col-md-5 ${categoriesVisible ? style.cardVisible : style.cardHidden}`}
+                style={{ transitionDelay: `${index * 0.15}s` }}
+              >
                 <div className={style.categoryCard}>
-                  <img
-                    src={category.mediaURL?.startsWith("http") ? category.mediaURL : `https://wedd.runasp.net${category.mediaURL?.startsWith("/") ? "" : "/"}${category.mediaURL}`}
-                    alt={category.name || "Category"}
-                    className={style.categoryImage}
-                  />
+                  <div className={style.categoryImageWrapper}>
+                    <img
+                      src={category.mediaURL?.startsWith("http") ? category.mediaURL : `https://wedd.runasp.net${category.mediaURL?.startsWith("/") ? "" : "/"}${category.mediaURL}`}
+                      alt={category.name || "Category"}
+                      className={style.categoryImage}
+                    />
+                  </div>
                   <h3 className={style.categoryTitle}>{category.name}</h3>
                   <a href="#" className={style.categoryBtn}>Shop {category.name}</a>
                 </div>
@@ -450,11 +457,12 @@ export default function Home() {
       <section className={style.curatedSection}>
         <div className="container-fluid p-0 overflow-hidden">
           <div className="row m-0 g-4 align-items-center">
-            <div className="col-12 col-md-6">
+            <div className="col-12 col-md-6 px-0">
               <img
-                src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=1000"
+                src={curatedimg}
                 alt="Curated Gift Box"
                 className={style.curatedImage}
+                loading="lazy"
               />
             </div>
             <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">

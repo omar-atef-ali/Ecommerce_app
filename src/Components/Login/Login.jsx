@@ -7,7 +7,7 @@ import api from "../../api";
 import toast from "react-hot-toast";
 import * as yup from "yup";
 
-import logo from '../../assets/02574a11-e65b-4322-9afc-0a8af45029da.jpg';
+import logo from '../../assets/28fda194-ac8f-4c3c-8eb4-f1a9ba2e7d16.jpg';
 
 
 import { CartContext } from '../../Context/CartContext';
@@ -332,7 +332,7 @@ export default function Login() {
                         role="status"
                       />
                     ) : (
-                      "login"
+                      "sign in"
                     )}
                   </button>
 

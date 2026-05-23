@@ -1,20 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@400;500&family=Noto+Naskh+Arabic:wght@400;500;600&display=swap');
+
 :root {
-  --primary-color: #733C29;
   --bg-color: #FDFBF7;
   --text-color: #1C1814;
   --text-secondary: #72706E;
   --border-color: #E5E0D9;
+
+  /* Font Family tokens */
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans: 'DM Sans', sans-serif;
+  --font-arabic: 'Noto Naskh Arabic', serif;
+}
+
+:root {
+
+  --text-primary: #3b0d17;
+  /* Dark Wine - body copy, headings, prices */
+  --text-muted: #906c70;
+  /* Mauve - descriptions, subtitles */
+  --text-inverse: #ede3d9;
+  --color-primary-hover: #582e35;
+  --color-sand: #906c70;
+  --color-glow: #e7cccb;
+  --color-border: #e7cccb;
+  --color-success: #4A7C59;
+  --color-error: #a8484f;
+
+  --color-primary: #49081a;         /* primary */
+    --color-primary-hover: #582e35;  /*  hover  */
+  --bg-card: #ede2d8;
+  --bark: #582e35;
+  --khaki: #906c70;
+  --linen: #ede3d9;
+
+  /* Semantic tokens */
+  --bg: #ede2d8;
+  --parchment: #e7cccb;
+  --linen-col: #ede3d9;
+  --ivory: #ede2d8;
+  --ash: #906c70;
+  --charcoal: #3b0d17;
+  --color-secondary: #1c1814;
+  --color-text-light: #faf6f0;
+  --color-text-dark: #1c1814;
+  --color-text-muted: #6a5c50;
+  --color-text-gray: #72706e;
+  --color-bg-light: #ececea;
+  --color-bg-cream: #faf6f0;
+  --color-bg-sand: #d5c8b8;
+  --color-badge-limited: #b9b290;
+  --color-badge-bestseller: #897d61;
+  --color-badge-new: #534433;
+
 }
 
 body {
   margin: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg-color);
   color: var(--text-color);
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Playfair Display', serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif);
 }
