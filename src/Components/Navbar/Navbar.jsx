@@ -1,12 +1,14 @@
 
 import React, { useEffect, useRef, useState, useContext } from 'react'
 import style from "./Navbar.module.css"
-import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/02574a11-e65b-4322-9afc-0a8af45029da.jpg';
+import { useNavigate, NavLink } from 'react-router-dom';
+import logo from '../../assets/28fda194-ac8f-4c3c-8eb4-f1a9ba2e7d16.jpg';
 import { CartContext } from '../../Context/CartContext';
+import { userContext } from '../../Context/UserContext';
 
 export default function Navbar() {
   const { setIsCartOpen, cartvalue } = useContext(CartContext);
+  const { userToken } = useContext(userContext);
 
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -55,7 +57,7 @@ export default function Navbar() {
         {/* Standard Navbar Content */}
         {!isSearchOpen && (
           <>
-            <div className={style.navLogo}>
+            <div onClick={() => navigate('/home')} className={style.navLogo}>
               <div className={`${style.logoImageContainer}`}>
                 <img src={logo} alt="Wed Logo" className={`${style.logoImage}`} onError={(e) => {
                   e.target.style.display = 'none';
@@ -69,21 +71,23 @@ export default function Navbar() {
             <div className={`${style.navbarNavCenter} ${isMobileMenuOpen ? style.mobileActive : ''}`}>
               <ul className={style.navbarNav}>
                 <li className="nav-item">
-                  <a className={`${style.navLink} ${style.active || 'active'}`} href="/">
+                  <NavLink className={({ isActive }) => `${style.navLink} ${isActive ? style.active : ''}`} to="/home">
+
                     HOME
-                  </a>
+                  </NavLink>
                 </li>
                 <li className={`${style.dropdownContainer}`}>
-                  <a className={style.navLink} href="/shop">
+                  <NavLink className={({ isActive }) => `${style.navLink} ${isActive ? style.active : ''}`} to="/shop">
+
                     SHOP
                     {/* <svg className={style.dropdownArrow} width="10" height="6" viewBox="0 0 10 6" fill="none" style={{ marginLeft: '4px' }}>
                       <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg> */}
-                  </a>
+                  </NavLink>
                   <div className={style.dropdownMenu}>
-                    <a href="/shop" className={style.dropdownItem}>All Products</a>
-                    <a href="/shop?category=candles" className={style.dropdownItem}>Candles</a>
-                    <a href="/shop?category=chocolates" className={style.dropdownItem}>Chocolates</a>
+                    <NavLink to="/shop" className={style.dropdownItem}>All Products</NavLink>
+                    <NavLink to="/shop?category=candles" className={style.dropdownItem}>Candles</NavLink>
+                    <NavLink to="/shop?category=chocolates" className={style.dropdownItem}>Chocolates</NavLink>
                   </div>
                 </li>
                 {/* <li className="nav-item">
@@ -107,9 +111,10 @@ export default function Navbar() {
                   </a>
                 </li> */}
                 <li className="nav-item">
-                  <a className={style.navLink} href="/ourstory">
+                  <NavLink className={({ isActive }) => `${style.navLink} ${isActive ? style.active : ''}`} to="/ourstory">
+
                     OUR STORY
-                  </a>
+                  </NavLink>
                 </li>
               </ul>
             </div>
@@ -126,6 +131,7 @@ export default function Navbar() {
                   <path d="M10.5 18.375C10.5 18.375 2.625 13.125 2.625 7.875C2.625 6.88044 3.02009 5.92661 3.72335 5.22335C4.42661 4.52009 5.38044 4.125 6.375 4.125C8.01562 4.125 9.1875 4.71875 10.5 6.5625C11.8125 4.71875 12.9844 4.125 14.625 4.125C15.6196 4.125 16.5734 4.52009 17.2766 5.22335C17.9799 5.92661 18.375 6.88044 18.375 7.875C18.375 13.125 10.5 18.375 10.5 18.375Z" stroke="#72706E" strokeWidth="1.3125" />
                 </svg>
               </a> */}
+
               <button className={`${style.iconBtn} position-relative`} onClick={() => setIsCartOpen(true)}>
                 <svg width="21" height="21" viewBox="0 0 21 21" fill="none">
                   <circle cx="7.875" cy="18.375" r="0.875" stroke="#72706E" strokeWidth="1.3125" />
@@ -137,7 +143,7 @@ export default function Navbar() {
                 )}
               </button>
               <div className={style.profileContainer} ref={profileRef}>
-                <button className={style.iconBtn} onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}>
+                <button className={style.iconBtn} onClick={() =>{userToken ? navigate("/profile") : setIsProfileMenuOpen(!isProfileMenuOpen)} }>
                   <svg width="21" height="21" viewBox="0 0 21 21" fill="none">
                     <circle cx="10.5" cy="6.125" r="3.0625" stroke="#72706E" strokeWidth="1.3125" />
                     <path d="M17.5 18.375V16.625C17.5 14.4148 15.7102 12.625 13.5 12.625H7.5C5.28984 12.625 3.5 14.4148 3.5 16.625V18.375" stroke="#72706E" strokeWidth="1.3125" strokeLinecap="round" />

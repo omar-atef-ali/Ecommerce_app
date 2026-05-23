@@ -157,6 +157,7 @@
 }
 
 .footer_heading {
+    font-family: var(--font-sans);
     font-family: 400;
     font-size: 12px;
     font-weight: 500;
@@ -185,10 +186,6 @@
     background-color: var(--color-primary);
 }
 
-.logoText {
-    font-weight: 300;
-}
-
 .logoImageContainer {
     width: 60px;
     height: 60px;
@@ -209,11 +206,12 @@
 }
 
 .logoText{
+    font-family: var(--font-serif);
     margin:5px 28%;
-    color: #49081A;
+    color: var(--color-primary);
     font-size: 15px;
     letter-spacing: 2.7px;
-    font-weight: regular;
+    font-weight: 400;
 }
 
 
@@ -223,6 +221,7 @@
 }
 
 .footer_links a {
+    font-family: var(--font-sans);
     color: #faf6f08e;
     text-decoration: none;
     font-size: 14px;
@@ -261,7 +260,7 @@
 
 .newsletter_btn {
     padding: 12px 24px;
-    background-color: #49081A;
+    background-color: var(--color-primary);
     color: #EDE2D8;
     border: none;
     border-radius: 10px;
@@ -272,7 +271,7 @@
 }
 
 .newsletter_btn:hover {
-    background-color: #5e2f1f;
+    background-color: var(--color-primary-hover);
 }
 
 .footer_bottom {
@@ -404,5 +403,9 @@
 .navLogo {
     
     margin-left: 38%;
+}
+.logoText{
+ margin:5px 40%;
+
 }
 }

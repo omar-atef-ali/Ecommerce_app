@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import style from "./Footer.module.css"
-import logo from '../../assets/02574a11-e65b-4322-9afc-0a8af45029da.jpg';
+import logo from '../../assets/28fda194-ac8f-4c3c-8eb4-f1a9ba2e7d16.jpg';
 export default function Footer() {
     const [openSection, setOpenSection] = useState(null);
 

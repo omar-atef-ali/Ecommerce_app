@@ -68,6 +68,15 @@ body {
   font-weight: 400;
 }
 
+.logoLetters {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 15px;
+    letter-spacing: 6px;
+    color: #7a3e28;
+    margin-left: 6px;
+    text-transform: uppercase;
+}
+
 /* Form Card */
 .form_card {
   background-color: #faf6f0;

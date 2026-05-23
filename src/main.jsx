@@ -5,11 +5,14 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import './index.css'
 import App from './App.jsx'
 import CartContextProvider from './Context/CartContext.jsx';
+import UserContextProvider from './Context/UserContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <CartContextProvider>
-      <App />
-    </CartContextProvider>
+    <UserContextProvider>
+      <CartContextProvider>
+        <App />
+      </CartContextProvider>
+    </UserContextProvider>
   </StrictMode>,
 )

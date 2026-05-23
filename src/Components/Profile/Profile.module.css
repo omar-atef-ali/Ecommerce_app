@@ -1,0 +1,125 @@
+.profileContent {
+  padding-left: 20px;
+}
+
+.pageTitle {
+  font-family: serif  ;
+  font-size: 28px;
+  font-weight: 500;
+  
+  color: var(--color-primary);
+  margin-bottom: 24px;
+}
+
+.formCard {
+  background-color: #F8F5EF;
+  border-radius: 16px;
+  padding: 40px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inputGroup label {
+  font-size: 11px;
+  font-weight: 500;
+  color:var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.input {
+  padding: 10px 16px;
+  border: 1px solid rgba(184, 150, 121, 0.4);
+  border-radius: 12px;
+  background-color: rgba(184, 150, 121, 0.1);  
+  color: #1C1814;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #B89679;
+}
+
+select.input {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231C1814' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+.formFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(184, 150, 121, 0.2);
+}
+
+.memberInfo {
+  color: var(--color-primary);
+  font-size: 14px;
+  margin: 0;
+}
+
+.saveBtn {
+  background-color: #6C3D2B;
+  color: white;
+  border: none;
+  border-radius: 24px;
+  padding: 12px 32px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.saveBtn:hover {
+  background-color: #522d1f;
+}
+
+@media (max-width: 991px) {
+  .profileContent {
+    padding: 0 16px;
+    margin-top: 32px;
+  }
+  .formCard {
+    padding: 24px;
+  }
+  .formFooter {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+}
+
+.loadingOverlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 40vh;
+  width: 100%;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--color-primary);
+  border-top-color: #B89679;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

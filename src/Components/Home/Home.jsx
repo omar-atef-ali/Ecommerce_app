@@ -7,14 +7,17 @@ import "swiper/css/navigation";
 import style from "./Home.module.css";
 import api from "../../api";
 import img0 from "../../assets/bubble candles!.jpg"
-import img2 from "../../assets/Immerse yourself in the ambiance of our Aesthetic….jpg"
-import img3 from "../../assets/download.webp"
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import curatedimg from "../../assets/photo-1592903297149-37fb25202dfa.jpg"
+
+
 export default function Home() {
   const navigate = useNavigate()
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [AllCategories, setAllCategories] = useState([]);
+  const [homeSliders, setHomeSliders] = useState([]);
 
   // Swiper 1
   const bestPrevRef = useRef(null);
@@ -25,55 +28,104 @@ export default function Home() {
   const pickedNextRef = useRef(null);
   const [imageHovered, setImageHovered] = useState(false);
 
+  // Scroll Animation for Categories
+  const categoriesRef = useRef(null);
+  const [categoriesVisible, setCategoriesVisible] = useState(false);
+
+  // Scroll Animation for Curated Section
+  const curatedRef = useRef(null);
+  const [curatedVisible, setCuratedVisible] = useState(false);
+
+  useEffect(() => {
+    if (categoriesVisible) return;
+    if (AllCategories.length === 0) return;
+
+    // Delay registration by 1 second to let Swiper and async content render and settle heights
+    const timer = setTimeout(() => {
+      if (!categoriesRef.current) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            setCategoriesVisible(true);
+            observer.disconnect();
+          }
+        },
+        { threshold: 0, rootMargin: '100px' }
+      );
+
+      observer.observe(categoriesRef.current);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [AllCategories, categoriesVisible]);
+
+  useEffect(() => {
+    if (curatedVisible) return;
+    if (AllCategories.length === 0) return;
+
+    const timer = setTimeout(() => {
+      if (!curatedRef.current) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            setCuratedVisible(true);
+            observer.disconnect();
+          }
+        },
+        { threshold: 0, rootMargin: '100px' }
+      );
+
+      observer.observe(curatedRef.current);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [AllCategories, curatedVisible]);
+
 
 
   const [products, setproducts] = useState([])
   const [pickedData, setpickedData] = useState([])
+  const [isLoading, setIsLoading] = useState(true);
 
-  const heroSlides = [
-    {
-      id: 0,
-      image: img0,
-      title: "A Gift That Feels Like Home",
-      subtitle: "Premium handcrafted candles & chocolates, made with warmth and intention.",
-      btn: "Shop Now"
-    },
-    {
-      id: 1,
-      image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&q=80&w=1440",
-      title: "Curated Gift Kits",
-      subtitle: "Beautiful boxes, thoughtfully assembled for every occasion that matters.",
-      btn: "Explore Kits"
-    },
-    {
-      id: 2,
-      image: "https://images.unsplash.com/photo-1605651202774-7d573fd3f12d?auto=format&fit=crop&q=80&w=1440",
-      title: "Chocolates Worth Gifting",
-      subtitle: "Bring warmth and relaxation to your space with our premium natural wax candles.",
-      btn: "Discover Chocolates"
-    }
-  ];
 
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+  const nextSlide = () => {
+    if (homeSliders.length > 0) setCurrentSlide((prev) => (prev + 1) % homeSliders.length);
+  };
+  const prevSlide = () => {
+    if (homeSliders.length > 0) setCurrentSlide((prev) => (prev - 1 + homeSliders.length) % homeSliders.length);
+  };
   const goToSlide = (index) => setCurrentSlide(index);
 
   useEffect(() => {
+    if (homeSliders.length === 0) return;
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 2500);
+      setCurrentSlide((prev) => (prev + 1) % homeSliders.length);
+    }, 5500);
     return () => clearInterval(timer);
-  }, [heroSlides.length]);
+  }, [homeSliders.length]);
 
 
+  async function getSliders() {
 
+    try {
+      let { data } = await api.get(`/HomeSliders`);
+      console.log(data);
+      setHomeSliders(data.filter(slide => slide.isActive))
+    } catch (error) {
+      console.log(error);
+
+    }
+
+  }
 
 
   async function getBestSeller() {
 
     try {
       let { data } = await api.get(`/Items/best-sellers`);
-      console.log(data);
+      // console.log(data);
       setproducts(data)
 
 
@@ -89,7 +141,7 @@ export default function Home() {
 
     try {
       let { data } = await api.get(`/Items/picked-for-you`);
-      console.log(data);
+      // console.log(data);
       setpickedData(data)
 
 
@@ -104,7 +156,7 @@ export default function Home() {
   async function categories() {
     try {
       const { data } = await api.get(`/Categories`)
-      console.log(data);
+      // console.log(data);
       setAllCategories(data);
     } catch (err) {
       console.log(err);
@@ -116,65 +168,82 @@ export default function Home() {
 
 
   useEffect(() => {
-    getBestSeller()
-    getpicked()
+    async function loadData() {
+      try {
+        await Promise.all([
+          getBestSeller(),
+          getpicked(),
+          categories(),
+          getSliders()
+        ]);
+      } catch (error) {
+        console.error("Error loading home data", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadData();
   }, []);
 
-
-
-
-  useEffect(() => {
-    categories();
-  }, []);
+  if (isLoading) {
+    return (
+      <div className={style.loadingOverlay}>
+        <div className={style.spinner}></div>
+      </div>
+    );
+  }
 
   return (
     <>
 
 
       <section className={style.heroSection}>
-        {heroSlides.map((slide, index) => (
-          <div
-            key={slide.id}
-            className={style.heroImageContainer}
-            style={{
-              opacity: currentSlide === index ? 1 : 0,
-              transition: 'opacity 0.8s ease-in-out',
-              zIndex: currentSlide === index ? 1 : 0
-            }}
-          >
-            <img
-              src={slide.image}
-              alt={slide.title}
-              className={style.heroImage}
-            />
-            <div className={style.heroOverlayGradient}></div>
-            <div className={style.heroOverlayTint}></div>
-          </div>
-        ))}
+        {homeSliders.map((slide, index) => (
 
-        <div className={style.heroContent} key={currentSlide}>
-          <h1 className={style.heroTitle}>{heroSlides[currentSlide].title}</h1>
-          <p className={style.heroSubtitle}>
-            {heroSlides[currentSlide].subtitle}
-          </p>
-          <a href="#" className={`  ${style.heroBtn}`}>
-            {heroSlides[currentSlide].btn}
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path
-                d="M3.33333 8H12.6667"
-                stroke="#FAF6F0"
-                strokeWidth="1.33333"
-                strokeLinecap="round"
+          <React.Fragment key={slide.id}>
+            <div
+              className={style.heroImageContainer}
+              style={{
+                opacity: currentSlide === index ? 1 : 0,
+                transition: 'opacity 0.8s ease-in-out',
+                zIndex: currentSlide === index ? 1 : 0
+              }}
+            >
+              <img
+                src={slide.mediaURL?.startsWith("http") ? slide.mediaURL : `https://wedd.runasp.net${slide.mediaURL?.startsWith("/") ? "" : "/"}${slide.mediaURL}`}
+                alt={slide.title}
+                className={style.heroImage}
               />
-              <path
-                d="M8 3.33333L12.6667 8L8 12.6667"
-                stroke="#FAF6F0"
-                strokeWidth="1.33333"
-                strokeLinecap="round"
-              />
-            </svg>
-          </a>
-        </div>
+              <div className={style.heroOverlayGradient}></div>
+              <div className={style.heroOverlayTint}></div>
+            </div>
+
+
+            <div className={`${style.heroContent} ${currentSlide === index ? style.activeSlide : ''}`} style={{ opacity: currentSlide === index ? 1 : 0, transition: 'opacity 0.8s ease-in-out', zIndex: currentSlide === index ? 2 : 0 }}>
+              <h1 className={style.heroTitle}>{slide.title}</h1>
+              <p className={style.heroSubtitle}>
+                {slide.subTitle}
+              </p>
+              <a href="#" className={`  ${style.heroBtn}`}>
+                {slide.buttonText || "Shop Now"}
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M3.33333 8H12.6667"
+                    stroke="#FAF6F0"
+                    strokeWidth="1.33333"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M8 3.33333L12.6667 8L8 12.6667"
+                    stroke="#FAF6F0"
+                    strokeWidth="1.33333"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </a>
+            </div>
+          </React.Fragment>
+        ))}
 
         <button className={`${style.carouselBtn} ${style.carouselPrev}`} onClick={prevSlide}>
           <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
@@ -199,7 +268,7 @@ export default function Home() {
         </button>
 
         <div className={style.carouselIndicatorsCustom}>
-          {heroSlides.map((slide, index) => (
+          {homeSliders.map((slide, index) => (
             <span
               key={slide.id}
               className={`${style.indicator} ${currentSlide === index ? style.active : ''}`}
@@ -273,7 +342,7 @@ export default function Home() {
                   });
                 }}
                 spaceBetween={20}
-                slidesPerView={1.2}
+                slidesPerView={1}
                 speed={1100}
                 breakpoints={{
                   480: { slidesPerView: 1.8 },
@@ -390,18 +459,24 @@ export default function Home() {
       </section>
 
       {/* <!-- Featured Categories --> */}
-      <section className={style.featuredCategoriesSection}>
+      <section ref={categoriesRef} className={style.featuredCategoriesSection}>
         <div className={`container-fluid ${style.sectionContainer}`}>
           <div className="row justify-content-center" style={{ gap: '32px' }}>
-            {AllCategories.map((category) =>
+            {AllCategories.map((category, index) =>
 
-              <div key={category.id} className="col-12 col-md-5">
+              <div
+                key={category.id}
+                className={`col-12 col-md-5 ${categoriesVisible ? style.cardVisible : style.cardHidden}`}
+                style={{ transitionDelay: `${index * 0.70}s` }}
+              >
                 <div className={style.categoryCard}>
-                  <img
-                    src={category.mediaURL?.startsWith("http") ? category.mediaURL : `https://wedd.runasp.net${category.mediaURL?.startsWith("/") ? "" : "/"}${category.mediaURL}`}
-                    alt={category.name || "Category"}
-                    className={style.categoryImage}
-                  />
+                  <div className={style.categoryImageWrapper}>
+                    <img
+                      src={category.mediaURL?.startsWith("http") ? category.mediaURL : `https://wedd.runasp.net${category.mediaURL?.startsWith("/") ? "" : "/"}${category.mediaURL}`}
+                      alt={category.name || "Category"}
+                      className={style.categoryImage}
+                    />
+                  </div>
                   <h3 className={style.categoryTitle}>{category.name}</h3>
                   <a href="#" className={style.categoryBtn}>Shop {category.name}</a>
                 </div>
@@ -414,24 +489,27 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={style.curatedSection}>
+      <section ref={curatedRef} className={style.curatedSection}>
         <div className="container-fluid p-0 overflow-hidden">
           <div className="row m-0 g-4 align-items-center">
-            <div className="col-12 col-md-6">
-              <img
-                src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=1000"
-                alt="Curated Gift Box"
-                className={style.curatedImage}
-              />
+            <div className="col-12 col-md-6 px-0">
+              <div className={style.curatedImageWrapper}>
+                <img
+                  src={curatedimg}
+                  alt="Curated Gift Box"
+                  className={`${style.curatedImage} ${curatedVisible ? style.imageVisible : style.imageHidden}`}
+                  loading="lazy"
+                />
+              </div>
             </div>
             <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
               <div className={style.curatedContent}>
-                <span className={style.curatedEyebrow}>CURATED FOR EVERY OCCASION</span>
-                <h2 className={style.curatedTitle}>A Gift That Means<br />Something</h2>
-                <p className={style.curatedDescription}>
+                <span className={`${style.curatedEyebrow} ${curatedVisible ? style.textVisible : style.textHidden}`} style={{ transitionDelay: '0.3s' }}>CURATED FOR EVERY OCCASION</span>
+                <h2 className={`${style.curatedTitle} ${curatedVisible ? style.textVisible : style.textHidden}`} style={{ transitionDelay: '0.6s' }}>A Gift That Means<br />Something</h2>
+                <p className={`${style.curatedDescription} ${curatedVisible ? style.textVisible : style.textHidden}`} style={{ transitionDelay: '0.9s' }}>
                   Every kit is assembled with intention — candles and chocolates that together create a memory worth keeping. For every occasion, big or small.
                 </p>
-                <a href="#" className={style.curatedBtn}>
+                <a href="#" className={`${style.curatedBtn} ${curatedVisible ? style.textVisible : style.textHidden}`} style={{ transitionDelay: '1.2s' }}>
                   Explore Kits
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ marginLeft: '8px' }}>
                     <path d="M2.91667 7H11.0833" stroke="currentColor" strokeWidth="1.16667" strokeLinecap="round" />
@@ -658,7 +736,7 @@ export default function Home() {
                 });
               }}
               spaceBetween={20}
-              slidesPerView={1.2}
+              slidesPerView={1}
               speed={1100}
               breakpoints={{
                 480: { slidesPerView: 1.8 },
@@ -799,7 +877,7 @@ export default function Home() {
       </section>
 
       <section className={`${style.ourstory}`}>
-        <h3>"Born from the desire to gite warmth - in <br /> every form. "</h3>
+        <h3>"Born from the desire to gite warmth in — every <br /> form. "</h3>
         <div className={`${style.ourstory_link}`}>
           <a href="#" className={`${style.section_link}`}>Our Story </a>
           <i className="fa-solid fa-arrow-right"></i>

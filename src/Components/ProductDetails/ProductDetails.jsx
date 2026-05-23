@@ -11,6 +11,7 @@ export default function ProductDetails() {
   const [activeSize, setActiveSize] = useState('Small');
   const [activeThumbnail, setActiveThumbnail] = useState(0);
   const [product, setProduct] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { setIsCartOpen, getCart } = useContext(CartContext);
   const userToken = localStorage.getItem('userToken');
 
@@ -44,6 +45,8 @@ export default function ProductDetails() {
       setProduct(data)
     } catch (error) {
       console.log(error)
+    } finally {
+      setIsLoading(false)
     }
   }
   async function addToCart(id, Sizeid, qty) {
@@ -108,6 +111,16 @@ export default function ProductDetails() {
       setActiveSize(product.sizes[0]);
     }
   }, [product]);
+
+  if (isLoading) {
+    return (
+      <div className={style.pageWrapper}>
+        <div className={style.loadingOverlay}>
+          <div className={style.spinner}></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={style.pageWrapper}>

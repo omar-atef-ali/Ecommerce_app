@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 export default function Shop() {
     const [products, setproducts] = useState([])
+    const [activeFilter, setActiveFilter] = useState('all')
+    const [isLoading, setIsLoading] = useState(true)
     const navigate = useNavigate()
     async function getBestSeller() {
 
@@ -18,7 +20,8 @@ export default function Shop() {
 
         } catch (error) {
             console.log(error);
-
+        } finally {
+            setIsLoading(false);
         }
 
     }
@@ -27,6 +30,19 @@ export default function Shop() {
     useEffect(() => {
         getBestSeller()
     }, []);
+
+    const filteredProducts = activeFilter === 'all'
+        ? products
+        : products.filter(product => product.type === activeFilter);
+
+    if (isLoading) {
+        return (
+            <div className={style.loadingOverlay}>
+                <div className={style.spinner}></div>
+            </div>
+        );
+    }
+
     return (
         <>
 
@@ -34,9 +50,26 @@ export default function Shop() {
                 <div className={`container ${style.section_container}`}>
                     <div className={`${style.section_header}`}>
                         <h2 className={`${style.section_title}`}>Products</h2>
-                        {/* <a className={`${style.section_link}`} href="#">
-                            shop Now
-                        </a> */}
+                        <div className={style.filters}>
+                            <button
+                                className={`${style.filter_btn} ${activeFilter === 'all' ? style.active_filter : ''}`}
+                                onClick={() => setActiveFilter('all')}
+                            >
+                                {activeFilter === 'all' && <i className="fa-solid fa-check"></i>} All
+                            </button>
+                            <button
+                                className={`${style.filter_btn} ${activeFilter === 'Candles' ? style.active_filter : ''}`}
+                                onClick={() => setActiveFilter('Candles')}
+                            >
+                                {activeFilter === 'Candles' && <i className="fa-solid fa-check"></i>} Candles
+                            </button>
+                            <button
+                                className={`${style.filter_btn} ${activeFilter === 'Chocolates' ? style.active_filter : ''}`}
+                                onClick={() => setActiveFilter('Chocolates')}
+                            >
+                                {activeFilter === 'Chocolates' && <i className="fa-solid fa-check"></i>} Chocolates
+                            </button>
+                        </div>
                     </div>
 
                     <div>
@@ -45,7 +78,7 @@ export default function Shop() {
 
                         <div className={`row`}>
 
-                            {products?.map((product) => (
+                            {filteredProducts?.map((product) => (
                                 <div key={product.id} className={`col-md-3 ${style.product_card}`}>
                                     <div className={style.image_wrapper}>
                                         <a
