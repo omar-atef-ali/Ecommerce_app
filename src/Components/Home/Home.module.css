@@ -358,7 +358,7 @@
 }
 
 .heroBtn:hover {
-    background-color:var(--color-primary-hover);
+    background-color: var(--color-primary-hover);
     color: var(--color-text-light);
 }
 
@@ -578,14 +578,16 @@
 
 .cardHidden {
     opacity: 0;
-    transform: translateY(60px);
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateY(40px);
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform, opacity;
 }
 
 .cardVisible {
     opacity: 1;
     transform: translateY(0);
-    transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform, opacity;
 }
 
 .categoryCard {
@@ -897,8 +899,12 @@
 /* Curated Section */
 .curatedSection {
     background-color: var(--color-background);
+}
 
-
+.curatedImageWrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
 }
 
 .curatedImage {
@@ -906,6 +912,41 @@
     height: auto;
     aspect-ratio: 1 / 1;
     object-fit: cover;
+}
+
+/* Image Reveal Animation (Subtle Zoom and Fade-in) */
+.imageHidden {
+    opacity: 0;
+    transform: scale(1.08);
+    transition: transform 2.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 2.6s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform, opacity;
+}
+
+.imageVisible {
+    opacity: 1;
+    transform: scale(1);
+    transition: transform 2.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 2.6s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform, opacity;
+}
+
+/* Staggered Text Reveal Animation (Slide up and Fade-in) */
+.textHidden {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity;
+}
+
+.textVisible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity;
+}
+
+/* Keep hover transition working on curated button */
+.textVisible.curatedBtn {
+    transition: background-color 0.3s ease, transform 1.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .curatedContent {

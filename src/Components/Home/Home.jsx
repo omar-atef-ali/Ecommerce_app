@@ -32,22 +32,56 @@ export default function Home() {
   const categoriesRef = useRef(null);
   const [categoriesVisible, setCategoriesVisible] = useState(false);
 
+  // Scroll Animation for Curated Section
+  const curatedRef = useRef(null);
+  const [curatedVisible, setCuratedVisible] = useState(false);
+
   useEffect(() => {
-    if (!categoriesRef.current) return;
+    if (categoriesVisible) return;
+    if (AllCategories.length === 0) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setCategoriesVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0, rootMargin: '50px' }
-    );
+    // Delay registration by 1 second to let Swiper and async content render and settle heights
+    const timer = setTimeout(() => {
+      if (!categoriesRef.current) return;
 
-    observer.observe(categoriesRef.current);
-    return () => observer.disconnect();
-  }, [AllCategories]);
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            setCategoriesVisible(true);
+            observer.disconnect();
+          }
+        },
+        { threshold: 0, rootMargin: '100px' }
+      );
+
+      observer.observe(categoriesRef.current);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [AllCategories, categoriesVisible]);
+
+  useEffect(() => {
+    if (curatedVisible) return;
+    if (AllCategories.length === 0) return;
+
+    const timer = setTimeout(() => {
+      if (!curatedRef.current) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            setCuratedVisible(true);
+            observer.disconnect();
+          }
+        },
+        { threshold: 0, rootMargin: '100px' }
+      );
+
+      observer.observe(curatedRef.current);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [AllCategories, curatedVisible]);
 
 
 
@@ -432,7 +466,7 @@ export default function Home() {
               <div
                 key={category.id}
                 className={`col-12 col-md-5 ${categoriesVisible ? style.cardVisible : style.cardHidden}`}
-                style={{ transitionDelay: `${index * 0.15}s` }}
+                style={{ transitionDelay: `${index * 0.70}s` }}
               >
                 <div className={style.categoryCard}>
                   <div className={style.categoryImageWrapper}>
@@ -454,25 +488,27 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={style.curatedSection}>
+      <section ref={curatedRef} className={style.curatedSection}>
         <div className="container-fluid p-0 overflow-hidden">
           <div className="row m-0 g-4 align-items-center">
             <div className="col-12 col-md-6 px-0">
-              <img
-                src={curatedimg}
-                alt="Curated Gift Box"
-                className={style.curatedImage}
-                loading="lazy"
-              />
+              <div className={style.curatedImageWrapper}>
+                <img
+                  src={curatedimg}
+                  alt="Curated Gift Box"
+                  className={`${style.curatedImage} ${curatedVisible ? style.imageVisible : style.imageHidden}`}
+                  loading="lazy"
+                />
+              </div>
             </div>
             <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
               <div className={style.curatedContent}>
-                <span className={style.curatedEyebrow}>CURATED FOR EVERY OCCASION</span>
-                <h2 className={style.curatedTitle}>A Gift That Means<br />Something</h2>
-                <p className={style.curatedDescription}>
+                <span className={`${style.curatedEyebrow} ${curatedVisible ? style.textVisible : style.textHidden}`} style={{ transitionDelay: '0.3s' }}>CURATED FOR EVERY OCCASION</span>
+                <h2 className={`${style.curatedTitle} ${curatedVisible ? style.textVisible : style.textHidden}`} style={{ transitionDelay: '0.6s' }}>A Gift That Means<br />Something</h2>
+                <p className={`${style.curatedDescription} ${curatedVisible ? style.textVisible : style.textHidden}`} style={{ transitionDelay: '0.9s' }}>
                   Every kit is assembled with intention — candles and chocolates that together create a memory worth keeping. For every occasion, big or small.
                 </p>
-                <a href="#" className={style.curatedBtn}>
+                <a href="#" className={`${style.curatedBtn} ${curatedVisible ? style.textVisible : style.textHidden}`} style={{ transitionDelay: '1.2s' }}>
                   Explore Kits
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ marginLeft: '8px' }}>
                     <path d="M2.91667 7H11.0833" stroke="currentColor" strokeWidth="1.16667" strokeLinecap="round" />
