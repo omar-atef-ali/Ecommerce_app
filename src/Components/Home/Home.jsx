@@ -224,7 +224,7 @@ export default function Home() {
               <p className={style.heroSubtitle}>
                 {slide.subTitle}
               </p>
-              <a href="#" className={`  ${style.heroBtn}`}>
+              <a href="/shop" className={`  ${style.heroBtn}`}>
                 {slide.buttonText || "Shop Now"}
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path
@@ -478,7 +478,7 @@ export default function Home() {
                     />
                   </div>
                   <h3 className={style.categoryTitle}>{category.name}</h3>
-                  <a href="#" className={style.categoryBtn}>Shop {category.name}</a>
+                  <a href="/shop" className={style.categoryBtn}>Shop {category.name}</a>
                 </div>
               </div>
             )}
@@ -879,7 +879,7 @@ export default function Home() {
       <section className={`${style.ourstory}`}>
         <h3>"Born from the desire to gite warmth in — every <br /> form. "</h3>
         <div className={`${style.ourstory_link}`}>
-          <a href="#" className={`${style.section_link}`}>Our Story </a>
+          <a href="/ourStory" className={`${style.section_link}`}>Our Story </a>
           <i className="fa-solid fa-arrow-right"></i>
         </div>
       </section>

@@ -38,7 +38,7 @@
 //                 <div className={style.itemImageWrapper}>
 //                   <img src={item.image} alt={item.name} className={style.itemImage} />
 //                 </div>
-                
+
 //                 <div className={style.itemDetails}>
 //                   <div className={style.itemTopRow}>
 //                     <div>
@@ -59,7 +59,7 @@
 //                       </div>
 //                       <span className={style.priceEach}>EGP {item.price} each</span>
 //                     </div>
-                    
+
 //                     <div className={style.itemActions}>
 
 //                       <button className={style.deleteBtn}>
@@ -71,7 +71,7 @@
 //               </div>
 //             ))}
 //           </div>
-          
+
 //           <button className={style.clearCartBtn}>Clear Cart</button>
 //         </div>
 
@@ -79,7 +79,7 @@
 //         <div className="col-12 col-lg-4">
 //           <div className={style.summaryCard}>
 //             <h3 className={style.summaryTitle}>Order Summary</h3>
-            
+
 //             <div className={style.summaryRow}>
 //               <span>Items (1)</span>
 //               <span>EGP 280</span>
@@ -88,12 +88,12 @@
 //               <span>Shipping</span>
 //               <span>EGP 50</span>
 //             </div>
-            
+
 //             <div className={style.summaryTotal}>
 //               <span>Total</span>
 //               <span>EGP 330</span>
 //             </div>
-            
+
 //             <div className={style.discountSection}>
 //               <div className={style.discountInputWrapper}>
 //                 <input type="text" placeholder="Discount code" className={style.discountInput} />
@@ -101,7 +101,7 @@
 //               </div>
 //               <p className={style.discountHint}>Try: WED10 for 10% off</p>
 //             </div>
-            
+
 //             <button className={style.checkoutBtn}>Proceed to Checkout</button>
 //             <div className={style.continueShoppingWrapper}>
 //               <a href="#" className={style.continueShopping}>Continue Shopping</a>
@@ -110,7 +110,7 @@
 //         </div>
 //       </div>
 //     </div>
-import React, { useContext , useState } from 'react';
+import React, { useContext, useState } from 'react';
 import style from './Cart.module.css';
 import { CartContext } from '../../Context/CartContext';
 import { useNavigate } from 'react-router-dom';
@@ -273,9 +273,9 @@ export default function Cart() {
                             )}
 
                             <div className={style.qtyControl}>
-                              <button 
-                                className={style.qtyBtn} 
-                                onClick={() => UpdateCartItem(item, (item.quantity || item.qty || item.count || 1) - 1)} 
+                              <button
+                                className={style.qtyBtn}
+                                onClick={() => UpdateCartItem(item, (item.quantity || item.qty || item.count || 1) - 1)}
                                 disabled={(item.quantity || item.qty || item.count || 1) === 1 || updatingItemKey === `${item.itemId}-${item.itemSizeId}`}
                               >
                                 −
@@ -287,9 +287,9 @@ export default function Cart() {
                                   item.quantity || item.qty || item.count || 1
                                 )}
                               </span>
-                              <button 
-                                className={style.qtyBtn} 
-                                onClick={() => UpdateCartItem(item, (item.quantity || item.qty || item.count || 1) + 1)} 
+                              <button
+                                className={style.qtyBtn}
+                                onClick={() => UpdateCartItem(item, (item.quantity || item.qty || item.count || 1) + 1)}
                                 disabled={updatingItemKey === `${item.itemId}-${item.itemSizeId}`}
                               >
                                 +
@@ -341,7 +341,41 @@ export default function Cart() {
             {/* <button className={style.viewCartBtn} onClick={handleBrowse}>
               View Cart
             </button> */}
-            <button className={style.checkoutBtn}>
+            <button
+              className={style.checkoutBtn}
+              onClick={() => {
+                setIsCartOpen(false);
+                const userToken = localStorage.getItem('token') || localStorage.getItem('userToken');
+                if (userToken) {
+                  navigate('/checkout');
+                } else {
+                  toast.error(
+                    "Please login to checkout",
+                    {
+                      position: "top-center",
+                      duration: 4000,
+                      style: {
+                        background:
+                          "linear-gradient(to right, rgba(121, 5, 5, 0.9), rgba(171, 0, 0, 0.85))",
+                        border: "1px solid rgba(255, 255, 255, 0.1)",
+                        padding: "16px 20px",
+                        color: "#ffffff",
+                        fontSize: "0.95rem",
+                        borderRadius: "5px",
+                        width: "300px",
+                        height: "100%",
+                        boxShadow: "0 4px 30px rgba(0, 0, 0, 0.5)",
+                      },
+                      iconTheme: {
+                        primary: "#FF4D4F",
+                        secondary: "#ffffff",
+                      },
+                    },
+                  );
+                  navigate('/login', { state: { from: '/checkout' } });
+                }
+              }}
+            >
               Checkout
             </button>
           </div>
