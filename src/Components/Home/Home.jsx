@@ -460,30 +460,55 @@ export default function Home() {
       {/* <!-- Featured Categories --> */}
       <section ref={categoriesRef} className={style.featuredCategoriesSection}>
         <div className={`container-fluid ${style.sectionContainer}`}>
-          <div className="row justify-content-center" style={{ gap: '32px' }}>
-            {AllCategories.map((category, index) =>
-
-              <div
-                key={category.id}
-                className={`col-12 col-md-5 ${categoriesVisible ? style.cardVisible : style.cardHidden}`}
-                style={{ transitionDelay: `${index * 0.70}s` }}
-              >
-                <div className={style.categoryCard}>
-                  <div className={style.categoryImageWrapper}>
-                    <img
-                      src={category.mediaURL?.startsWith("http") ? category.mediaURL : `https://wedd.runasp.net${category.mediaURL?.startsWith("/") ? "" : "/"}${category.mediaURL}`}
-                      alt={category.name || "Category"}
-                      className={style.categoryImage}
-                    />
-                  </div>
-                  <h3 className={style.categoryTitle}>{category.name}</h3>
-                  <a href="#" className={style.categoryBtn}>Shop {category.name}</a>
-                </div>
+          <div className={`${style.featuresQuote} ${categoriesVisible ? style.textVisible : style.textHidden}`} style={{ transitionDelay: '0.2s' }}>
+            "Every candle begins with intention — and ends with light."
+          </div>
+          
+          <div className="row justify-content-center g-5">
+            <div className={`col-12 col-md-3 text-center d-flex flex-column align-items-center ${categoriesVisible ? style.textVisible : style.textHidden}`} style={{ transitionDelay: '0.4s' }}>
+              <div className={style.featureIconCircle}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
               </div>
-            )}
-
-
-
+              <h3 className={style.featureTitle}>Hand-poured wax</h3>
+              <p className={style.featureDescription}>
+                Small batches, poured with care for an even, long-lasting burn.
+              </p>
+            </div>
+            
+            <div className={`col-12 col-md-3 text-center d-flex flex-column align-items-center ${categoriesVisible ? style.textVisible : style.textHidden}`} style={{ transitionDelay: '0.6s' }}>
+              <div className={style.featureIconCircle}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2v20" />
+                  <path d="M12 9a4 4 0 0 0-4-4H6a4 4 0 0 0 4 4v0" />
+                  <path d="M12 15a4 4 0 0 1 4-4h2a4 4 0 0 1-4 4v0" />
+                </svg>
+              </div>
+              <h3 className={style.featureTitle}>Natural botanicals</h3>
+              <p className={style.featureDescription}>
+                Plant-based fragrance oils and essential botanicals, never synthetic.
+              </p>
+            </div>
+            
+            <div className={`col-12 col-md-3 text-center d-flex flex-column align-items-center ${categoriesVisible ? style.textVisible : style.textHidden}`} style={{ transitionDelay: '0.8s' }}>
+              <div className={style.featureIconCircle}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 15 13.5"></polyline>
+                </svg>
+              </div>
+              <h3 className={style.featureTitle}>100+ hour burn</h3>
+              <p className={style.featureDescription}>
+                Slow, consistent burn time that extends the life of every candle.
+              </p>
+            </div>
+          </div>
+          
+          <div className={`${style.featuresButtons} ${categoriesVisible ? style.textVisible : style.textHidden}`} style={{ transitionDelay: '1s' }}>
+            <button onClick={() => navigate('/shop')} className={style.featuresBtnFilled}>Shop Candles</button>
+            <button onClick={() => navigate('/our-process')} className={style.featuresBtnOutlined}>Learn our process</button>
           </div>
         </div>
       </section>
@@ -520,156 +545,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* <!-- Featured Product - Chocolates --> */}
-      {/* <section class="featured-section chocolates-section">
-        <div class="container-fluid section-container">
-          <div class="row align-items-center">
-            <div class="col-md-6 order-md-2">
-              <img
-                src="../src/imports/ECommerceWebsite/9350b5f585fef822166a8797bcbb371ddb4e54f3.png"
-                alt="Chocolates"
-                class="featured-image"
-              />
-            </div>
-            <div class="col-md-6 order-md-1">
-              <div class="featured-content">
-                <h2 class="featured-title">Chocolates</h2>
-                <p class="featured-description">
-                  Premium artisan chocolates made with the finest ingredients. A
-                  delightful treat for yourself or a thoughtful gift for someone
-                  special.
-                </p>
-                <a href="#" class="btn-featured">
-                  Shop Chocolates
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path
-                      d="M2.91667 7H11.0833"
-                      stroke="#1C1814"
-                      stroke-width="1.16667"
-                      stroke-linecap="round"
-                    />
-                    <path
-                      d="M7 2.91667L11.0833 7L7 11.0833"
-                      stroke="#1C1814"
-                      stroke-width="1.16667"
-                      stroke-linecap="round"
-                    />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
-      {/* <!-- Gift Kits Section --> */}
-      {/* <section class="gift-kits-section">
-        <div class="container-fluid section-container">
-          <div class="section-header">
-            <h2 class="section-title">Gift Kits</h2>
-            <a href="#" class="section-link">
-              shop more
-            </a>
-          </div>
-
-          <div class="position-relative">
-            <button class="product-arrow product-arrow-left">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <path
-                  d="M11.25 13.5L6.75 9L11.25 4.5"
-                  stroke="#1C1814"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                />
-              </svg>
-            </button>
-
-            <button class="product-arrow product-arrow-right">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <path
-                  d="M6.75 13.5L11.25 9L6.75 4.5"
-                  stroke="#1C1814"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                />
-              </svg>
-            </button>
-
-            <div class="row products-row">
-              <div class="col-md-3">
-                <div class="product-card">
-                  <a href="#" class="product-image-link">
-                    <img
-                      src="../src/imports/ECommerceWebsite/331822da47669a5ccfa34c3581d7963a362dfd95.png"
-                      alt="Gift Kit 1"
-                      className={`${style.product_image}`}
-                    />
-                    <div class="product-badges">
-                      <span class="badge-bestseller">BESTSELLER</span>
-                    </div>
-                  </a>
-                  <div class="product-info">
-                    <p class="product-name">Deluxe Gift Set</p>
-                    <p class="product-minPrice">EGP 350</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-3">
-                <div class="product-card">
-                  <a href="#" class="product-image-link">
-                    <img
-                      src="../src/imports/ECommerceWebsite/d90a3dc185a9c5adcf90bb11be5e6e9b656cae07.png"
-                      alt="Gift Kit 2"
-                      className={`${style.product_image}`}
-                    />
-                  </a>
-                  <div class="product-info">
-                    <p class="product-name">Comfort Kit</p>
-                    <p class="product-minPrice">EGP 280</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-3">
-                <div class="product-card">
-                  <a href="#" class="product-image-link">
-                    <img
-                      src="../src/imports/ECommerceWebsite/b8c7394e36c2195570bc4e8beb95ab184f34825f.png"
-                      alt="Gift Kit 3"
-                      className={`${style.product_image}`}
-                    />
-                  </a>
-                  <div class="product-info">
-                    <p class="product-name">Celebration Box</p>
-                    <p class="product-minPrice">EGP 420</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-3">
-                <div class="product-card">
-                  <a href="#" class="product-image-link">
-                    <img
-                      src="../src/imports/ECommerceWebsite/50a4dc93eba2cb05d982e25bdba89de1020fe2bb.png"
-                      alt="Gift Kit 4"
-                      className={`${style.product_image}`}
-                    />
-                    <div class="product-badges">
-                      <span class="badge-new">NEW</span>
-                    </div>
-                  </a>
-                  <div class="product-info">
-                    <p class="product-name">Mini Moments</p>
-                    <p class="product-minPrice">EGP 220</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
 
 
       {/* <!-- picked Section --> */}
