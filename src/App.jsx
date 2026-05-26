@@ -17,6 +17,8 @@ import Cart from "./Components/Cart/Cart";
 import ProductDetails from "./Components/ProductDetails/ProductDetails";
 import Shop from "./Components/Shop/Shop";
 import Ourstory from "./Components/OurStory/Ourstory";
+import CheckOut from "./Components/CheckOut/CheckOut";
+import WorkShops from "./Components/WorkShops/WorkShops";
 
 
 let routers = createBrowserRouter([
@@ -29,6 +31,7 @@ let routers = createBrowserRouter([
       { index: true, element: <Navigate to="/home" replace /> },
       { path: "/home", element: <Home /> },
       { path: "/cart", element: <Cart /> },
+      { path: "/checkout", element: <CheckOut /> },
       {
         path: "/profile",
         element: <ProfileLayout />,
@@ -41,6 +44,7 @@ let routers = createBrowserRouter([
       {path:"/productdetails/:id",element:<ProductDetails />},
       {path:"/shop",element:<Shop />},
       {path:"/ourstory",element:<Ourstory />},
+      {path:"/workshops",element:<WorkShops />},
       
 
     ],

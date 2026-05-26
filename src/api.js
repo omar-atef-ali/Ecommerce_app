@@ -118,7 +118,7 @@ api.interceptors.response.use(
           const refreshStatus = refreshError.response?.status;
           if (!refreshStatus || [400, 401, 403].includes(refreshStatus)) {
             console.warn("🚪 [LOGOUT] Clearing storage and redirecting...");
-            localStorage.clear();
+            // localStorage.clear();
             // window.location.replace("/login");
           }
 

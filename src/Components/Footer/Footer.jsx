@@ -51,11 +51,7 @@ export default function Footer() {
                                 </svg>
                             </div>
                             <ul className={`${style.footer_links} ${openSection === "shop" ? style.links_open : ""}`}>
-                                <li><a href="#">All Products</a></li>
                                 <li><a href="#">Candles</a></li>
-                                <li><a href="#">Chocolates</a></li>
-                                <li><a href="#">Gift Kits</a></li>
-                                <li><a href="#">Custom Candle</a></li>
                             </ul>
                         </div>
                         <div className={`col-md-2`}>
@@ -72,7 +68,6 @@ export default function Footer() {
                                 </svg>
                             </div>
                             <ul className={`${style.footer_links} ${openSection === "explore" ? style.links_open : ""}`}>
-                                <li><a href="#">Workshops</a></li>
                                 <li><a href="#">Our Story</a></li>
                                 <li><a href="#">Contact Us</a></li>
                             </ul>

@@ -17,12 +17,6 @@ export default function ProductDetails() {
 
   console.log(product.scents)
 
-  // const images = [
-  //   'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=800&q=80',
-  //   'https://images.unsplash.com/photo-1602928321679-560bb453f190?auto=format&fit=crop&w=200&q=80',
-  //   'https://images.unsplash.com/photo-1572013343866-df3000b991b5?auto=format&fit=crop&w=200&q=80',
-  //   'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=200&q=80'
-  // ];
 
   const handleQtyChange = (type) => {
     if (type === 'inc') {
@@ -169,7 +163,7 @@ export default function ProductDetails() {
           <div className={style.detailsSection}>
             <h1 className={style.title}>{product.name}</h1>
 
-            <p>{product.description}</p>
+            <p className={style.description}>{product.description}</p>  
 
             {product.discountPercentage && (
               <p>{`Discount Percentage : ${product.discountPercentage}`}</p>

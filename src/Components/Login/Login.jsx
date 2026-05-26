@@ -77,7 +77,8 @@ export default function Login() {
 
       await getCart();
 
-      navigate("/home");
+      const from = location.state?.from || "/home";
+      navigate(from);
 
       setLoading(false);
     } catch (error) {
