@@ -104,12 +104,12 @@ export default function Navbar() {
                   <a className={style.navLink} href="#">
                     CUSTOM CANDLE
                   </a>
-                </li>
-                <li className="nav-item">
-                  <a className={style.navLink} href="#">
-                    WORKSHOPS
-                  </a>
                 </li> */}
+                <li className="nav-item">
+                  <NavLink className={({ isActive }) => `${style.navLink} ${isActive ? style.active : ''}`} to="/workshops">
+                    WORKSHOPS
+                  </NavLink>
+                </li>
                 <li className="nav-item">
                   <NavLink className={({ isActive }) => `${style.navLink} ${isActive ? style.active : ''}`} to="/ourstory">
 
@@ -143,7 +143,7 @@ export default function Navbar() {
                 )}
               </button>
               <div className={style.profileContainer} ref={profileRef}>
-                <button className={style.iconBtn} onClick={() =>{userToken ? navigate("/profile") : setIsProfileMenuOpen(!isProfileMenuOpen)} }>
+                <button className={style.iconBtn} onClick={() => { userToken ? navigate("/profile") : setIsProfileMenuOpen(!isProfileMenuOpen) }}>
                   <svg width="21" height="21" viewBox="0 0 21 21" fill="none">
                     <circle cx="10.5" cy="6.125" r="3.0625" stroke="#72706E" strokeWidth="1.3125" />
                     <path d="M17.5 18.375V16.625C17.5 14.4148 15.7102 12.625 13.5 12.625H7.5C5.28984 12.625 3.5 14.4148 3.5 16.625V18.375" stroke="#72706E" strokeWidth="1.3125" strokeLinecap="round" />
