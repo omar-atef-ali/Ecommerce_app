@@ -134,6 +134,12 @@ export default function ProductDetails() {
           <div className={style.imageSection}>
             <div className={style.mainImageContainer}>
               <img src={`https://wedd.runasp.net${product.media?.[activeThumbnail].url}`} alt="Amber Oud" className={style.mainImage} />
+               {activeSize?.stockQuantity > 0 &&
+                    activeSize?.stockQuantity < 10 && (
+                      <div className={style.stockBadge}>
+                        Only {activeSize.stockQuantity} left
+                      </div>
+                    )}
               {/* <button className={style.zoomButton} aria-label="Zoom Image">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="11" cy="11" r="8"></circle>
@@ -152,8 +158,10 @@ export default function ProductDetails() {
                   onClick={() => setActiveThumbnail(index)}
                 >
                   <img src={`https://wedd.runasp.net${img.url}`} alt={`Thumbnail ${index + 1}`} className={style.thumbnail} />
+                 
                 </div>
               ))}
+
             </div>
           </div>
 
@@ -234,11 +242,7 @@ export default function ProductDetails() {
               </div>
             )}
 
-            {activeSize?.price && (
-              <div className={style.stock}>
-                Stock : {activeSize?.stockQuantity}
-              </div>
-            )}
+           
 
             <div className={style.actionsSection}>
               <div className={style.qtySection}>
