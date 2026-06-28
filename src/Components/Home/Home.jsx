@@ -356,9 +356,8 @@ export default function Home() {
                   <SwiperSlide key={product.id}>
                     <div className={`${style.product_card}`}>
                       <div className={style.image_wrapper}>
-                        <a
+                        <div
                           className={style.product_image_link}
-                          href="#"
 
                         >
                           <img
@@ -442,7 +441,7 @@ export default function Home() {
                               Select option
                             </button>
                           </div>
-                        </a>
+                        </div>
                       </div>
 
                       <div className={`${style.product_info}`}>

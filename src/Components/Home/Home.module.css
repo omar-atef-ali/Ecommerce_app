@@ -772,7 +772,7 @@
 
 @media (max-width: 576px) {
     .heroSection {
-        height: 70vh;
+        height: 100vh;
         min-height: 400px;
     }
 
@@ -997,7 +997,7 @@
     font-weight: lighter;
     margin-bottom: 5px;
     color: #906C70;
-
+   
 }
 
 .workShops_info h3 {
@@ -1044,7 +1044,7 @@
 
 .workShops_btn1 {
     border: none;
-    background-color: var(--color-primary);
+    background-color:var(--color-primary);
     color: #EDE2D8;
     transition: 0.3s ease-in-out;
 }
@@ -1063,8 +1063,8 @@
 }
 
 .workShops_btn2:hover {
-    background-color: var(--color-primary);
-    color: #EDE2D8;
+     background-color:var(--color-primary);
+     color: #EDE2D8;
 
 }
 
@@ -1075,7 +1075,7 @@
 
 .ourstory h3 {
     font-size: 30px;
-    font-weight: normal;
+    font-weight:normal;
     font-style: italic;
     margin-bottom: 15px;
     color: var(--color-primary);
@@ -1097,7 +1097,7 @@
 
 .ourstory_link i {
     font-size: 10px;
-    color: #906C70;
+      color: #906C70;
 
 }
 
@@ -1107,7 +1107,7 @@
 }
 
 .ourstory_link i:hover {
-    color: #77585c;
+   color: #77585c;
 
 }
 
@@ -1141,19 +1141,16 @@
 
 @media (max-width: 992px) {
     .workShops_image_parent {
-        background-position: center;
-    }
-
-    .section_container {
-        padding: 50px 25px;
-    }
-
+    background-position: center;
+}
+.section_container {
+    padding: 50px 25px;
 }
 
+}
 /* Featured Categories / Features Section */
 .featuredCategoriesSection {
-    background-color: var(--bg);
-    /* Elegant cream color matching the design */
+    background-color: var(--bg); /* Elegant cream color matching the design */
     padding: 100px 0;
     text-align: center;
 }
@@ -1183,7 +1180,7 @@
 
 .featureIconCircle:hover {
     transform: scale(1.05);
-
+    
 }
 
 .featureIconCircle svg {
@@ -1203,8 +1200,7 @@
     font-family: var(--font-sans);
     font-size: 14px;
     line-height: 1.6;
-    color: var(--color-primary-hover);
-    /* Muted gray for body copy */
+    color: var(--color-primary-hover); /* Muted gray for body copy */
     max-width: 290px;
     margin: 0 auto;
 }
@@ -1265,13 +1261,13 @@
         margin-bottom: 50px;
         padding: 0 20px;
     }
-
+    
     .featureDescription {
         max-width: 100%;
         margin-bottom: 40px;
         padding: 0 15px;
     }
-
+    
     .featuresButtons {
         flex-direction: column;
         align-items: center;
@@ -1279,10 +1275,15 @@
         margin-top: 40px;
         padding: 0 20px;
     }
-
-    .featuresBtnFilled,
-    .featuresBtnOutlined {
+    
+    .featuresBtnFilled, .featuresBtnOutlined {
         width: 100%;
         max-width: 320px;
+    }
+    .product_arrow{
+        opacity: 1;
+    } 
+    .option_btn {
+        transform: translateY(0px) !important;
     }
 }

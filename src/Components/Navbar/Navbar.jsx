@@ -52,6 +52,9 @@ export default function Navbar() {
   return <>
 
     <nav ref={navRef} className={`${style.navbar} ${isScrolled ? style.scrolled : ''} sticky-top`}>
+      {isMobileMenuOpen && (
+        <div className={style.drawerOverlay} onClick={() => setIsMobileMenuOpen(false)}></div>
+      )}
       <div className={`container-fluid ${style.navbarContainer}`}>
 
         {/* Standard Navbar Content */}
@@ -69,26 +72,26 @@ export default function Navbar() {
             </div>
 
             <div className={`${style.navbarNavCenter} ${isMobileMenuOpen ? style.mobileActive : ''}`}>
+              <button className={style.drawerCloseBtn} onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M18 6L6 18M6 6L18 18" stroke="#49081a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
+                </svg>
+              </button>
               <ul className={style.navbarNav}>
                 <li className="nav-item">
-                  <NavLink className={({ isActive }) => `${style.navLink} ${isActive ? style.active : ''}`} to="/home">
+                  <NavLink className={({ isActive }) => `${style.navLink} ${isActive ? style.active : ''}`} to="/home" onClick={() => setIsMobileMenuOpen(false)}>
 
                     HOME
                   </NavLink>
                 </li>
-                <li className={`${style.dropdownContainer}`}>
-                  <NavLink className={({ isActive }) => `${style.navLink} ${isActive ? style.active : ''}`} to="/shop">
+                <li className="nav-item">
+                  <NavLink className={({ isActive }) => `${style.navLink} ${isActive ? style.active : ''}`} to="/shop" onClick={() => setIsMobileMenuOpen(false)}>
 
                     SHOP
                     {/* <svg className={style.dropdownArrow} width="10" height="6" viewBox="0 0 10 6" fill="none" style={{ marginLeft: '4px' }}>
                       <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg> */}
                   </NavLink>
-                  <div className={style.dropdownMenu}>
-                    <NavLink to="/shop" className={style.dropdownItem}>All Products</NavLink>
-                    <NavLink to="/shop?category=candles" className={style.dropdownItem}>Candles</NavLink>
-                    <NavLink to="/shop?category=chocolates" className={style.dropdownItem}>Chocolates</NavLink>
-                  </div>
                 </li>
                 {/* <li className="nav-item">
                   <a className={style.navLink} href="#">
@@ -111,7 +114,7 @@ export default function Navbar() {
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink className={({ isActive }) => `${style.navLink} ${isActive ? style.active : ''}`} to="/ourstory">
+                  <NavLink className={({ isActive }) => `${style.navLink} ${isActive ? style.active : ''}`} to="/ourstory" onClick={() => setIsMobileMenuOpen(false)}>
 
                     OUR STORY
                   </NavLink>
@@ -162,9 +165,15 @@ export default function Navbar() {
                 )}
               </div>
               <button className={`${style.iconBtn} ${style.mobileMenuToggle}`} onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M4 6H20M4 12H20M4 18H20" stroke="#72706E" strokeWidth="2" strokeLinecap="round" />
-                </svg>
+                {isMobileMenuOpen ? (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#72706E" strokeWidth="2">
+                    <path d="M18 6L6 18M6 6L18 18" strokeLinecap="round" strokeLinejoin="round"></path>
+                  </svg>
+                ) : (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 6H20M4 12H20M4 18H20" stroke="#72706E" strokeWidth="2" strokeLinecap="round" />
+                  </svg>
+                )}
               </button>
             </div>
           </>

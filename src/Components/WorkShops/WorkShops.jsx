@@ -1,141 +1,117 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import style from "./WorkShops.module.css";
 import Img1 from "../../assets/photo-1772485719348-761b3c608eef.jpg";
 import Img2 from "../../assets/photo-1694538905360-61086447423b.jpg";
 import Img3 from "../../assets/photo-1572726729207-a78d6feb18d7.jpg";
+import api from "../../api"
+
 
 export default function WorkShops() {
   const [activeTab, setActiveTab] = useState('upcoming');
+  const [workshopsUpcoming, setWorkshopsUpcoming] = useState([]);
+  const [workshopsPast, setWorkshopsPast] = useState([]);
+  const [stats, setStats] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
-  const stats = [
-    { value: "7+", label: "WORKSHOPS HELD" },
-    { value: "44+", label: "HAPPY ATTENDEES" },
-    { value: "3", label: "INSTRUCTORS" }
-  ];
+  
 
-  const upcomingWorkshops = [
-    {
-      id: 1,
-      image: Img1,
-      date: "June 14, 2026",
-      title: "Candle Pour Essentials",
-      time: "4:00 PM - 7:00 PM",
-      location: "Wed Studio, Zamalek, Cairo",
-      duration: "3 hours",
-      instructor: { name: "Layla Hassan", initial: "L" },
-      seatsLeft: 4,
-      totalSeats: 12,
-      price: "EGP 450"
-    },
-    {
-      id: 2,
-      image: Img2,
-      date: "June 21, 2026",
-      title: "Advanced Scent Blending",
-      time: "3:00 PM - 6:30 PM",
-      location: "Wed Studio, Zamalek, Cairo",
-      duration: "3.5 hours",
-      instructor: { name: "Sara Amin", initial: "S" },
-      seatsLeft: 2,
-      totalSeats: 8,
-      price: "EGP 650"
-    },
-    {
-      id: 3,
-      image: Img3,
-      date: "June 28, 2026",
-      title: "Couples Candle Date",
-      time: "6:00 PM - 8:30 PM",
-      location: "Wed Studio, Zamalek, Cairo",
-      duration: "2.5 hours",
-      instructor: { name: "Layla Hassan", initial: "L" },
-      seatsLeft: 6,
-      totalSeats: 6,
-      price: "EGP 800"
+
+  async function getWorkShopsUpcoming() {
+    try {
+      const { data } = await api.get('/Workshops/upcoming');
+
+      setWorkshopsUpcoming(data);
+    } catch (error) {
+      console.log(error);
     }
-  ];
+  }
 
-  const pastWorkshops = [
-    {
-      id: 101,
-      image: "https://images.unsplash.com/photo-1596435764223-4a53e3c1e60c?q=80&w=600&auto=format&fit=crop",
-      date: "May 10, 2026",
-      title: "Introduction to Soy Wax",
-      time: "2:00 PM - 5:00 PM",
-      location: "Wed Studio, Zamalek, Cairo",
-      duration: "3 hours",
-      instructor: { name: "Layla Hassan", initial: "L" },
-      price: "EGP 400",
-      completed: true
-    },
-    {
-      id: 102,
-      image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=600&auto=format&fit=crop",
-      date: "May 21, 2026",
-      title: "Mother's Day Special Pouring",
-      time: "4:30 PM - 7:30 PM",
-      location: "Wed Studio, Zamalek, Cairo",
-      duration: "3 hours",
-      instructor: { name: "Sara Amin", initial: "S" },
-      price: "EGP 500",
-      completed: true
-    },
-    {
-      id: 103,
-      image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?q=80&w=600&auto=format&fit=crop",
-      date: "April 15, 2026",
-      title: "Aromatherapy Basics",
-      time: "3:00 PM - 6:00 PM",
-      location: "Wed Studio, Zamalek, Cairo",
-      duration: "3 hours",
-      instructor: { name: "Sara Amin", initial: "S" },
-      price: "EGP 450",
-      completed: true
-    },
-    {
-      id: 104,
-      image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600&auto=format&fit=crop",
-      date: "April 30, 2026",
-      title: "Spring Scent Collection",
-      time: "5:00 PM - 7:30 PM",
-      location: "Wed Studio, Zamalek, Cairo",
-      duration: "2.5 hours",
-      instructor: { name: "Layla Hassan", initial: "L" },
-      price: "EGP 450",
-      completed: true
-    }
-  ];
+  const calculateDuration = (startTime, endTime) => {
+    if (!startTime || !endTime) return "";
+    const [startH, startM] = startTime.split(':').map(Number);
+    const [endH, endM] = endTime.split(':').map(Number);
 
-  const testimonials = [
-    {
-      id: 1,
-      quote: "The most relaxing three hours I've had in months. Left with a candle that smells like pure joy and a full heart.",
-      reviewer: "Layla M.",
-      workshop: "Scent Foundations",
-      initial: "L"
-    },
-    {
-      id: 2,
-      quote: "Nour's guidance made it so easy to create something I'm genuinely proud of. Can't wait to book the next one!",
-      reviewer: "Omar K.",
-      workshop: "Custom Candle Workshop",
-      initial: "G"
-    },
-    {
-      id: 3,
-      quote: "Beautiful space, thoughtful instruction, and a perfect blend of creativity and relaxation. Highly recommend.",
-      reviewer: "Zara M.",
-      workshop: "Botanical Blends",
-      initial: "Z"
-    },
-    {
-      id: 4,
-      quote: "I brought my sister for her birthday and we both left glowing. Such a special experience - we'll be back!",
-      reviewer: "Dina A.",
-      workshop: "Scent Foundations",
-      initial: "D"
+    let diffMinutes = (endH * 60 + endM) - (startH * 60 + startM);
+    if (diffMinutes <= 0) diffMinutes += 24 * 60;
+
+    const hours = diffMinutes / 60;
+    return `${hours} hour${hours !== 1 ? 's' : ''}`;
+  };
+
+async function getWorkShopsPast() {
+    try {
+      const { data } = await api.get('/Workshops/past');
+
+      setWorkshopsPast(data);
+      console.log(data);
+
+    } catch (error) {
+      console.log(error);
     }
-  ];
+  }
+
+  async function workShopStats() {
+    try{
+      const { data } = await api.get("/Workshops/stats")
+      setStats(data)
+    }catch(error){
+      console.log(error);
+      
+    }
+  }
+
+
+  async function workShopReviews() {
+    try{
+      const { data } = await api.get("/Workshops/reviews")
+      setReviews(data)
+    }catch(error){
+      console.log(error);
+      
+    }
+  }
+
+
+
+
+  
+
+  useEffect(() => {
+    getWorkShopsUpcoming();
+    getWorkShopsPast();
+    workShopStats()
+    workShopReviews()
+  }, []);
+
+  
+
+
+  const upcomingWorkshops = workshopsUpcoming?.filter(w => w.isActive !== false);
+  const pastWorkshops = workshopsPast;
+  
+
+  const formatTime = (timeString) => {
+  if (!timeString) return '';
+  if (timeString.includes('AM') || timeString.includes('PM')) return timeString;
+  
+  // Extract time portion if it's a full ISO datetime string
+  let timePortion = timeString;
+  if (timeString.includes('T')) {
+    timePortion = timeString.split('T')[1];
+  }
+  
+  const parts = timePortion.split(':');
+  if (parts.length < 2) return timeString;
+  
+  let hours = parseInt(parts[0], 10);
+  const minutes = parts[1];
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  return `${hours}:${minutes} ${ampm}`;
+};
+
 
   return (
     <div className={style.pageWrapper}>
@@ -150,12 +126,20 @@ export default function WorkShops() {
           </p>
 
           <div className={style.statsRow}>
-            {stats.map((stat, index) => (
-              <div key={index} className={style.statCol}>
-                <span className={style.statValue}>{stat.value}</span>
-                <span className={style.statLabel}>{stat.label}</span>
+            
+              <div className={style.statCol}>
+                <span className={style.statValue}>{stats.workshopsHeld}</span>
+                <span className={style.statLabel}>Workshops held</span>
               </div>
-            ))}
+              <div className={style.statCol}>
+                <span className={style.statValue}>{stats.happyAttendees}</span>
+                <span className={style.statLabel}>Happy attendees</span>
+              </div>
+              <div className={style.statCol}>
+                <span className={style.statValue}>{stats.totalUniqueInstructors}</span>
+                <span className={style.statLabel}>Instructors</span>
+              </div>
+            
           </div>
         </div>
       </section>
@@ -167,13 +151,13 @@ export default function WorkShops() {
             className={`${style.tabBtn} ${activeTab === 'upcoming' ? style.activeTab : ''}`}
             onClick={() => setActiveTab('upcoming')}
           >
-            Upcoming <span className={style.tabCount}>3</span>
+            Upcoming <span className={style.tabCount}>{upcomingWorkshops.length}</span>
           </button>
           <button
             className={`${style.tabBtn} ${activeTab === 'past' ? style.activeTab : ''}`}
             onClick={() => setActiveTab('past')}
           >
-            Past Workshops <span className={style.tabCount}>4</span>
+            Past Workshops <span className={style.tabCount}>{pastWorkshops.length}</span>
           </button>
         </div>
       </section>
@@ -185,18 +169,22 @@ export default function WorkShops() {
             {activeTab === 'upcoming' ? (
               upcomingWorkshops.map((w) => {
                 // Calculate filled seats progress
-                const seatsTaken = w.totalSeats - w.seatsLeft;
+                const seatsTaken = w.totalSeats - w.availableSeats;
                 const fillPercent = (seatsTaken / w.totalSeats) * 100;
-                const isLow = w.seatsLeft <= 2;
+                const isLow = w.availableSeats <= 2;
 
                 return (
                   <div key={w.id} className="col-12 col-md-6 col-lg-4">
                     <div className={style.workshopCard}>
                       <div className={style.imageContainer}>
-                        <img src={w.image} alt={w.title} className={style.workshopImage} />
+                        <img
+                          src={w.imageUrl?.startsWith("http") ? w.imageUrl : `https://wedd.runasp.net${w.imageUrl?.startsWith("/") ? "" : "/"}${w.imageUrl}`}
+                          alt={w.title}
+                          className={style.workshopImage}
+                        />
                         <span className={style.dateBadge}>{w.date}</span>
                       </div>
-                      
+
                       <div className={style.cardBody}>
                         <h3 className={style.cardTitle}>{w.title}</h3>
 
@@ -206,7 +194,7 @@ export default function WorkShops() {
                               <circle cx="12" cy="12" r="10" />
                               <polyline points="12 6 12 12 16 14" />
                             </svg>
-                            <span>{w.time}</span>
+                            <span>{formatTime(w.startTime)}</span>
                           </div>
 
                           <div className={style.detailItem}>
@@ -224,15 +212,42 @@ export default function WorkShops() {
                               <line x1="8" y1="2" x2="8" y2="6" />
                               <line x1="3" y1="10" x2="21" y2="10" />
                             </svg>
-                            <span>{w.duration}</span>
+                            <span>{calculateDuration(w.startTime, w.endTime)}</span>
                           </div>
                         </div>
 
                         <div className={style.instructorRow}>
-                          <div className={style.avatarCircle}>
-                            {w.instructor.initial}
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+                            {w.instructors && w.instructors.length > 0 ? (
+                              w.instructors.map((instructor, idx) => (
+                                <div
+                                  key={idx}
+                                  className={style.avatarCircle}
+                                  style={{
+                                    marginLeft: idx > 0 ? '-10px' : '0',
+                                    zIndex: 10 - idx,
+                                    border: '2px solid #f8f1e6',
+                                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                                  }}
+                                  title={instructor.name}
+                                >
+                                  {instructor.name?.charAt(0).toUpperCase() || 'I'}
+                                </div>
+                              ))
+                            ) : (
+                              <div className={style.avatarCircle}>
+                                <svg width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                  <circle cx="10.5" cy="6.125" r="3.0625" stroke="#fffefdff" strokeWidth="1.3125" />
+                                  <path d="M17.5 18.375V16.625C17.5 14.4148 15.7102 12.625 13.5 12.625H7.5C5.28984 12.625 3.5 14.4148 3.5 16.625V18.375" stroke="#fffefdff" strokeWidth="1.3125" strokeLinecap="round" />
+                                </svg>
+                              </div>
+                            )}
                           </div>
-                          <span className={style.instructorName}>{w.instructor.name}</span>
+                          <span className={style.instructorName} style={{ marginLeft: '8px' }}>
+                            {w.instructors && w.instructors.length > 0
+                              ? w.instructors.map(ins => ins.name).join(' & ')
+                              : 'Instructor'}
+                          </span>
                         </div>
 
                         <div className={style.seatsWrapper}>
@@ -247,8 +262,8 @@ export default function WorkShops() {
                             <span className={style.totalSeatsText}>{w.totalSeats} total</span>
                           </div>
                           <div className={style.progressBarBg}>
-                            <div 
-                              className={`${style.progressBarFill} ${isLow ? style.lowSeats : style.goodSeats}`} 
+                            <div
+                              className={`${style.progressBarFill} ${isLow ? style.lowSeats : style.goodSeats}`}
                               style={{ width: `${fillPercent}%` }}
                             ></div>
                           </div>
@@ -256,12 +271,12 @@ export default function WorkShops() {
 
                         <div className={style.cardFooter}>
                           <span className={style.cardPrice}>{w.price}</span>
-                          <button className={style.bookBtn}>
-                            Book Now 
+                          <Link to={`/workshopdetails/${w.id}`} className={style.bookBtn}>
+                            Book Now
                             <svg className={style.arrowIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                               <polyline points="9 18 15 12 9 6" />
                             </svg>
-                          </button>
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -273,10 +288,17 @@ export default function WorkShops() {
                 <div key={w.id} className="col-12 col-md-6 col-lg-4">
                   <div className={`${style.workshopCard} ${style.pastCard}`}>
                     <div className={style.imageContainer}>
-                      <img src={w.image} alt={w.title} className={style.workshopImage} />
+                      <div className={style.imageContainer}>
+                        <img
+                          src={w.imageUrl?.startsWith("http") ? w.imageUrl : `https://wedd.runasp.net${w.imageUrl?.startsWith("/") ? "" : "/"}${w.imageUrl}`}
+                          alt={w.title}
+                          className={style.workshopImage}
+                        />
+                        <span className={style.dateBadge}>{w.date}</span>
+                      </div>
                       <span className={`${style.dateBadge} ${style.pastBadge}`}>{w.date}</span>
                     </div>
-                    
+
                     <div className={style.cardBody}>
                       <h3 className={style.cardTitle}>{w.title}</h3>
 
@@ -286,7 +308,7 @@ export default function WorkShops() {
                             <circle cx="12" cy="12" r="10" />
                             <polyline points="12 6 12 12 16 14" />
                           </svg>
-                          <span>{w.time}</span>
+                          <span>{w.startTime}</span>
                         </div>
 
                         <div className={style.detailItem}>
@@ -304,15 +326,37 @@ export default function WorkShops() {
                             <line x1="8" y1="2" x2="8" y2="6" />
                             <line x1="3" y1="10" x2="21" y2="10" />
                           </svg>
-                          <span>{w.duration}</span>
+                          <span>{calculateDuration(w.startTime, w.endTime)}</span>
                         </div>
                       </div>
 
                       <div className={style.instructorRow}>
-                        <div className={`${style.avatarCircle} ${style.pastAvatar}`}>
-                          {w.instructor.initial}
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          {w.instructors && w.instructors.length > 0 ? (
+                            w.instructors.map((instructor, idx) => (
+                              <div
+                                key={idx}
+                                className={`${style.avatarCircle} ${style.pastAvatar}`}
+                                style={{
+                                  marginLeft: idx > 0 ? '-10px' : '0',
+                                  zIndex: 10 - idx,
+                                  border: '2px solid #f8f1e6',
+                                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                                }}
+                                title={instructor.name}
+                              >
+                                {instructor.name?.charAt(0).toUpperCase() || 'I'}
+                              </div>
+                            ))
+                          ) : (
+                            <div className={`${style.avatarCircle} ${style.pastAvatar}`}>I</div>
+                          )}
                         </div>
-                        <span className={style.instructorName}>{w.instructor.name}</span>
+                        <span className={style.instructorName} style={{ marginLeft: '8px' }}>
+                          {w.instructors && w.instructors.length > 0
+                            ? w.instructors.map(ins => ins.name).join(' & ')
+                            : 'Instructor'}
+                        </span>
                       </div>
 
                       <div className={style.pastStatus}>
@@ -338,29 +382,29 @@ export default function WorkShops() {
       <section className={style.testimonialsSection}>
         <div className="container">
           <span className={style.testimonialsEyebrow}>WHAT ATTENDEES SAY</span>
-          
+
           <div className={style.testimonialsBorderBox}>
             <div className="row g-4">
-              {testimonials.map((t) => (
-                <div key={t.id} className="col-12 col-md-6">
+              {reviews.map((review) => (
+                <div key={review.reviewId} className="col-12 col-md-6">
                   <div className={style.testimonialCard}>
                     <div className={style.starsRow}>
-                      {[...Array(5)].map((_, i) => (
+                      {[...Array(review.rating)].map((_, i) => (
                         <svg key={i} className={style.starIcon} viewBox="0 0 24 24" fill="currentColor">
                           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                         </svg>
                       ))}
                     </div>
 
-                    <p className={style.testimonialQuote}>"{t.quote}"</p>
+                    <p className={style.testimonialQuote}>"{review.comment}"</p>
 
                     <div className={style.reviewerRow}>
                       <div className={style.reviewerAvatar}>
-                        {t.initial}
+                        {review.reviewerName ? review.reviewerName.charAt(0).toUpperCase() : 'U'}
                       </div>
                       <div className={style.reviewerInfo}>
-                        <h4 className={style.reviewerName}>{t.reviewer}</h4>
-                        <span className={style.reviewerWorkshop}>{t.workshop}</span>
+                        <h4 className={style.reviewerName}>{review.reviewerName}</h4>
+                        <span className={style.reviewerWorkshop}>{review.workshopTitle}</span>
                       </div>
                     </div>
                   </div>

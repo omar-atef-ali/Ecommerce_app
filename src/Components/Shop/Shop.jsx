@@ -81,9 +81,9 @@ export default function Shop() {
                             {filteredProducts?.map((product) => (
                                 <div key={product.id} className={`col-md-3 ${style.product_card}`}>
                                     <div className={style.image_wrapper}>
-                                        <a
+                                        <div
                                             className={style.product_image_link}
-                                            href="#"
+
 
                                         >
                                             <img
@@ -153,7 +153,7 @@ export default function Shop() {
                                                     Select option
                                                 </button>
                                             </div>
-                                        </a>
+                                        </div>
                                     </div>
 
                                     <div className={`${style.product_info}`}>

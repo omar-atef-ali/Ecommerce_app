@@ -14,4 +14,4 @@ export default defineConfig({
     }
   }
 })
-
+// Trigger server restart to discover new public files

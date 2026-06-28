@@ -19,6 +19,7 @@ import Shop from "./Components/Shop/Shop";
 import Ourstory from "./Components/OurStory/Ourstory";
 import CheckOut from "./Components/CheckOut/CheckOut";
 import WorkShops from "./Components/WorkShops/WorkShops";
+import WorkShopDetails from "./Components/WorkShopDetails/WorkShopDetails";
 
 
 let routers = createBrowserRouter([
@@ -45,6 +46,7 @@ let routers = createBrowserRouter([
       {path:"/shop",element:<Shop />},
       {path:"/ourstory",element:<Ourstory />},
       {path:"/workshops",element:<WorkShops />},
+      {path:"/workshopdetails/:id",element:<WorkShopDetails />},
       
 
     ],
