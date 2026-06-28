@@ -9,6 +9,59 @@
     overflow-x: hidden;
 }
 
+/* ─── Scroll Reveal Animations ─────────────────────────────────────────── */
+
+/* Text / generic elements — fade up */
+.revealHidden {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 1s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity;
+}
+
+.revealVisible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 1s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity;
+}
+
+/* Image panels — scale + fade */
+.imageRevealHidden {
+    opacity: 0;
+    transform: scale(1.06);
+    transition: transform 1.8s cubic-bezier(0.25, 1, 0.5, 1),
+                opacity 1.4s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform, opacity;
+}
+
+.imageRevealVisible {
+    opacity: 1;
+    transform: scale(1);
+    transition: transform 1.8s cubic-bezier(0.25, 1, 0.5, 1),
+                opacity 1.4s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform, opacity;
+}
+
+/* Hero entrance — on-load keyframe animation */
+@keyframes heroSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(35px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.heroEntrance {
+    opacity: 0;
+    animation: heroSlideUp 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
 /* Section 1: Hero/Promise */
 .heroSection {
     background-color: #F9F4EE;

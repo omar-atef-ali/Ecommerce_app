@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 // import { userContext } from "../../context/userContext";
 import style from "./Register.module.css";
-import logo from '../../assets/02574a11-e65b-4322-9afc-0a8af45029da.jpg';
+import logo from '../../assets/28fda194-ac8f-4c3c-8eb4-f1a9ba2e7d16.jpg';
 
 export default function Register() {
   // const { setemail } = useContext(userContext);

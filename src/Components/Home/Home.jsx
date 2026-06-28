@@ -28,6 +28,10 @@ export default function Home() {
   const pickedNextRef = useRef(null);
   const [imageHovered, setImageHovered] = useState(false);
 
+  // Scroll Animation for Best Sellers
+  const bestSellersRef = useRef(null);
+  const [bestSellersVisible, setBestSellersVisible] = useState(false);
+
   // Scroll Animation for Categories
   const categoriesRef = useRef(null);
   const [categoriesVisible, setCategoriesVisible] = useState(false);
@@ -36,58 +40,68 @@ export default function Home() {
   const curatedRef = useRef(null);
   const [curatedVisible, setCuratedVisible] = useState(false);
 
-  useEffect(() => {
-    if (categoriesVisible) return;
-    if (AllCategories.length === 0) return;
+  // Scroll Animation for Picked For You
+  const pickedRef = useRef(null);
+  const [pickedVisible, setPickedVisible] = useState(false);
 
-    // Delay registration by 1 second to let Swiper and async content render and settle heights
-    const timer = setTimeout(() => {
-      if (!categoriesRef.current) return;
+  // Scroll Animation for Workshops
+  const workshopsRef = useRef(null);
+  const [workshopsVisible, setWorkshopsVisible] = useState(false);
 
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting) {
-            setCategoriesVisible(true);
-            observer.disconnect();
-          }
-        },
-        { threshold: 0, rootMargin: '100px' }
-      );
-
-      observer.observe(categoriesRef.current);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [AllCategories, categoriesVisible]);
-
-  useEffect(() => {
-    if (curatedVisible) return;
-    if (AllCategories.length === 0) return;
-
-    const timer = setTimeout(() => {
-      if (!curatedRef.current) return;
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting) {
-            setCuratedVisible(true);
-            observer.disconnect();
-          }
-        },
-        { threshold: 0, rootMargin: '100px' }
-      );
-
-      observer.observe(curatedRef.current);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [AllCategories, curatedVisible]);
-
-
+  // Scroll Animation for Our Story
+  const ourstoryRef = useRef(null);
+  const [ourstoryVisible, setOurstoryVisible] = useState(false);
 
   const [products, setproducts] = useState([])
   const [pickedData, setpickedData] = useState([])
   const [isLoading, setIsLoading] = useState(true);
+
+  // Generic scroll-animation hook for all sections
+  useEffect(() => {
+    if (isLoading) return;
+
+    const sections = [
+      { ref: bestSellersRef, visible: bestSellersVisible, set: setBestSellersVisible },
+      { ref: categoriesRef, visible: categoriesVisible, set: setCategoriesVisible },
+      { ref: curatedRef, visible: curatedVisible, set: setCuratedVisible },
+      { ref: pickedRef, visible: pickedVisible, set: setPickedVisible },
+      { ref: workshopsRef, visible: workshopsVisible, set: setWorkshopsVisible },
+      { ref: ourstoryRef, visible: ourstoryVisible, set: setOurstoryVisible },
+    ].filter(s => !s.visible);
+
+    if (sections.length === 0) return;
+
+    const timer = setTimeout(() => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const match = sections.find(s => s.ref.current === entry.target);
+              if (match) {
+                match.set(true);
+                observer.unobserve(entry.target);
+              }
+            }
+          });
+        },
+        { threshold: 0.15, rootMargin: '-80px' }
+      );
+
+      sections.forEach(s => {
+        if (s.ref.current) observer.observe(s.ref.current);
+      });
+
+      return () => observer.disconnect();
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [isLoading, bestSellersVisible, categoriesVisible, curatedVisible, pickedVisible, workshopsVisible, ourstoryVisible]);
+
+
+
+
+
+
 
 
   const nextSlide = () => {
@@ -279,9 +293,9 @@ export default function Home() {
       </section>
 
       {/* <!-- Best Sellers Section --> */}
-      <section className={`${style.best_sellers_section}`}>
+      <section ref={bestSellersRef} className={`${style.best_sellers_section}`}>
         <div className={`container-fluid ${style.section_container}`}>
-          <div className={`${style.section_header}`}>
+          <div className={`${style.section_header} ${bestSellersVisible ? style.sectionRevealVisible : style.sectionRevealHidden}`}>
             <h2 className={`${style.section_title}`}>Best Sellers</h2>
             <a className={`${style.section_link}`} href="#">
               shop more
@@ -289,7 +303,7 @@ export default function Home() {
           </div>
 
           <div onMouseEnter={() => setImageHovered(true)}
-            onMouseLeave={() => setImageHovered(false)} className={style.swiper_outer}>
+            onMouseLeave={() => setImageHovered(false)} className={`${style.swiper_outer} ${bestSellersVisible ? style.swiperRevealVisible : style.swiperRevealHidden}`}>
             {/* Left Arrow */}
             <button
               ref={bestPrevRef}
@@ -549,9 +563,9 @@ export default function Home() {
 
 
       {/* <!-- picked Section --> */}
-      <section className={`${style.best_sellers_section}`}>
+      <section ref={pickedRef} className={`${style.best_sellers_section}`}>
         <div className={`container-fluid ${style.section_container}`}>
-          <div className={`${style.section_header}`}>
+          <div className={`${style.section_header} ${pickedVisible ? style.sectionRevealVisible : style.sectionRevealHidden}`}>
             <h2 className={`${style.section_title}`}>Picked For You</h2>
             <a className={`${style.section_link}`} href="#">
               shop more
@@ -559,7 +573,7 @@ export default function Home() {
           </div>
 
           <div onMouseEnter={() => setImageHovered(true)}
-            onMouseLeave={() => setImageHovered(false)} className={style.swiper_outer}>
+            onMouseLeave={() => setImageHovered(false)} className={`${style.swiper_outer} ${pickedVisible ? style.swiperRevealVisible : style.swiperRevealHidden}`}>
             {/* Left Arrow */}
             <button
               ref={pickedPrevRef}
@@ -728,24 +742,24 @@ export default function Home() {
       </section>
 
       {/* <!-- Workshops Section --> */}
-      <section className={`${style.workShops}`}>
-        <div className={`${style.workShops_info}`}>
+      <section ref={workshopsRef} className={`${style.workShops}`}>
+        <div className={`${style.workShops_info} ${workshopsVisible ? style.textVisible : style.textHidden}`}>
           <p>MADE JUST FOR YOU</p>
           <h3>Make It Yours</h3>
         </div>
 
-        <div className={`container`}>
+        <div className={`container ${workshopsVisible ? style.workshopImageRevealVisible : style.workshopImageRevealHidden}`}>
           <div
             className={style.workShops_image_parent}
             style={{ backgroundImage: "url('/staticphoto.jfif')" }}
           ></div>
         </div>
 
-        <div className={`${style.workShops_info2}`}>
+        <div className={`${style.workShops_info2} ${workshopsVisible ? style.textVisible : style.textHidden}`} style={{ transitionDelay: '0.4s' }}>
           <p>Attend a workshop or let us craft your custom candle - your <br /> scent. your vessel, your story</p>
         </div>
 
-        <div className={`${style.workShops_buttons}`}>
+        <div className={`${style.workShops_buttons} ${workshopsVisible ? style.textVisible : style.textHidden}`} style={{ transitionDelay: '0.6s' }}>
           <button className={`${style.workShops_btn1}`}>Design Your Candle</button>
           <button className={`${style.workShops_btn2}`}>Attend a Workshop</button>
         </div>
@@ -754,7 +768,7 @@ export default function Home() {
       <section className={`${style.ourstory}`}>
         <h3>"Born from the desire to gite warmth in — every <br /> form. "</h3>
         <div className={`${style.ourstory_link}`}>
-          <a href="/ourStory" className={`${style.section_link}`}>Our Story </a>
+          <a href="#" className={`${style.section_link}`}>Our Story </a>
           <i className="fa-solid fa-arrow-right"></i>
         </div>
       </section>
